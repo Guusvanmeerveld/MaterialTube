@@ -1,4 +1,4 @@
-import packageInfo from "../../package.json";
+import packageInfo from "../../../package.json";
 
 import Link from "next/link";
 
@@ -7,13 +7,7 @@ import { FC, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
@@ -22,8 +16,11 @@ import {
 	Subscriptions,
 	Menu,
 	Whatshot,
-	PlaylistAddCheck
+	PlaylistAddCheck,
+	Settings
 } from "@mui/icons-material";
+
+import Drawer from "@components/Navbar/Drawer";
 
 const Navbar: FC = () => {
 	const [drawerIsOpen, setDrawerState] = useState(false);
@@ -63,24 +60,10 @@ const Navbar: FC = () => {
 	return (
 		<>
 			<Drawer
-				anchor="left"
-				open={drawerIsOpen}
-				onClose={() => toggleDrawer(false)}
-			>
-				<Box padding={2}>
-					<Typography variant="h4">Yeet</Typography>
-				</Box>
-				<Divider />
-				<List>
-					{pages.map((page, index) => (
-						<ListItem button key={index}>
-							<ListItemIcon>{page.icon}</ListItemIcon>
-							<ListItemText primary={page.name} />
-						</ListItem>
-					))}
-				</List>
-				<Divider />
-			</Drawer>
+				drawerIsOpen={drawerIsOpen}
+				toggleDrawer={toggleDrawer}
+				pages={pages}
+			/>
 			<Box sx={{ flexGrow: 1 }}>
 				<AppBar position="static">
 					<Toolbar>
@@ -89,7 +72,7 @@ const Navbar: FC = () => {
 							edge="start"
 							color="inherit"
 							aria-label="menu"
-							sx={{ mr: 2 }}
+							sx={{ mr: 2, display: { md: "none", xs: "flex" } }}
 							onClick={toggleDrawer(true)}
 						>
 							<Menu />
@@ -97,24 +80,33 @@ const Navbar: FC = () => {
 						<Typography variant="h6" component="div" sx={{ mr: 2 }}>
 							{packageInfo.displayName}
 						</Typography>
-						{pages.map((page, i) => (
-							<Link key={i} href={"/" + page.link}>
-								<a>
-									<Button
-										sx={{
-											my: 2,
-											color: "white",
-
-											display: "flex",
-											alignItems: "center"
-										}}
-									>
-										{page.icon}
-										{page.name}
-									</Button>
-								</a>
-							</Link>
-						))}
+						<Box sx={{ flexGrow: 1, display: { md: "flex", xs: "none" } }}>
+							{pages.map((page, i) => (
+								<Link key={i} href={"/" + page.link}>
+									<a>
+										<Button
+											sx={{
+												my: 2,
+												color: "white",
+												display: "flex",
+												alignItems: "center"
+											}}
+										>
+											{page.icon}
+											{page.name}
+										</Button>
+									</a>
+								</Link>
+							))}
+						</Box>
+						<Link href="/settings" passHref>
+							<IconButton
+								sx={{ display: { md: "flex", xs: "none" } }}
+								size="large"
+							>
+								<Settings />
+							</IconButton>
+						</Link>
 					</Toolbar>
 				</AppBar>
 			</Box>

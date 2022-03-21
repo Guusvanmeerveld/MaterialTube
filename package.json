@@ -1,6 +1,6 @@
 {
-	"name": "invidious-client",
-	"displayName": "Invidious Client",
+	"name": "fouctube",
+	"displayName": "FoucTube",
 	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",
