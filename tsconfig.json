@@ -20,6 +20,8 @@
 			"@styles/*": ["styles/*"],
 			"@components/*": ["components/*"],
 			"@interfaces/*": ["interfaces/*"],
+			"@utils/*": ["utils/*"],
+
 			"@src/*": ["./*"]
 		}
 	},

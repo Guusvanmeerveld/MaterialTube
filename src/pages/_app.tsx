@@ -5,6 +5,9 @@ import type { AppProps } from "next/app";
 
 import { useMemo } from "react";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 
@@ -16,6 +19,8 @@ import createTheme from "@src/theme";
 
 import "@styles/globals.sass";
 
+const queryClient = new QueryClient();
+
 const cache = createCache({ key: "next" });
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -25,11 +30,14 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 	return (
 		<CacheProvider value={cache}>
-			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<DefaultSeo {...SEO} />
-				<Component {...pageProps} />
-			</ThemeProvider>
+			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools initialIsOpen={true} />
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					<DefaultSeo {...SEO} />
+					<Component {...pageProps} />
+				</ThemeProvider>
+			</QueryClientProvider>
 		</CacheProvider>
 	);
 };
