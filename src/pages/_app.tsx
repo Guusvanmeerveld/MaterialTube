@@ -1,22 +1,20 @@
-import { FC, useMemo } from "react";
-
-import { DefaultSeo } from "next-seo";
-
-import type { AppProps } from "next/app";
-
-import useMediaQuery from "@mui/material/useMediaQuery";
-import CssBaseline from "@mui/material/CssBaseline";
-
-import { ThemeProvider } from "@mui/material/styles";
-
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
-
 import SEO from "../next-seo.config";
 
-import "@styles/globals.sass";
+import { DefaultSeo } from "next-seo";
+import type { AppProps } from "next/app";
+
+import { useMemo } from "react";
+
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import createTheme from "@src/theme";
+
+import "@styles/globals.sass";
 
 const cache = createCache({ key: "next" });
 

@@ -1,19 +1,21 @@
+import packageInfo from "../../package.json";
+
 import Link from "next/link";
 
 import { FC, useState } from "react";
 
-import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import {
 	History,
@@ -22,8 +24,6 @@ import {
 	Whatshot,
 	PlaylistAddCheck
 } from "@mui/icons-material";
-
-import packageInfo from "../../package.json";
 
 const Navbar: FC = () => {
 	const [drawerIsOpen, setDrawerState] = useState(false);

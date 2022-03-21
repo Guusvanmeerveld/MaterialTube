@@ -1,5 +1,4 @@
 import { red } from "@mui/material/colors";
-
 import { createTheme as createMUITheme } from "@mui/material/styles";
 
 const createTheme = (prefersDarkMode: boolean) => {

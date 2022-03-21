@@ -1,7 +1,23 @@
 {
-    "trailingComma": "none",
-    "useTabs": true,
-    "semi": true,
-    "printWidth": 80,
-    "arrowParens": "always"
+	"trailingComma": "none",
+	"useTabs": true,
+	"semi": true,
+	"printWidth": 80,
+	"arrowParens": "always",
+	"importOrderSeparation": true,
+	"importOrder": [
+		"^next.*",
+		"^react$",
+		"^react.*",
+		"^@emotion/.*",
+		"^@mui/material/.*",
+		"^@mui/.*",
+		"^@src/.*",
+		"^@models/.*",
+		"^@utils/.*",
+		"^@components/.*",
+		".*sass$",
+		".*css$",
+		"^@svg/.*"
+	]
 }
