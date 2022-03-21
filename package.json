@@ -1,4 +1,6 @@
 {
+	"name": "invidious-client",
+	"displayName": "Invidious Client",
 	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",
@@ -11,6 +13,10 @@
 		"full-test": "yarn test-build && yarn lint && yarn stylelint"
 	},
 	"dependencies": {
+		"@emotion/react": "^11.8.2",
+		"@emotion/styled": "^11.8.1",
+		"@mui/icons-material": "^5.5.1",
+		"@mui/material": "^5.5.1",
 		"next": "^12.1.0",
 		"next-seo": "^5.1.0",
 		"react": "^17.0.2",

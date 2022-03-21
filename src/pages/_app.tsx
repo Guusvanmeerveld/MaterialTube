@@ -1,20 +1,39 @@
-import "@styles/globals.scss";
-
-import SEO from "../next-seo.config";
+import { FC, useMemo } from "react";
 
 import { DefaultSeo } from "next-seo";
 
 import type { AppProps } from "next/app";
-import Script from "next/script";
 
-import "@styles/materialize/materialize.scss";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import CssBaseline from "@mui/material/CssBaseline";
 
-const App = ({ Component, pageProps }: AppProps): JSX.Element => (
-	<>
-		<Script src="/static/scripts/materialize.min.js"></Script>
-		<DefaultSeo {...SEO} />
-		<Component {...pageProps} />
-	</>
-);
+import { ThemeProvider } from "@mui/material/styles";
+
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+
+import SEO from "../next-seo.config";
+
+import "@styles/globals.sass";
+
+import createTheme from "@src/theme";
+
+const cache = createCache({ key: "next" });
+
+const App = ({ Component, pageProps }: AppProps) => {
+	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+
+	const theme = useMemo(() => createTheme(prefersDarkMode), [prefersDarkMode]);
+
+	return (
+		<CacheProvider value={cache}>
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+				<DefaultSeo {...SEO} />
+				<Component {...pageProps} />
+			</ThemeProvider>
+		</CacheProvider>
+	);
+};
 
 export default App;
