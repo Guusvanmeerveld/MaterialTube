@@ -1,4 +1,4 @@
-FROM node:alpine AS deps
+FROM node:16-alpine AS deps
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 
-FROM node:alpine AS builder
+FROM node:16-alpine AS builder
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ ENV NEXT_TELEMETRY_DISABLED 1;
 RUN yarn export
 
 
-FROM nginx AS runner
+FROM nginx:alpine AS runner
 
 COPY --from=builder /app/out /usr/share/nginx/html
 

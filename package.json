@@ -1,6 +1,7 @@
 {
 	"name": "material-tube",
 	"displayName": "MaterialTube",
+	"description": "MaterialTube is a beautiful and elegant web client for Invidious servers, built using Next.js and MUI.",
 	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",

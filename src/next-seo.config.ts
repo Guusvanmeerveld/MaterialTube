@@ -5,7 +5,7 @@ import type { DefaultSeoProps } from "next-seo";
 const SEO: DefaultSeoProps = {
 	titleTemplate: `%s | ${packageInfo.displayName}`,
 	defaultTitle: packageInfo.displayName,
-	description: "This is a NextJS template."
+	description: packageInfo.description
 };
 
 export default SEO;
