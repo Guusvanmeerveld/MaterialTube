@@ -17,7 +17,8 @@ import {
 	Menu,
 	Whatshot,
 	PlaylistAddCheck,
-	Settings
+	Settings,
+	PlayCircleOutline
 } from "@mui/icons-material";
 
 import Drawer from "@components/Navbar/Drawer";
@@ -39,20 +40,20 @@ const Navbar: FC = () => {
 		};
 
 	const pages = [
-		{ name: "Trending", icon: <Whatshot sx={{ mr: 1 }} />, link: "trending" },
+		{ name: "Trending", icon: <Whatshot />, link: "trending" },
 		{
 			name: "Subscriptions",
-			icon: <Subscriptions sx={{ mr: 1 }} />,
+			icon: <Subscriptions />,
 			link: "subscriptions"
 		},
 		{
 			name: "Watch History",
-			icon: <History sx={{ mr: 1 }} />,
+			icon: <History />,
 			link: "history"
 		},
 		{
 			name: "Playlists",
-			icon: <PlaylistAddCheck sx={{ mr: 1 }} />,
+			icon: <PlaylistAddCheck />,
 			link: "playlists"
 		}
 	];
@@ -77,25 +78,30 @@ const Navbar: FC = () => {
 						>
 							<Menu />
 						</IconButton>
-						<Typography variant="h6" component="div" sx={{ mr: 2 }}>
+						<Typography
+							variant="h6"
+							component="div"
+							sx={{ mr: 2, display: "flex", alignItems: "center" }}
+						>
+							<PlayCircleOutline sx={{ mr: 1 }} />
 							{packageInfo.displayName}
 						</Typography>
 						<Box sx={{ flexGrow: 1, display: { md: "flex", xs: "none" } }}>
 							{pages.map((page, i) => (
-								<Link key={i} href={"/" + page.link}>
-									<a>
-										<Button
-											sx={{
-												my: 2,
-												color: "white",
-												display: "flex",
-												alignItems: "center"
-											}}
-										>
+								<Link key={i} href={"/" + page.link} passHref>
+									<Button
+										sx={{
+											my: 2,
+											color: "white",
+											display: "flex",
+											alignItems: "center"
+										}}
+									>
+										<Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
 											{page.icon}
-											{page.name}
-										</Button>
-									</a>
+										</Box>
+										{page.name}
+									</Button>
 								</Link>
 							))}
 						</Box>
