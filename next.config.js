@@ -10,5 +10,6 @@ module.exports = {
 	eslint: {
 		ignoreDuringBuilds: true
 	},
-	basePath: process.env.CI == "true" ? "/MaterialTube" : ""
+	basePath: process.env.CI == "true" ? "/MaterialTube" : "",
+	trailingSlash: true
 };
