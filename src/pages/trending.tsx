@@ -1,12 +1,14 @@
+import axios, { AxiosError } from "axios";
+
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 
 import { useQuery } from "react-query";
 
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import { Typography } from "@mui/material";
-
+import { Error } from "@interfaces/api";
 import {
 	Trending as TrendingModel,
 	Video as VideoModel
@@ -18,12 +20,19 @@ import Layout from "@components/Layout";
 import Grid from "@components/Video/Grid";
 
 const Trending: NextPage = () => {
-	const { isLoading, error, data } = useQuery<TrendingModel[]>(
+	const { isLoading, error, data } = useQuery<
+		TrendingModel[],
+		AxiosError<Error>
+	>(
 		"trendingData",
 		() =>
-			fetch("https://invidious.privacy.gd/api/v1/trending").then((res) =>
-				res.json()
-			)
+			axios("https://invidious.privacy.gd/api/v1/trending").then(
+				(res) => res.data
+			),
+		{
+			retry: 5,
+			retryDelay: 5000
+		}
 	);
 
 	return (
@@ -31,7 +40,18 @@ const Trending: NextPage = () => {
 			<NextSeo title="Trending" />
 			<Layout>
 				<Box sx={{ padding: { xs: 2, md: 5 } }}>
-					{isLoading && <Typography variant="h3">Loading</Typography>}
+					{isLoading && (
+						<Box
+							sx={{
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center"
+							}}
+						>
+							<CircularProgress />
+						</Box>
+					)}
+					{error && <Box>{error.response?.data.error}</Box>}
 					{!isLoading && !error && data && (
 						<Grid videos={data.map(trendingToVideo)} />
 					)}

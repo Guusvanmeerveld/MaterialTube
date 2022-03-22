@@ -31,7 +31,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 	return (
 		<CacheProvider value={cache}>
 			<QueryClientProvider client={queryClient}>
-				<ReactQueryDevtools initialIsOpen={true} />
+				{process.env.NODE_ENV != "production" && (
+					<ReactQueryDevtools initialIsOpen={true} />
+				)}
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 					<DefaultSeo {...SEO} />

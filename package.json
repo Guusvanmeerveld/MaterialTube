@@ -7,17 +7,16 @@
 		"build": "next build",
 		"start": "next start",
 		"export": "next build && next export",
-		"test-build": "tsc",
 		"lint": "next lint",
 		"stylelint": "npx stylelint **/*.scss",
-		"prettify": "prettier src --write",
-		"full-test": "yarn test-build && yarn lint && yarn stylelint"
+		"prettify": "prettier src --write"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.8.2",
 		"@emotion/styled": "^11.8.1",
 		"@mui/icons-material": "^5.5.1",
 		"@mui/material": "^5.5.1",
+		"axios": "^0.26.1",
 		"next": "^12.1.0",
 		"next-seo": "^5.1.0",
 		"react": "^17.0.2",

@@ -30,7 +30,7 @@ const Video: FC<VideoModel> = ({
 	const router = useRouter();
 
 	return (
-		<Card sx={{ display: "inline-block" }}>
+		<Card sx={{ width: "100%" }}>
 			<CardActionArea onClick={() => router.push(`/watch?v=${id}`)}>
 				<CardMedia
 					height="270"
@@ -40,7 +40,7 @@ const Video: FC<VideoModel> = ({
 				/>
 				<CardContent>
 					<Tooltip title={title}>
-						<Typography gutterBottom variant="h6" component="div">
+						<Typography noWrap gutterBottom variant="h6" component="div">
 							{title}
 						</Typography>
 					</Tooltip>
