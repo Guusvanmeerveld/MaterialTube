@@ -9,5 +9,6 @@ module.exports = {
 	},
 	eslint: {
 		ignoreDuringBuilds: true
-	}
+	},
+	basePath: process.env.CI == "true" ? "/MaterialTube" : ""
 };

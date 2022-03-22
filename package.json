@@ -1,6 +1,6 @@
 {
-	"name": "fouctube",
-	"displayName": "FoucTube",
+	"name": "material-tube",
+	"displayName": "MaterialTube",
 	"license": "MIT",
 	"scripts": {
 		"dev": "next dev",
