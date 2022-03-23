@@ -13,23 +13,24 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 
-import { Settings } from "@mui/icons-material";
+import Settings from "@mui/icons-material/Settings";
 
-const MuiDrawer: FC<{
+const AppDrawer: FC<{
 	drawerIsOpen: boolean;
 	toggleDrawer: (
 		isOpen: boolean
 	) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+	width: number;
 	pages: {
 		name: string;
 		icon: JSX.Element;
 		link: string;
 	}[];
-}> = ({ drawerIsOpen, toggleDrawer, pages }) => {
+}> = ({ drawerIsOpen, toggleDrawer, pages, width }) => {
 	return (
 		<Drawer anchor="left" open={drawerIsOpen} onClose={toggleDrawer(false)}>
 			<Box
-				sx={{ width: 250 }}
+				sx={{ width }}
 				role="presentation"
 				onClick={toggleDrawer(false)}
 				onKeyDown={toggleDrawer(false)}
@@ -62,4 +63,4 @@ const MuiDrawer: FC<{
 	);
 };
 
-export default MuiDrawer;
+export default AppDrawer;

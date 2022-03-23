@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 import { Video as VideoModel } from "@interfaces/video";
 

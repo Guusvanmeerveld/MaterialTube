@@ -1,3 +1,5 @@
+import axios, { AxiosError } from "axios";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -11,13 +13,17 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import CircularProgress from "@mui/material/CircularProgress";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 
 import { abbreviateNumber } from "@src/utils";
 
-import { Channel, Quality } from "@interfaces/channel";
 import { Video as VideoModel } from "@interfaces/video";
+
+interface Channel {
+	authorThumbnails: { url: string; width: number; height: number }[];
+}
 
 const Video: FC<VideoModel> = ({
 	thumbnail,
@@ -27,6 +33,24 @@ const Video: FC<VideoModel> = ({
 	views,
 	published
 }) => {
+	const requestFields = ["authorThumbnails"];
+
+	const { isLoading, error, data } = useQuery<Channel, AxiosError<Error>>(
+		`channelData-${author.id}`,
+		() =>
+			axios
+				.get(`https://invidious.privacy.gd/api/v1/channels/${author.id}`, {
+					params: {
+						fields: requestFields.join(",")
+					}
+				})
+				.then((res) => res.data),
+		{
+			retry: 1,
+			retryDelay: 5000
+		}
+	);
+
 	const router = useRouter();
 
 	return (
@@ -46,7 +70,18 @@ const Video: FC<VideoModel> = ({
 					</Tooltip>
 					<Link passHref href={`/channel/${author.id}`}>
 						<Box sx={{ display: "flex", alignItems: "center" }}>
-							<Avatar sx={{ mr: 2 }} alt={author.name} />
+							{isLoading && <CircularProgress sx={{ mr: 2 }} />}
+							{data && (
+								<Avatar
+									sx={{ mr: 2 }}
+									alt={author.name}
+									src={
+										data.authorThumbnails.find(
+											(thumbnail) => thumbnail.width == 100
+										)?.url as string
+									}
+								/>
+							)}
 							<Typography color="text.secondary" variant="subtitle1">
 								{author.name}
 							</Typography>

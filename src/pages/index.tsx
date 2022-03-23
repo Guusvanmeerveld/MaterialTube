@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-import { PlayCircleOutline } from "@mui/icons-material";
+import PlayCircleOutline from "@mui/icons-material/PlayCircleOutline";
 
 import Layout from "@components/Layout";
 
