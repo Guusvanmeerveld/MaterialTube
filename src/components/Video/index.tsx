@@ -36,7 +36,7 @@ const Video: FC<VideoModel> = ({
 	const requestFields = ["authorThumbnails"];
 
 	const { isLoading, error, data } = useQuery<Channel, AxiosError<Error>>(
-		`channelData-${author.id}`,
+		["channelData", author.id],
 		() =>
 			axios
 				.get(`https://invidious.privacy.gd/api/v1/channels/${author.id}`, {

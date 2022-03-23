@@ -13,7 +13,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import SEO from "@src/next-seo.config";
 import createTheme from "@src/theme";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: { queries: { refetchOnWindowFocus: false } }
+});
 
 const App = ({ Component, pageProps }: AppProps) => {
 	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
