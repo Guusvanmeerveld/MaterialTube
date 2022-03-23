@@ -15,6 +15,7 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
 ENV NEXT_TELEMETRY_DISABLED 1;
+ENV NODE_ENV production;
 
 RUN yarn export
 
