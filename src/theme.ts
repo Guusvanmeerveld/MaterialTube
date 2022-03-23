@@ -6,10 +6,10 @@ const createTheme = (prefersDarkMode: boolean) => {
 		palette: {
 			mode: prefersDarkMode ? "dark" : "light",
 			primary: {
-				main: red[700]
+				main: red[800]
 			},
 			secondary: {
-				main: red[700]
+				main: red[800]
 			}
 		}
 	});
