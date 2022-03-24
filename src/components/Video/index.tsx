@@ -3,8 +3,9 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { FC } from "react";
+import { FC, useEffect } from "react";
 
+import { useInView } from "react-intersection-observer/";
 import { useQuery } from "react-query";
 
 import Avatar from "@mui/material/Avatar";
@@ -35,7 +36,10 @@ const Video: FC<VideoModel> = ({
 }) => {
 	const requestFields = ["authorThumbnails"];
 
-	const { isLoading, error, data } = useQuery<Channel, AxiosError<Error>>(
+	const { isLoading, error, data, refetch, isFetched } = useQuery<
+		Channel,
+		AxiosError<Error>
+	>(
 		["channelData", author.id],
 		() =>
 			axios
@@ -44,10 +48,19 @@ const Video: FC<VideoModel> = ({
 						fields: requestFields.join(",")
 					}
 				})
-				.then((res) => res.data)
+				.then((res) => res.data),
+		{ enabled: false }
 	);
 
+	const { ref, inView } = useInView({
+		threshold: 0
+	});
+
 	const router = useRouter();
+
+	useEffect(() => {
+		if (inView && !isFetched) refetch();
+	}, [inView, isFetched, refetch]);
 
 	return (
 		<Card sx={{ width: "100%" }}>
@@ -67,7 +80,7 @@ const Video: FC<VideoModel> = ({
 						</Typography>
 					</Tooltip>
 					<Link passHref href={`/channel/${author.id}`}>
-						<Box sx={{ display: "flex", alignItems: "center" }}>
+						<Box ref={ref} sx={{ display: "flex", alignItems: "center" }}>
 							{isLoading && <CircularProgress sx={{ mr: 2 }} />}
 							{data && (
 								<Avatar
