@@ -9,7 +9,10 @@ import Layout from "@components/Layout";
 const NotFound: NextPage = () => {
 	return (
 		<>
-			<NextSeo title="Not Found" />
+			<NextSeo
+				title="Not Found"
+				description="The page may have been moved or deleted"
+			/>
 			<Layout>
 				<Box sx={{ mt: 5, textAlign: "center" }}>
 					<Typography variant="h3">Page not found</Typography>

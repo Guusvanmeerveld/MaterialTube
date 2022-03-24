@@ -14,7 +14,7 @@ import Layout from "@components/Layout";
 
 const Index: NextPage = () => (
 	<>
-		<NextSeo title="Home" />
+		<NextSeo title="Home" description={packageInfo.description} />
 		<Layout>
 			<Box
 				sx={{

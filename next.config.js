@@ -11,5 +11,5 @@ module.exports = {
 		NEXT_PUBLIC_GITHUB_URL: "https://github.com/Guusvanmeerveld/MaterialTube"
 	},
 	basePath: process.env.BASE_PATH ?? "",
-	trailingSlash: true
+	trailingSlash: !(process.env.CI == "true")
 };

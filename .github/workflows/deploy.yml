@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - master
+    paths:
+      - src/**
+      - public/**
+      - Dockerfile
+      - package.json
+      - tsconfig.json
+      - next.config.js
+      - .github/workflows/**
 
 jobs:
   test:

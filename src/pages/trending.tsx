@@ -52,7 +52,10 @@ const Trending: NextPage = () => {
 
 	return (
 		<>
-			<NextSeo title="Trending" />
+			<NextSeo
+				title="Trending"
+				description="Look at new and trending video's"
+			/>
 			<Layout>
 				<Box sx={{ px: { xs: 1, sm: 2, md: 5 } }}>
 					{isLoading && <Loading />}
