@@ -9,18 +9,15 @@ import { useQuery } from "react-query";
 
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
 import { Error } from "@interfaces/api";
-import {
-	Trending as TrendingModel,
-	Video as VideoModel
-} from "@interfaces/video";
+import TrendingModel from "@interfaces/api/trending";
 
 import { trendingToVideo } from "@utils/conversions";
 
 import Layout from "@components/Layout";
+import Loading from "@components/Loading";
 import Grid from "@components/Video/Grid";
 
 const Trending: NextPage = () => {
@@ -29,34 +26,28 @@ const Trending: NextPage = () => {
 	const { isLoading, error, data } = useQuery<
 		TrendingModel[],
 		AxiosError<Error>
-	>(
-		"trendingData",
-		() =>
-			axios
-				.get("https://invidious.privacy.gd/api/v1/trending", {
-					params: {
-						fields: [
-							"title",
-							"description",
-							"descriptionHtml",
-							"videoId",
-							"author",
-							"authorId",
-							"authorUrl",
-							"lengthSeconds",
-							"published",
-							"publishedText",
-							"viewCount",
-							"videoThumbnails"
-						].join(","),
-						type: selectedCategory
-					}
-				})
-				.then((res) => res.data),
-		{
-			retry: 5,
-			retryDelay: 5000
-		}
+	>("trendingData", () =>
+		axios
+			.get("https://invidious.privacy.gd/api/v1/trending", {
+				params: {
+					fields: [
+						"title",
+						"description",
+						"descriptionHtml",
+						"videoId",
+						"author",
+						"authorId",
+						"authorUrl",
+						"lengthSeconds",
+						"published",
+						"publishedText",
+						"viewCount",
+						"videoThumbnails"
+					].join(","),
+					type: selectedCategory
+				}
+			})
+			.then((res) => res.data)
 	);
 
 	return (
@@ -64,17 +55,7 @@ const Trending: NextPage = () => {
 			<NextSeo title="Trending" />
 			<Layout>
 				<Box sx={{ px: { xs: 1, sm: 2, md: 5 } }}>
-					{isLoading && (
-						<Box
-							sx={{
-								display: "flex",
-								justifyContent: "center",
-								alignItems: "center"
-							}}
-						>
-							<CircularProgress />
-						</Box>
-					)}
+					{isLoading && <Loading />}
 					{error && <Box>{error.response?.data.error}</Box>}
 					{!isLoading && !error && data && (
 						<>

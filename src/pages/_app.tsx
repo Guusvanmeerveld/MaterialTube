@@ -14,7 +14,9 @@ import SEO from "@src/next-seo.config";
 import createTheme from "@src/theme";
 
 const queryClient = new QueryClient({
-	defaultOptions: { queries: { refetchOnWindowFocus: false } }
+	defaultOptions: {
+		queries: { refetchOnWindowFocus: false, retry: 5, retryDelay: 5000 }
+	}
 });
 
 const App = ({ Component, pageProps }: AppProps) => {

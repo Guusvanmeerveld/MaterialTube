@@ -1,3 +1,10 @@
+import {
+	AdaptiveFormat,
+	Caption,
+	FormatStream,
+	RecommendedVideo
+} from "@interfaces/api/video";
+
 export interface Video {
 	thumbnail: string;
 	title: string;
@@ -13,34 +20,36 @@ export interface Video {
 	};
 	views: number;
 	published: {
-		time: number;
+		time: Date;
 		text: string;
 	};
 	length: number;
-}
-
-export interface Trending {
-	type: string;
-	title: string;
-	videoId: string;
-	author: string;
-	authorId: string;
-	authorUrl: string;
-	videoThumbnails: VideoThumbnail[];
-	description: string;
-	descriptionHtml: string;
-	viewCount: number;
-	published: number;
-	publishedText: string;
-	lengthSeconds: number;
-	liveNow: boolean;
+	live: boolean;
 	premium: boolean;
-	isUpcoming: boolean;
 }
 
-interface VideoThumbnail {
-	quality: string;
-	url: string;
-	width: number;
-	height: number;
+export interface FullVideo extends Video {
+	keywords: string[];
+	likes: number;
+	dislikes: number;
+	familyFriendly: boolean;
+	genre: {
+		type: string;
+		url: string;
+	};
+	author: {
+		thumbnail: string;
+		name: string;
+		id: string;
+		url: string;
+	};
+	subscriptions: string;
+	rating: number;
+	premiered: Date | undefined;
+	recommendedVideos: RecommendedVideo[];
+	adaptiveFormats: AdaptiveFormat[];
+	formatStreams: FormatStream[];
+	captions: Caption[];
 }
+
+export default Video;

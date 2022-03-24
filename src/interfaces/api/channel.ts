@@ -1,6 +1,6 @@
-import { Video } from "@interfaces/video";
+import Video from "@interfaces/api/trending";
 
-export interface Channel {
+interface Channel {
 	author: string;
 	authorId: string;
 	authorUrl: string;
@@ -18,14 +18,14 @@ export interface Channel {
 	relatedChannels: RelatedChannel[];
 }
 
-export interface AuthorBanner {
+interface AuthorBanner {
 	url: string;
 	width: number;
 	height: number;
 	quality?: Quality;
 }
 
-export enum Quality {
+enum Quality {
 	Default = "default",
 	End = "end",
 	High = "high",
@@ -37,9 +37,11 @@ export enum Quality {
 	Start = "start"
 }
 
-export interface RelatedChannel {
+interface RelatedChannel {
 	author: string;
 	authorId: string;
 	authorUrl: string;
 	authorThumbnails: AuthorBanner[];
 }
+
+export default Channel;

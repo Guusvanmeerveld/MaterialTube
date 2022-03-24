@@ -47,21 +47,21 @@ const Navbar: FC = () => {
 		};
 
 	const pages = [
-		{ name: "Trending", icon: <Whatshot />, link: "trending" },
+		{ name: "Trending", icon: <Whatshot />, link: "/trending" },
 		{
 			name: "Subscriptions",
 			icon: <Subscriptions />,
-			link: "subscriptions"
+			link: "/subscriptions"
 		},
 		{
 			name: "Watch History",
 			icon: <History />,
-			link: "history"
+			link: "/history"
 		},
 		{
 			name: "Playlists",
 			icon: <PlaylistAddCheck />,
-			link: "playlists"
+			link: "/playlists"
 		}
 	];
 
@@ -81,7 +81,10 @@ const Navbar: FC = () => {
 							edge="start"
 							color="inherit"
 							aria-label="menu"
-							sx={{ mr: 2, display: { lg: "none", xs: "flex" } }}
+							sx={{
+								mr: { md: 2, xs: 0 },
+								display: { lg: "none", xs: "flex" }
+							}}
 							onClick={() => setDrawerState(!drawerIsOpen)}
 						>
 							<Menu />
@@ -104,7 +107,7 @@ const Navbar: FC = () => {
 							}}
 						>
 							{pages.map((page, i) => (
-								<Link key={i} href={"/" + page.link} passHref>
+								<Link key={i} href={page.link} passHref>
 									<Button
 										sx={{
 											color: "white",

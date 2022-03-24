@@ -44,18 +44,16 @@ const Video: FC<VideoModel> = ({
 						fields: requestFields.join(",")
 					}
 				})
-				.then((res) => res.data),
-		{
-			retry: 1,
-			retryDelay: 5000
-		}
+				.then((res) => res.data)
 	);
 
 	const router = useRouter();
 
 	return (
 		<Card sx={{ width: "100%" }}>
-			<CardActionArea onClick={() => router.push(`/watch?v=${id}`)}>
+			<CardActionArea
+				onClick={() => router.push({ pathname: "/watch", query: { v: id } })}
+			>
 				<CardMedia
 					height="270"
 					component="img"
