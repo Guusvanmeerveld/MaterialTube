@@ -21,9 +21,20 @@ jobs:
         run: yarn install
 
       - name: Lint
-        run: yarn lint
+        run: yarn run lint
         env:
           NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Build website
+        run: yarn run export
+        with:
+          NODE_ENV: production
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: output
+          path: out
 
   pages:
     runs-on: ubuntu-latest
