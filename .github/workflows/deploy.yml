@@ -27,7 +27,7 @@ jobs:
 
       - name: Build website
         run: yarn run export
-        with:
+        env:
           NODE_ENV: production
           NEXT_TELEMETRY_DISABLED: 1
 
