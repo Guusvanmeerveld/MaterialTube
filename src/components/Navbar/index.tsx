@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 
 import History from "@mui/icons-material/History";
@@ -108,18 +109,22 @@ const Navbar: FC = () => {
 						>
 							{pages.map((page, i) => (
 								<Link key={i} href={page.link} passHref>
-									<Button
-										sx={{
-											color: "white",
-											display: { lg: "flex", xs: "none" },
-											alignItems: "center"
-										}}
-									>
-										<Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
-											{page.icon}
-										</Box>
-										{page.name}
-									</Button>
+									<Tooltip title={`Go to ${page.name}`}>
+										<Button
+											sx={{
+												color: "white",
+												display: { lg: "flex", xs: "none" },
+												alignItems: "center"
+											}}
+										>
+											<Box
+												sx={{ mr: 1, display: "flex", alignItems: "center" }}
+											>
+												{page.icon}
+											</Box>
+											{page.name}
+										</Button>
+									</Tooltip>
 								</Link>
 							))}
 
