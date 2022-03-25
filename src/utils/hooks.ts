@@ -8,7 +8,8 @@ import Settings from "@interfaces/settings";
 
 const defaultSettings: Settings = {
 	primaryColor: red[800],
-	accentColor: red[800]
+	accentColor: red[800],
+	invidiousServer: "vid.puffyan.us"
 };
 
 export const useSettings = (): [

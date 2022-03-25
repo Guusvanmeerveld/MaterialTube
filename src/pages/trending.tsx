@@ -15,6 +15,7 @@ import { Error } from "@interfaces/api";
 import TrendingModel from "@interfaces/api/trending";
 
 import { trendingToVideo } from "@utils/conversions";
+import { useSettings } from "@utils/hooks";
 
 import Layout from "@components/Layout";
 import Loading from "@components/Loading";
@@ -23,12 +24,14 @@ import Grid from "@components/Video/Grid";
 const Trending: NextPage = () => {
 	const [selectedCategory, setCategory] = useState<string | undefined>();
 
+	const [settings] = useSettings();
+
 	const { isLoading, error, data } = useQuery<
 		TrendingModel[],
 		AxiosError<Error>
 	>("trendingData", () =>
 		axios
-			.get("https://invidious.privacy.gd/api/v1/trending", {
+			.get(`https://${settings.invidiousServer}/api/v1/trending`, {
 				params: {
 					fields: [
 						"title",

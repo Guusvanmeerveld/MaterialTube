@@ -13,6 +13,7 @@ import { Error } from "@interfaces/api";
 import Video from "@interfaces/api/video";
 
 import { videoToVideo } from "@utils/conversions";
+import { useSettings } from "@utils/hooks";
 
 import Layout from "@components/Layout";
 import Loading from "@components/Loading";
@@ -22,6 +23,8 @@ const Watch: NextPage = () => {
 
 	const videoId = router.query["v"];
 
+	const [settings] = useSettings();
+
 	const { isLoading, error, data, refetch } = useQuery<
 		Video,
 		AxiosError<Error>
@@ -29,7 +32,7 @@ const Watch: NextPage = () => {
 		["videoData", videoId],
 		() =>
 			axios
-				.get(`https://invidious.privacy.gd/api/v1/videos/${videoId}`, {
+				.get(`https://${settings.invidiousServer}/api/v1/videos/${videoId}`, {
 					params: {}
 				})
 				.then((res) => res.data),

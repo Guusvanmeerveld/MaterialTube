@@ -22,6 +22,8 @@ import { abbreviateNumber } from "@src/utils";
 
 import { Video as VideoModel } from "@interfaces/video";
 
+import { useSettings } from "@utils/hooks";
+
 interface Channel {
 	authorThumbnails: { url: string; width: number; height: number }[];
 }
@@ -34,7 +36,7 @@ const Video: FC<VideoModel> = ({
 	views,
 	published
 }) => {
-	const requestFields = ["authorThumbnails"];
+	const [settings] = useSettings();
 
 	const { isLoading, error, data, refetch, isFetched } = useQuery<
 		Channel,
@@ -43,11 +45,14 @@ const Video: FC<VideoModel> = ({
 		["channelData", author.id],
 		() =>
 			axios
-				.get(`https://invidious.privacy.gd/api/v1/channels/${author.id}`, {
-					params: {
-						fields: requestFields.join(",")
+				.get(
+					`https://${settings.invidiousServer}/api/v1/channels/${author.id}`,
+					{
+						params: {
+							fields: ["authorThumbnails"].join(",")
+						}
 					}
-				})
+				)
 				.then((res) => res.data),
 		{ enabled: false }
 	);
