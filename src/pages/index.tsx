@@ -25,7 +25,7 @@ const Index: NextPage = () => (
 			>
 				<PlayCircleOutline sx={{ mt: 2, fontSize: 100 }} />
 				<Typography variant="h2" sx={{ my: 1 }}>
-					{packageInfo.displayName}
+					{process.env.NEXT_PUBLIC_APP_NAME}
 				</Typography>
 				<Typography variant="h4" sx={{ my: 1 }}>
 					{packageInfo.description}

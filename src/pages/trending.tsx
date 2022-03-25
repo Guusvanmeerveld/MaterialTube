@@ -26,10 +26,10 @@ const Trending: NextPage = () => {
 
 	const [settings] = useSettings();
 
-	const { isLoading, error, data } = useQuery<
+	const { isLoading, error, data, refetch } = useQuery<
 		TrendingModel[],
 		AxiosError<Error>
-	>("trendingData", () =>
+	>("trendingData", (context) =>
 		axios
 			.get(`https://${settings.invidiousServer}/api/v1/trending`, {
 				params: {

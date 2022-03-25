@@ -2,13 +2,15 @@ import packageInfo from "../package.json";
 
 import type { DefaultSeoProps } from "next-seo";
 
+const name = process.env.NEXT_PUBLIC_APP_NAME;
+
 const SEO: DefaultSeoProps = {
-	titleTemplate: `%s | ${packageInfo.displayName}`,
-	defaultTitle: packageInfo.displayName,
+	titleTemplate: `%s | ${name}`,
+	defaultTitle: name,
 	description: packageInfo.description,
 	openGraph: {
-		description: packageInfo.displayName,
-		site_name: packageInfo.displayName
+		description: name,
+		site_name: name
 	}
 };
 

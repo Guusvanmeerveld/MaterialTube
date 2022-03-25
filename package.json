@@ -3,6 +3,9 @@
 	"displayName": "MaterialTube",
 	"description": "MaterialTube is a beautiful and elegant web client for Invidious servers, built using Next.js and MUI.",
 	"license": "MIT",
+	"repository": {
+		"url": "https://github.com/Guusvanmeerveld/MaterialTube"
+	},
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",

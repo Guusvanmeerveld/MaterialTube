@@ -36,7 +36,9 @@ const AppDrawer: FC<{
 				onKeyDown={toggleDrawer(false)}
 			>
 				<Box padding={2}>
-					<Typography variant="h4">{packageInfo.displayName}</Typography>
+					<Typography variant="h4">
+						{process.env.NEXT_PUBLIC_APP_NAME}
+					</Typography>
 				</Box>
 				<Divider />
 				<List>

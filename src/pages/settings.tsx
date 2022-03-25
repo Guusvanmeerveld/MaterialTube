@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { NextPage } from "next";
+import { NextSeo } from "next-seo";
 
 import { FC, useState } from "react";
 
@@ -163,94 +164,102 @@ const Settings: NextPage = () => {
 	};
 
 	return (
-		<Layout>
-			<Container>
-				<Typography sx={{ my: 2 }} variant="h2">
-					Settings
-				</Typography>
-
-				<Divider sx={{ mb: 4 }} />
-
-				<Typography variant="h4">Theme</Typography>
-
-				<Box sx={{ my: 3, display: "flex" }}>
-					<Typography variant="h5" sx={{ flexGrow: 1 }}>
-						General theme
+		<>
+			<NextSeo
+				title="Settings"
+				description={`Update your ${process.env.NEXT_PUBLIC_APP_NAME} settings`}
+			/>
+			<Layout>
+				<Container>
+					<Typography sx={{ my: 2 }} variant="h2">
+						Settings
 					</Typography>
-					<ButtonGroup
-						variant="contained"
-						color="primary"
-						aria-label="outlined default button group"
-					>
-						<Button onClick={() => setSetting("theme", "light")}>Light</Button>
-						<Button onClick={() => setSetting("theme")}>System</Button>
-						<Button onClick={() => setSetting("theme", "dark")}>Dark</Button>
-					</ButtonGroup>
-				</Box>
 
-				<ColorSetting type="Primary Color" />
+					<Divider sx={{ mb: 4 }} />
 
-				<ColorSetting type="Accent Color" />
+					<Typography variant="h4">Theme</Typography>
 
-				<Divider sx={{ my: 4 }} />
-
-				<Typography variant="h4">Player</Typography>
-
-				<Divider sx={{ my: 4 }} />
-
-				<Typography variant="h4">Miscellaneous</Typography>
-
-				<Box sx={{ my: 3, display: "flex", alignItems: "center" }}>
-					<Typography variant="h5" sx={{ flexGrow: 1 }}>
-						Invidious Server
-					</Typography>
-					<Box sx={{ mr: 2 }}>
-						{invidiousServerResponse.data &&
-							!invidiousServerResponse.isLoading && (
-								<>
-									<Done
-										onClick={() => setModalState(true)}
-										sx={{ color: green[800], cursor: "pointer" }}
-									/>
-									<InfoModal />
-								</>
-							)}
-						{invidiousServerResponse.error && (
-							<Error sx={{ color: red[800] }} />
-						)}
-						{invidiousServerResponse.isLoading && <CircularProgress />}
-					</Box>
-					<FormControl sx={{ minWidth: 200 }}>
-						<InputLabel id="server-select-label">Server</InputLabel>
-						<Select
-							labelId="server-select-label"
-							id="server-select"
-							value={settings.invidiousServer}
-							label="Server"
-							onChange={(e) => {
-								const server = e.target.value;
-
-								setSetting("invidiousServer", server);
-							}}
-							MenuProps={{ sx: { maxHeight: 300 } }}
+					<Box sx={{ my: 3, display: "flex" }}>
+						<Typography variant="h5" sx={{ flexGrow: 1 }}>
+							General theme
+						</Typography>
+						<ButtonGroup
+							variant="contained"
+							color="primary"
+							aria-label="outlined default button group"
 						>
-							{instances.data &&
-								instances.data
-									.filter(
-										([, server]) =>
-											server.type != ServerInstanceType.Onion &&
-											server.api == true
-									)
-									.map(([uri, server]) => (
-										<MenuItem key={uri} value={uri}>
-											{server.flag} {uri}
-										</MenuItem>
-									))}
-						</Select>
-					</FormControl>
-				</Box>
-			</Container>
-		</Layout>
+							<Button onClick={() => setSetting("theme", "light")}>
+								Light
+							</Button>
+							<Button onClick={() => setSetting("theme")}>System</Button>
+							<Button onClick={() => setSetting("theme", "dark")}>Dark</Button>
+						</ButtonGroup>
+					</Box>
+
+					<ColorSetting type="Primary Color" />
+
+					<ColorSetting type="Accent Color" />
+
+					<Divider sx={{ my: 4 }} />
+
+					<Typography variant="h4">Player</Typography>
+
+					<Divider sx={{ my: 4 }} />
+
+					<Typography variant="h4">Miscellaneous</Typography>
+
+					<Box sx={{ my: 3, display: "flex", alignItems: "center" }}>
+						<Typography variant="h5" sx={{ flexGrow: 1 }}>
+							Invidious Server
+						</Typography>
+						<Box sx={{ mr: 2 }}>
+							{invidiousServerResponse.data &&
+								!invidiousServerResponse.isLoading && (
+									<>
+										<Done
+											onClick={() => setModalState(true)}
+											sx={{ color: green[800], cursor: "pointer" }}
+										/>
+										<InfoModal />
+									</>
+								)}
+							{invidiousServerResponse.error && (
+								<Error sx={{ color: red[800] }} />
+							)}
+							{invidiousServerResponse.isLoading && <CircularProgress />}
+						</Box>
+						<FormControl sx={{ minWidth: 200 }}>
+							<InputLabel id="server-select-label">Server</InputLabel>
+							<Select
+								labelId="server-select-label"
+								id="server-select"
+								value={settings.invidiousServer}
+								label="Server"
+								onChange={(e) => {
+									const server = e.target.value;
+
+									setSetting("invidiousServer", server);
+								}}
+								MenuProps={{ sx: { maxHeight: 300 } }}
+							>
+								{instances.data &&
+									instances.data
+										.filter(
+											([, server]) =>
+												server.type != ServerInstanceType.Onion &&
+												server.api == true
+										)
+										.map(([uri, server]) => (
+											<MenuItem key={uri} value={uri}>
+												{server.flag} {uri}
+											</MenuItem>
+										))}
+							</Select>
+						</FormControl>
+					</Box>
+				</Container>
+			</Layout>
+		</>
 	);
 };
 

@@ -91,14 +91,21 @@ const Navbar: FC = () => {
 							<Menu />
 						</IconButton>
 
-						<Typography
-							variant="h6"
-							component="div"
-							sx={{ mr: 2, display: "flex", alignItems: "center" }}
-						>
-							<PlayCircleOutline sx={{ mr: 1 }} />
-							{packageInfo.displayName}
-						</Typography>
+						<Link href="/" passHref>
+							<Typography
+								variant="h6"
+								component="div"
+								sx={{
+									mr: 2,
+									display: "flex",
+									alignItems: "center",
+									cursor: "pointer"
+								}}
+							>
+								<PlayCircleOutline sx={{ mr: 1 }} />
+								{process.env.NEXT_PUBLIC_APP_NAME}
+							</Typography>
+						</Link>
 
 						<Box
 							sx={{
