@@ -22,7 +22,8 @@
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-intersection-observer": "^8.33.1",
-		"react-query": "^3.34.16"
+		"react-query": "^3.34.16",
+		"use-local-storage-state": "^16.0.1"
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^3.2.0",

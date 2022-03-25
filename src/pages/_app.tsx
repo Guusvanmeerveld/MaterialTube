@@ -13,6 +13,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import SEO from "@src/next-seo.config";
 import createTheme from "@src/theme";
 
+import { useSettings } from "@utils/hooks";
+
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: { refetchOnWindowFocus: false, retry: 5, retryDelay: 5000 }
@@ -20,9 +22,20 @@ const queryClient = new QueryClient({
 });
 
 const App = ({ Component, pageProps }: AppProps) => {
+	const [settings] = useSettings();
+
 	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
-	const theme = useMemo(() => createTheme(prefersDarkMode), [prefersDarkMode]);
+	let dark: boolean;
+
+	if (settings.theme) {
+		if (settings.theme == "dark") dark = true;
+		else dark = false;
+	} else {
+		dark = prefersDarkMode;
+	}
+
+	const theme = useMemo(() => createTheme(settings, dark), [settings, dark]);
 
 	return (
 		<QueryClientProvider client={queryClient}>

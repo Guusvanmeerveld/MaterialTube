@@ -12,3 +12,10 @@ export const abbreviateNumber = (value: number): string => {
 
 	return `${value}${suffixes[suffixNum]}`;
 };
+
+export const toCamelCase = (string: string): string =>
+	string
+		.replace(/(?:^\w|[A-Z]|\b\w)/g, (leftTrim: string, index: number) =>
+			index === 0 ? leftTrim.toLowerCase() : leftTrim.toUpperCase()
+		)
+		.replace(/\s+/g, "");

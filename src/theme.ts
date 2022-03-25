@@ -1,15 +1,16 @@
-import { red } from "@mui/material/colors";
 import { createTheme as createMUITheme } from "@mui/material/styles";
 
-const createTheme = (prefersDarkMode: boolean) => {
+import Settings from "@interfaces/settings";
+
+const createTheme = (settings: Settings, prefersDarkMode: boolean) => {
 	return createMUITheme({
 		palette: {
 			mode: prefersDarkMode ? "dark" : "light",
 			primary: {
-				main: red[800]
+				main: settings.primaryColor
 			},
 			secondary: {
-				main: red[800]
+				main: settings.accentColor
 			}
 		}
 	});
