@@ -10,9 +10,9 @@ import { useTheme } from "@mui/material/styles";
 
 import { abbreviateNumber, formatNumber } from "@src/utils/";
 
-import { Channel as ChannelModel } from "@interfaces/api/search";
+import { ChannelResult } from "@interfaces/api/search";
 
-const Channel: FC<{ channel: ChannelModel }> = ({ channel }) => {
+const Channel: FC<{ channel: ChannelResult }> = ({ channel }) => {
 	const theme = useTheme();
 
 	const thumbnail = channel.authorThumbnails.find(

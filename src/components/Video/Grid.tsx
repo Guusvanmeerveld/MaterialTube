@@ -2,7 +2,7 @@ import { FC } from "react";
 
 import Grid from "@mui/material/Grid";
 
-import { Video as VideoModel } from "@interfaces/video";
+import VideoModel from "@interfaces/video";
 
 import Video from "@components/Video";
 

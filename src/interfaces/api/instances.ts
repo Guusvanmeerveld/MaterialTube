@@ -50,17 +50,9 @@ interface Metadata {
 }
 
 interface Software {
-	name: Name;
+	name: string;
 	version: string;
-	branch: Branch;
-}
-
-export enum Branch {
-	Master = "master"
-}
-
-export enum Name {
-	Invidious = "invidious"
+	branch: string;
 }
 
 interface Usage {

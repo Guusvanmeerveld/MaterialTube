@@ -1,4 +1,5 @@
-import Video from "@interfaces/api/trending";
+import { Quality } from "@interfaces/api";
+import VideoTrending from "@interfaces/api/trending";
 
 interface Channel {
 	author: string;
@@ -14,7 +15,7 @@ interface Channel {
 	description: string;
 	descriptionHtml: string;
 	allowedRegions: string[];
-	latestVideos: Video[];
+	latestVideos: VideoTrending[];
 	relatedChannels: RelatedChannel[];
 }
 
@@ -23,18 +24,6 @@ interface AuthorBanner {
 	width: number;
 	height: number;
 	quality?: Quality;
-}
-
-enum Quality {
-	Default = "default",
-	End = "end",
-	High = "high",
-	Maxres = "maxres",
-	Maxresdefault = "maxresdefault",
-	Medium = "medium",
-	Middle = "middle",
-	Sddefault = "sddefault",
-	Start = "start"
 }
 
 interface RelatedChannel {
