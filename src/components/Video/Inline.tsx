@@ -7,7 +7,9 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
 import { useTheme } from "@mui/material/styles";
 
 import { abbreviateNumber } from "@src/utils/";
@@ -28,7 +30,22 @@ const Video: FC<{ video: VideoModel }> = ({ video }) => {
 	return (
 		<Paper sx={{ my: 2 }}>
 			<Grid container spacing={0}>
-				<Grid item md={4}>
+				<Grid item md={4} sx={{ position: "relative" }}>
+					{video.live && (
+						<Box
+							sx={{
+								backgroundColor: red[600],
+								position: "absolute",
+								right: 5,
+								top: 5,
+								p: "3px",
+								borderRadius: "2px",
+								textTransform: "uppercase"
+							}}
+						>
+							Live
+						</Box>
+					)}
 					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img
 						style={{
@@ -45,9 +62,11 @@ const Video: FC<{ video: VideoModel }> = ({ video }) => {
 				<Grid item md={8} sx={{ padding: 3, width: "100%" }}>
 					<Link href={{ pathname: "/watch", query: { v: video.id } }}>
 						<a>
-							<Typography gutterBottom noWrap variant="h5">
-								{video.title}
-							</Typography>
+							<Tooltip title={video.title}>
+								<Typography gutterBottom noWrap variant="h5">
+									{video.title}
+								</Typography>
+							</Tooltip>
 						</a>
 					</Link>
 					<Typography
@@ -55,8 +74,21 @@ const Video: FC<{ video: VideoModel }> = ({ video }) => {
 						variant="subtitle1"
 						color={theme.palette.text.secondary}
 					>
-						{abbreviateNumber(video.views)} Views • Published{" "}
-						{video.published.text}
+						{!(video.live || video.upcoming) && (
+							<>
+								{abbreviateNumber(video.views)} Views • Published{" "}
+								{video.published.text}
+							</>
+						)}
+						{video.live && <>🔴 Live now</>}
+						{video.upcoming && video.premiereTimestamp && (
+							<>
+								Premiering on{" "}
+								{new Date(video.premiereTimestamp * 1000).toLocaleDateString()}{" "}
+								at{" "}
+								{new Date(video.premiereTimestamp * 1000).toLocaleTimeString()}
+							</>
+						)}
 					</Typography>
 					<Typography
 						gutterBottom

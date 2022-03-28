@@ -17,6 +17,7 @@ interface Trending {
 	liveNow: boolean;
 	premium: boolean;
 	isUpcoming: boolean;
+	premiereTimestamp?: number;
 }
 
 export default Trending;

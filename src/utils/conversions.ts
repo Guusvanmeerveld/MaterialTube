@@ -25,6 +25,8 @@ export const apiToVideo = (item: VideoTrending | VideoResult): Video => {
 		views: item.viewCount,
 		live: item.liveNow,
 		premium: item.premium,
+		upcoming: item.isUpcoming,
+		premiereTimestamp: item.premiereTimestamp,
 		thumbnail: item.videoThumbnails.find(
 			(thumbnail) => thumbnail.quality == Quality.Maxresdefault
 		)?.url as string

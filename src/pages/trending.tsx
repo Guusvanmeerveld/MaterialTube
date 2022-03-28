@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 import { NextSeo } from "next-seo";
 
 import { useState } from "react";
@@ -21,7 +21,33 @@ import Layout from "@components/Layout";
 import Loading from "@components/Loading";
 import Grid from "@components/Video/Grid";
 
-const Trending: NextPage = () => {
+const fetchTrending = (server: string, category = "") =>
+	axios
+		.get(`https://${server}/api/v1/trending`, {
+			params: {
+				fields: [
+					"title",
+					"description",
+					"descriptionHtml",
+					"videoId",
+					"author",
+					"authorId",
+					"authorUrl",
+					"lengthSeconds",
+					"published",
+					"publishedText",
+					"liveNow",
+					"premium",
+					"isUpcoming",
+					"viewCount",
+					"videoThumbnails"
+				].join(","),
+				type: category
+			}
+		})
+		.then((res) => res.data);
+
+const Trending: NextPage<{ trending: VideoTrending[] }> = (props) => {
 	const [selectedCategory, setCategory] = useState<string | undefined>();
 
 	const [settings] = useSettings();
@@ -29,28 +55,12 @@ const Trending: NextPage = () => {
 	const { isLoading, error, data } = useQuery<
 		VideoTrending[],
 		AxiosError<Error>
-	>("trendingData", () =>
-		axios
-			.get(`https://${settings.invidiousServer}/api/v1/trending`, {
-				params: {
-					fields: [
-						"title",
-						"description",
-						"descriptionHtml",
-						"videoId",
-						"author",
-						"authorId",
-						"authorUrl",
-						"lengthSeconds",
-						"published",
-						"publishedText",
-						"viewCount",
-						"videoThumbnails"
-					].join(","),
-					type: selectedCategory
-				}
-			})
-			.then((res) => res.data)
+	>(
+		"trendingData",
+		() => fetchTrending(settings.invidiousServer, selectedCategory),
+		{
+			initialData: props.trending
+		}
 	);
 
 	return (
@@ -91,6 +101,16 @@ const Trending: NextPage = () => {
 			</Layout>
 		</>
 	);
+};
+
+export const getStaticProps: GetStaticProps = async ({}) => {
+	const trending = await fetchTrending(
+		process.env.NEXT_PUBLIC_DEFAULT_SERVER as string
+	);
+
+	return {
+		props: { trending }
+	};
 };
 
 export default Trending;

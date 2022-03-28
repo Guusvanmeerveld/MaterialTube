@@ -32,6 +32,8 @@ interface Video {
 	};
 	subscriptions?: string;
 	rating?: number;
+	upcoming?: boolean;
+	premiereTimestamp?: number;
 	premiered?: Date;
 	recommendedVideos?: RecommendedVideo[];
 	adaptiveFormats?: AdaptiveFormat[];

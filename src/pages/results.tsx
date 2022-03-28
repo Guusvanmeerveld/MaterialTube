@@ -4,13 +4,20 @@ import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 
+import { FC, useState } from "react";
+
 import { useQuery } from "react-query";
 
 import axios from "axios";
 
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
+
+import Add from "@mui/icons-material/Add";
 
 import Result, {
 	CategoryResult,
@@ -49,6 +56,50 @@ const Results: NextPage = () => {
 				: undefined
 	);
 
+	const Category: FC<{ category: CategoryResult }> = ({ category }) => {
+		const initialCount = 3;
+
+		const [count, setCount] = useState(initialCount);
+
+		const shownVideos = category.contents.slice(0, count);
+
+		return (
+			<>
+				<Typography variant="h5">{category.title}</Typography>
+
+				{shownVideos.map((video, i) => (
+					<Video video={apiToVideo(video)} key={i} />
+				))}
+
+				{category.contents.length > initialCount && (
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							mt: 4
+						}}
+					>
+						<Button
+							variant="text"
+							onClick={() =>
+								setCount(
+									count > initialCount ? initialCount : category.contents.length
+								)
+							}
+						>
+							<Add />
+							Show {count > initialCount ? "less" : "more"} (
+							{category.contents.length - initialCount})
+						</Button>
+					</Box>
+				)}
+
+				<Divider sx={{ my: 4 }} />
+			</>
+		);
+	};
+
 	if (!router.isReady || isLoading)
 		return (
 			<>
@@ -69,7 +120,9 @@ const Results: NextPage = () => {
 		| VideoResult[]
 		| undefined;
 
-	// const categories = data?.filter()
+	const categories = data?.filter((result) => result.type == "category") as
+		| CategoryResult[]
+		| undefined;
 
 	return (
 		<>
@@ -83,6 +136,13 @@ const Results: NextPage = () => {
 								<Channel key={i} channel={channel} />
 							))}
 							<Divider sx={{ my: 4 }} />
+						</>
+					)}
+					{categories && categories.length != 0 && (
+						<>
+							{categories.map((category, i) => (
+								<Category key={i} category={category} />
+							))}
 						</>
 					)}
 					{videos && videos.length != 0 && (

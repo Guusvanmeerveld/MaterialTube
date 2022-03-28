@@ -31,6 +31,8 @@ export interface VideoResult extends Results {
 	published: number;
 	publishedText: string;
 	lengthSeconds: number;
+	isUpcoming: boolean;
+	premiereTimestamp?: number;
 	liveNow: boolean;
 	premium: boolean;
 }

@@ -32,9 +32,10 @@ export const drawerWidth = 240;
 
 const Navbar: FC = () => {
 	const [drawerIsOpen, setDrawerState] = useState(false);
+
 	const router = useRouter();
 
-	const query = router.query["search_query"];
+	const [search, setSearch] = useState<string | undefined>();
 
 	const toggleDrawer =
 		(open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -141,9 +142,20 @@ const Navbar: FC = () => {
 								<SearchIconWrapper>
 									<SearchIcon />
 								</SearchIconWrapper>
-								<form action={`${router.basePath}/results`} method="get">
+								<form
+									onSubmit={(e) => {
+										e.preventDefault();
+
+										router.push({
+											pathname: "/results",
+											query: { search_query: search }
+										});
+									}}
+									method="get"
+								>
 									<StyledInputBase
-										defaultValue={query ?? ""}
+										onChange={(e) => setSearch(e.target.value)}
+										value={search}
 										name="search_query"
 										placeholder="Search…"
 										inputProps={{ "aria-label": "search" }}

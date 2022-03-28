@@ -75,8 +75,12 @@ const Video: FC<VideoModel> = (video) => {
 						color={theme.palette.text.secondary}
 						variant="body2"
 					>
-						{abbreviateNumber(video.views)} Views • Published{" "}
-						{video.published.text}
+						{!(video.live || video.upcoming) && (
+							<>
+								{abbreviateNumber(video.views)} Views • Published{" "}
+								{video.published.text}
+							</>
+						)}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
