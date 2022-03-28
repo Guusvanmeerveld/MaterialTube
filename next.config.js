@@ -12,7 +12,8 @@ module.exports = {
 	env: {
 		NEXT_PUBLIC_GITHUB_URL: packageInfo.repository.url,
 		NEXT_PUBLIC_APP_NAME: process.env.APP_NAME ?? packageInfo.displayName,
-		NEXT_PUBLIC_DEFAULT_SERVER: process.env.DEFAULT_SERVER ?? "vid.puffyan.us"
+		NEXT_PUBLIC_DEFAULT_SERVER:
+			process.env.DEFAULT_SERVER ?? "invidious.privacy.gd"
 	},
 	basePath: process.env.BASE_PATH ?? "",
 	trailingSlash: !(process.env.CI == "true")

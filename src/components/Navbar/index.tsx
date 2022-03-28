@@ -34,6 +34,8 @@ const Navbar: FC = () => {
 	const [drawerIsOpen, setDrawerState] = useState(false);
 	const router = useRouter();
 
+	const query = router.query["search_query"];
+
 	const toggleDrawer =
 		(open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
 			if (
@@ -141,6 +143,7 @@ const Navbar: FC = () => {
 								</SearchIconWrapper>
 								<form action={`${router.basePath}/results`} method="get">
 									<StyledInputBase
+										defaultValue={query ?? ""}
 										name="search_query"
 										placeholder="Search…"
 										inputProps={{ "aria-label": "search" }}
@@ -150,12 +153,22 @@ const Navbar: FC = () => {
 						</Box>
 
 						<Link href="/settings" passHref>
-							<IconButton
-								sx={{ display: { md: "flex", xs: "none" } }}
-								size="large"
+							<a
+								onClick={(e) => {
+									if (router.pathname == "/settings") {
+										e.preventDefault();
+
+										router.back();
+									}
+								}}
 							>
-								<Settings />
-							</IconButton>
+								<IconButton
+									sx={{ display: { md: "flex", xs: "none" } }}
+									size="large"
+								>
+									<Settings />
+								</IconButton>
+							</a>
 						</Link>
 					</Toolbar>
 				</AppBar>

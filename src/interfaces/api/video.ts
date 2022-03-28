@@ -1,3 +1,11 @@
+import { Thumbnail } from "@interfaces/api";
+import {
+	AdaptiveFormat,
+	Caption,
+	FormatStream,
+	RecommendedVideo
+} from "@interfaces/video";
+
 export interface Video {
 	type: string;
 	title: string;
@@ -35,83 +43,6 @@ export interface Video {
 	formatStreams: FormatStream[];
 	captions: Caption[];
 	recommendedVideos: RecommendedVideo[];
-}
-
-export interface AdaptiveFormat {
-	index: string;
-	bitrate: string;
-	init: string;
-	url: string;
-	itag: string;
-	type: string;
-	clen: string;
-	lmt: string;
-	projectionType: ProjectionType;
-	fps?: number;
-	container?: Container;
-	encoding?: string;
-	resolution?: string;
-	qualityLabel?: string;
-}
-
-export interface FormatStream {
-	url: string;
-	itag: string;
-	type: string;
-	quality: string;
-	fps: number;
-	container: string;
-	encoding: string;
-	resolution: string;
-	qualityLabel: string;
-	size: string;
-}
-
-enum Container {
-	M4A = "m4a",
-	Mp4 = "mp4",
-	Webm = "webm"
-}
-
-enum ProjectionType {
-	Rectangular = "RECTANGULAR"
-}
-
-interface Thumbnail {
-	url: string;
-	width: number;
-	height: number;
-	quality?: Quality;
-}
-
-enum Quality {
-	Default = "default",
-	End = "end",
-	High = "high",
-	Maxres = "maxres",
-	Maxresdefault = "maxresdefault",
-	Medium = "medium",
-	Middle = "middle",
-	Sddefault = "sddefault",
-	Start = "start"
-}
-
-export interface Caption {
-	label: string;
-	language_code: string;
-	url: string;
-}
-
-export interface RecommendedVideo {
-	videoId: string;
-	title: string;
-	videoThumbnails: Thumbnail[];
-	author: string;
-	authorUrl: string;
-	authorId: string;
-	lengthSeconds: number;
-	viewCountText: string;
-	viewCount: number;
 }
 
 interface Storyboard {

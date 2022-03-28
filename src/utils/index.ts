@@ -8,10 +8,11 @@ export const abbreviateNumber = (value: number): string => {
 		suffixNum++;
 	}
 
-	value = parseInt(value.toPrecision(3));
-
-	return `${value}${suffixes[suffixNum]}`;
+	return `${value.toPrecision(4)}${suffixes[suffixNum]}`;
 };
+
+export const formatNumber = (number: number) =>
+	number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 
 export const toCamelCase = (string: string): string =>
 	string

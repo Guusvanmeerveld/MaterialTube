@@ -1,5 +1,4 @@
 import NotFound from "./404";
-import axios, { AxiosError } from "axios";
 
 import { NextPage } from "next";
 import { NextSeo } from "next-seo";
@@ -9,8 +8,10 @@ import { useEffect } from "react";
 
 import { useQuery } from "react-query";
 
+import axios, { AxiosError } from "axios";
+
 import { Error } from "@interfaces/api";
-import Video from "@interfaces/api/video";
+import VideoAPI from "@interfaces/api/video";
 
 import { videoToVideo } from "@utils/conversions";
 import { useSettings } from "@utils/hooks";
@@ -19,29 +20,35 @@ import Layout from "@components/Layout";
 import Loading from "@components/Loading";
 
 const Watch: NextPage = () => {
-	const router = useRouter();
+	const { query, isReady } = useRouter();
 
-	const videoId = router.query["v"];
+	const videoId = query["v"];
 
 	const [settings] = useSettings();
 
-	const { isLoading, error, data, refetch } = useQuery<
-		Video,
+	const { isLoading, error, data } = useQuery<
+		VideoAPI | null,
 		AxiosError<Error>
-	>(
-		["videoData", videoId],
-		() =>
-			axios
-				.get(`https://${settings.invidiousServer}/api/v1/videos/${videoId}`, {
-					params: {}
-				})
-				.then((res) => res.data),
-		{ enabled: false }
+	>(["videoData", videoId], () =>
+		videoId
+			? axios
+					.get(`https://${settings.invidiousServer}/api/v1/videos/${videoId}`, {
+						params: {}
+					})
+					.then((res) => res.data)
+			: null
 	);
 
-	useEffect(() => {
-		if (videoId) refetch();
-	}, [videoId, refetch]);
+	if (!isReady || isLoading) {
+		return (
+			<>
+				<NextSeo title="Loading video..." />
+				<Layout>
+					<Loading />
+				</Layout>
+			</>
+		);
+	}
 
 	if (!videoId) {
 		return <NotFound />;
@@ -49,14 +56,9 @@ const Watch: NextPage = () => {
 
 	return (
 		<>
-			<NextSeo
-				title={data ? data.title : isLoading ? "Loading video..." : "Not Found"}
-			/>
+			<NextSeo title={data ? data.title : "Not Found"} />
 
-			<Layout>
-				{isLoading && <Loading />}
-				{}
-			</Layout>
+			<Layout>{}</Layout>
 		</>
 	);
 };

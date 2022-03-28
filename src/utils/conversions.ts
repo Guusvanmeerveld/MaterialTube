@@ -1,8 +1,10 @@
-import TrendingAPI from "@interfaces/api/trending";
+import { Quality } from "@interfaces/api";
+import { VideoResult } from "@interfaces/api/search";
+import VideoTrending from "@interfaces/api/trending";
 import VideoAPI from "@interfaces/api/video";
-import Video, { FullVideo } from "@interfaces/video";
+import Video from "@interfaces/video";
 
-export const trendingToVideo = (item: TrendingAPI): Video => {
+export const apiToVideo = (item: VideoTrending | VideoResult): Video => {
 	return {
 		title: item.title,
 		description: {
@@ -24,12 +26,12 @@ export const trendingToVideo = (item: TrendingAPI): Video => {
 		live: item.liveNow,
 		premium: item.premium,
 		thumbnail: item.videoThumbnails.find(
-			(thumbnail) => thumbnail.quality == "maxresdefault"
+			(thumbnail) => thumbnail.quality == Quality.Maxresdefault
 		)?.url as string
 	};
 };
 
-export const videoToVideo = (item: VideoAPI): FullVideo => {
+export const videoToVideo = (item: VideoAPI): Video => {
 	return {
 		title: item.title,
 		views: item.viewCount,

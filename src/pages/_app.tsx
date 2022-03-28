@@ -10,6 +10,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
+import "@src/globals.css";
 import SEO from "@src/next-seo.config";
 import createTheme from "@src/theme";
 

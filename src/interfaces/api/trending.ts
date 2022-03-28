@@ -1,3 +1,5 @@
+import { Thumbnail } from "@interfaces/api";
+
 interface Trending {
 	type: string;
 	title: string;
@@ -5,7 +7,7 @@ interface Trending {
 	author: string;
 	authorId: string;
 	authorUrl: string;
-	videoThumbnails: VideoThumbnail[];
+	videoThumbnails: Thumbnail[];
 	description: string;
 	descriptionHtml: string;
 	viewCount: number;
@@ -15,13 +17,6 @@ interface Trending {
 	liveNow: boolean;
 	premium: boolean;
 	isUpcoming: boolean;
-}
-
-interface VideoThumbnail {
-	quality: string;
-	url: string;
-	width: number;
-	height: number;
 }
 
 export default Trending;

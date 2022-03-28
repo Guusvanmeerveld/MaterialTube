@@ -1,12 +1,7 @@
-import axios, { AxiosError } from "axios";
-
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { FC, useEffect } from "react";
-
-import { useInView } from "react-intersection-observer/";
-import { useQuery } from "react-query";
+import { FC } from "react";
 
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -17,94 +12,71 @@ import CardMedia from "@mui/material/CardMedia";
 import CircularProgress from "@mui/material/CircularProgress";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 
 import { abbreviateNumber } from "@src/utils";
 
-import { Video as VideoModel } from "@interfaces/video";
+import VideoModel from "@interfaces/video";
 
-import { useSettings } from "@utils/hooks";
+import { useAuthorThumbnail } from "@utils/requests";
 
-interface Channel {
-	authorThumbnails: { url: string; width: number; height: number }[];
-}
+const Video: FC<VideoModel> = (video) => {
+	const theme = useTheme();
 
-const Video: FC<VideoModel> = ({
-	thumbnail,
-	title,
-	id,
-	author,
-	views,
-	published
-}) => {
-	const [settings] = useSettings();
-
-	const { isLoading, error, data, refetch, isFetched } = useQuery<
-		Channel,
-		AxiosError<Error>
-	>(
-		["channelData", author.id],
-		() =>
-			axios
-				.get(
-					`https://${settings.invidiousServer}/api/v1/channels/${author.id}`,
-					{
-						params: {
-							fields: ["authorThumbnails"].join(",")
-						}
-					}
-				)
-				.then((res) => res.data),
-		{ enabled: false }
-	);
-
-	const { ref, inView } = useInView({
-		threshold: 0
-	});
+	const {
+		ref,
+		isLoading,
+		thumbnail: authorThumbnail
+	} = useAuthorThumbnail(video.author.id, 100);
 
 	const router = useRouter();
-
-	useEffect(() => {
-		if (inView && !isFetched) refetch();
-	}, [inView, isFetched, refetch]);
 
 	return (
 		<Card sx={{ width: "100%" }}>
 			<CardActionArea
-				onClick={() => router.push({ pathname: "/watch", query: { v: id } })}
+				onClick={() =>
+					router.push({ pathname: "/watch", query: { v: video.id } })
+				}
 			>
 				<CardMedia
 					height="270"
 					component="img"
-					image={thumbnail}
+					image={video.thumbnail}
 					alt="video thumbnail"
 				/>
 				<CardContent>
-					<Tooltip title={title}>
+					<Tooltip title={video.title}>
 						<Typography noWrap gutterBottom variant="h6" component="div">
-							{title}
+							{video.title}
 						</Typography>
 					</Tooltip>
-					<Link passHref href={`/channel/${author.id}`}>
-						<Box ref={ref} sx={{ display: "flex", alignItems: "center" }}>
-							{isLoading && <CircularProgress sx={{ mr: 2 }} />}
-							{data && (
-								<Avatar
-									sx={{ mr: 2 }}
-									alt={author.name}
-									src={
-										data.authorThumbnails.find(
-											(thumbnail) => thumbnail.width == 100
-										)?.url as string
-									}
-								/>
-							)}
-							<Typography color="text.secondary" variant="subtitle1">
-								{author.name}
-							</Typography>
-						</Box>
+					<Link passHref href={`/channel/${video.author.id}`}>
+						<a>
+							<Box ref={ref} sx={{ display: "flex", alignItems: "center" }}>
+								{isLoading && <CircularProgress sx={{ mr: 2 }} />}
+								{!isLoading && (
+									<Avatar
+										sx={{ mr: 2 }}
+										alt={video.author.name}
+										src={authorThumbnail}
+									/>
+								)}
+								<Typography
+									color={theme.palette.text.secondary}
+									variant="subtitle1"
+								>
+									{video.author.name}
+								</Typography>
+							</Box>
+						</a>
 					</Link>
-					<Typography sx={{ mt: 2 }} color="text.secondary" variant="body2">
-						{abbreviateNumber(views)} Views • Published {published.text}
+					<Typography
+						sx={{ mt: 2 }}
+						color={theme.palette.text.secondary}
+						variant="body2"
+					>
+						{abbreviateNumber(video.views)} Views • Published{" "}
+						{video.published.text}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
