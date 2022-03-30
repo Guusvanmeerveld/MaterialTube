@@ -66,7 +66,6 @@ jobs:
         env:
           NODE_ENV: production
           NEXT_TELEMETRY_DISABLED: 1
-          BASE_PATH: /MaterialTube
 
       - name: Deploy to pages
         uses: peaceiris/actions-gh-pages@v3
