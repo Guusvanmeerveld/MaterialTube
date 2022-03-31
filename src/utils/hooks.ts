@@ -4,13 +4,13 @@ import { Dispatch, SetStateAction } from "react";
 
 import { red } from "@mui/material/colors";
 
-import Settings from "@interfaces/settings";
+import Settings, { StorageType } from "@interfaces/settings";
 
 const defaultSettings: Settings = {
 	primaryColor: red[800],
 	accentColor: red[800],
 	invidiousServer: process.env.NEXT_PUBLIC_DEFAULT_SERVER as string,
-	storageType: "local"
+	storageType: StorageType.Local
 };
 
 export const useSettings = (): [

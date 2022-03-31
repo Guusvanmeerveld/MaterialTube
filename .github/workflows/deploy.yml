@@ -13,6 +13,9 @@ on:
       - next.config.js
       - .github/workflows/**
 
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -31,14 +34,11 @@ jobs:
 
       - name: Lint
         run: yarn run lint
-        env:
-          NEXT_TELEMETRY_DISABLED: 1
 
       - name: Build website
         run: yarn run export
         env:
           NODE_ENV: production
-          NEXT_TELEMETRY_DISABLED: 1
 
       - uses: actions/upload-artifact@v3
         with:
@@ -65,7 +65,6 @@ jobs:
         run: yarn run export
         env:
           NODE_ENV: production
-          NEXT_TELEMETRY_DISABLED: 1
 
       - name: Deploy to pages
         uses: peaceiris/actions-gh-pages@v3
