@@ -109,7 +109,7 @@ export const getStaticProps: GetStaticProps = async ({}) => {
 	);
 
 	return {
-		props: { trending }
+		props: { trending: trending.slice(0, 10) }
 	};
 };
 

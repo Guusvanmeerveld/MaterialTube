@@ -9,7 +9,8 @@ import Settings from "@interfaces/settings";
 const defaultSettings: Settings = {
 	primaryColor: red[800],
 	accentColor: red[800],
-	invidiousServer: process.env.NEXT_PUBLIC_DEFAULT_SERVER as string
+	invidiousServer: process.env.NEXT_PUBLIC_DEFAULT_SERVER as string,
+	storageType: "local"
 };
 
 export const useSettings = (): [

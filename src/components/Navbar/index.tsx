@@ -95,19 +95,21 @@ const Navbar: FC = () => {
 						</IconButton>
 
 						<Link href="/" passHref>
-							<Typography
-								variant="h6"
-								component="div"
-								sx={{
-									mr: 2,
-									display: "flex",
-									alignItems: "center",
-									cursor: "pointer"
-								}}
-							>
-								<PlayCircleOutline sx={{ mr: 1 }} />
-								{process.env.NEXT_PUBLIC_APP_NAME}
-							</Typography>
+							<a>
+								<Typography
+									variant="h6"
+									component="div"
+									sx={{
+										mr: 2,
+										display: "flex",
+										alignItems: "center",
+										cursor: "pointer"
+									}}
+								>
+									<PlayCircleOutline sx={{ mr: 1 }} />
+									{process.env.NEXT_PUBLIC_APP_NAME}
+								</Typography>
+							</a>
 						</Link>
 
 						<Box
