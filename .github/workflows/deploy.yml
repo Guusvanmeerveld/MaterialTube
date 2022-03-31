@@ -71,6 +71,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
+          cname: materialtube.guusvanmeerveld.dev
 
   docker:
     runs-on: ubuntu-latest
