@@ -1,0 +1,6 @@
+{
+	"name": "MaterialTube",
+	"description": "MaterialTube is a beautiful and elegant web client for Invidious servers, built using Next.js and MUI.",
+	"repository": "https://github.com/Guusvanmeerveld/MaterialTube",
+	"keywords": ["react", "youtube", "nextjs", "mui", "invidious"]
+}
