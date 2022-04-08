@@ -11,7 +11,7 @@ on:
       - package.json
       - tsconfig.json
       - next.config.js
-      - .github/workflows/**
+      - .github/workflows/deploy.yml
 
 env:
   NEXT_TELEMETRY_DISABLED: 1
