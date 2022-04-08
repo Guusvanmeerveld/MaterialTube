@@ -1,33 +1,48 @@
-# MaterialTube
+<p align="center">
+  <img src="src/svg/logo.svg" height="96"/>
+</p>
 
-![Deploy site](https://github.com/Guusvanmeerveld/MaterialTube/actions/workflows/deploy.yml/badge.svg)
-![CodeQL](https://github.com/Guusvanmeerveld/MaterialTube/actions/workflows/codeql-analysis.yml/badge.svg)
+<h1 align="center">MaterialTube</h1>
 
-![Docker pulls](https://shields.io/docker/pulls/guusvanmeerveld/materialtube)
+<p align="center">
+  <img src="https://github.com/Guusvanmeerveld/MaterialTube/actions/workflows/deploy.yml/badge.svg" alt="Deploy Site" />
+  <img src="https://github.com/Guusvanmeerveld/MaterialTube/actions/workflows/codeql-analysis.yml/badge.svg" alt="CodeQL" />
+  <a href="https://hub.docker.com/r/guusvanmeerveld/materialtube">
+    <img src="https://shields.io/docker/pulls/guusvanmeerveld/materialtube" alt="Docker pulls" />
+  </a>
+</p>
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Guusvanmeerveld/MaterialTube)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Guusvanmeerveld/MaterialTube)
+<p align="center">
+  <a href="https://heroku.com/deploy?template=https://github.com/Guusvanmeerveld/MaterialTube">
+    <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy to Heroku">
+  </a>
+  <a href="https://app.netlify.com/start/deploy?repository=https://github.com/Guusvanmeerveld/MaterialTube">
+    <img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify">
+  </a>
+</p>
 
+<p align="center">
+  MaterialTube is a simple client-side only web-client for Invidious servers. It supports using an Invidious account, but also allows you to store all of your data locally. It's main goal is to provide an even greater level of privacy and improve on the current Invidious UI.
+</p>
 
-MaterialTube is a simple client-side only web-client for Invidious servers. It supports using an Invidious account, but also allows you to store all of your data locally. It's main goal is to provide an even greater level of privacy and improve on the current Invidious UI.
+<p align="center">Made using</p>
 
-Made using
-
-![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+<p align="center">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="Typescript" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+</p>
 
 ## Index
-- [MaterialTube](#materialtube)
-  - [Index](#index)
-  - [(Current) Features](#current-features)
-  - [Configuration](#configuration)
-  - [Deploy](#deploy)
-    - [Using Node.js](#using-nodejs)
-    - [Using Docker](#using-docker)
-      - [Locally](#locally)
-      - [Using Docker Hub](#using-docker-hub)
-    - [Using Heroku](#using-heroku)
-    - [Using Netlify](#using-netlify)
+- [Index](#index)
+- [(Current) Features](#current-features)
+- [Configuration](#configuration)
+- [Deploy](#deploy)
+  - [Using Node.js](#using-nodejs)
+  - [Using Docker](#using-docker)
+    - [Locally](#locally)
+    - [Using Docker Hub](#using-docker-hub)
+  - [Using Heroku](#using-heroku)
+  - [Using Netlify](#using-netlify)
 
 ## (Current) Features
 - Browse trending
