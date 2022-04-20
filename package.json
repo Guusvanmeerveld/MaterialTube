@@ -6,6 +6,9 @@
 	"repository": {
 		"url": "https://github.com/Guusvanmeerveld/MaterialTube"
 	},
+	"cacheDirectories": [
+		".next/cache"
+	],
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
@@ -20,16 +23,19 @@
 		"@mui/icons-material": "^5.5.1",
 		"@mui/material": "^5.5.1",
 		"axios": "^0.26.1",
+		"luxon": "^2.3.1",
 		"next": "^12.1.0",
 		"next-seo": "^5.1.0",
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2",
 		"react-intersection-observer": "^8.33.1",
 		"react-query": "^3.34.16",
-		"use-local-storage-state": "^16.0.1"
+		"use-local-storage-state": "^16.0.1",
+		"zustand": "^3.7.2"
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^3.2.0",
+		"@types/luxon": "^2.3.1",
 		"@types/node": "^17.0.21",
 		"@types/react": "^17.0.40",
 		"@types/react-dom": "^17.0.13",

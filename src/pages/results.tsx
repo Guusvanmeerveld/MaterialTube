@@ -27,7 +27,7 @@ import Result, {
 } from "@interfaces/api/search";
 
 import { apiToVideo } from "@utils/conversions";
-import { useSettings } from "@utils/hooks";
+import useSettings from "@utils/hooks/useSettings";
 
 import Channel from "@components/Channel/Inline";
 import Layout from "@components/Layout";

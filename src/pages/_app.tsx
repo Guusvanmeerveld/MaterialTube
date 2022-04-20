@@ -14,7 +14,7 @@ import "@src/globals.css";
 import SEO from "@src/next-seo.config";
 import createTheme from "@src/theme";
 
-import { useSettings } from "@utils/hooks";
+import useSettings from "@utils/hooks/useSettings";
 
 const queryClient = new QueryClient({
 	defaultOptions: {

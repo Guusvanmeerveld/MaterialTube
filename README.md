@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/svg/logo.svg" height="96"/>
+  <img src="https://raw.githubusercontent.com/Guusvanmeerveld/MaterialTube/master/src/svg/logo.svg" height="96"/>
 </p>
 
 <h1 align="center">MaterialTube</h1>

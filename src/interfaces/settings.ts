@@ -7,6 +7,7 @@ interface Settings {
 	storageType: StorageType;
 	customServer?: string;
 	password?: string;
+	autoPlay: boolean;
 }
 
 export enum StorageType {

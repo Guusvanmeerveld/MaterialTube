@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export const abbreviateNumber = (value: number): string => {
 	const suffixes = ["", "K", "M", "B", "T"];
 
@@ -13,6 +15,12 @@ export const abbreviateNumber = (value: number): string => {
 
 export const formatNumber = (number: number) =>
 	number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+
+export const formatTime = (timestamp: number) =>
+	DateTime.fromSeconds(timestamp)
+		.toUTC()
+		.toFormat("H:mm:ss")
+		.replace(/^(0:)/g, "");
 
 export const toCamelCase = (string: string): string =>
 	string

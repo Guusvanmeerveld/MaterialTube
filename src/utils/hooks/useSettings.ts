@@ -10,10 +10,11 @@ const defaultSettings: Settings = {
 	primaryColor: red[800],
 	accentColor: red[800],
 	invidiousServer: process.env.NEXT_PUBLIC_DEFAULT_SERVER as string,
-	storageType: StorageType.Local
+	storageType: StorageType.Local,
+	autoPlay: true
 };
 
-export const useSettings = (): [
+const useSettings = (): [
 	settings: Settings,
 	setSetting: Dispatch<SetStateAction<Settings>>
 ] => {
@@ -24,3 +25,5 @@ export const useSettings = (): [
 
 	return [settings, setSettings];
 };
+
+export default useSettings;

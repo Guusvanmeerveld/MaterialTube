@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 
 import axios, { AxiosError } from "axios";
 
-import { useSettings } from "@utils/hooks";
+import useSettings from "@utils/hooks/useSettings";
 
 interface Channel {
 	authorThumbnails: { url: string; width: number; height: number }[];

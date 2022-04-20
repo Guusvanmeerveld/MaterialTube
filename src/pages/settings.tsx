@@ -34,7 +34,7 @@ import {
 } from "@interfaces/api/instances";
 import { StorageType } from "@interfaces/settings";
 
-import { useSettings } from "@utils/hooks";
+import useSettings from "@utils/hooks/useSettings";
 
 import Layout from "@components/Layout";
 import MaterialColorPicker from "@components/MaterialColorPicker";

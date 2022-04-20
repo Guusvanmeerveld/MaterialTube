@@ -1,5 +1,6 @@
+import { DateTime } from "luxon";
+
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { FC } from "react";
 
@@ -14,7 +15,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 
-import { abbreviateNumber } from "@src/utils";
+import { abbreviateNumber, formatTime } from "@src/utils";
 
 import VideoModel from "@interfaces/video";
 
@@ -29,61 +30,73 @@ const Video: FC<VideoModel> = (video) => {
 		thumbnail: authorThumbnail
 	} = useAuthorThumbnail(video.author.id, 100);
 
-	const router = useRouter();
-
 	return (
 		<Card sx={{ width: "100%" }}>
-			<CardActionArea
-				onClick={() =>
-					router.push({ pathname: "/watch", query: { v: video.id } })
-				}
-			>
-				<CardMedia
-					height="270"
-					component="img"
-					image={video.thumbnail}
-					alt="video thumbnail"
-				/>
-				<CardContent>
-					<Tooltip title={video.title}>
-						<Typography noWrap gutterBottom variant="h6" component="div">
-							{video.title}
-						</Typography>
-					</Tooltip>
-					<Link passHref href={`/channel/${video.author.id}`}>
-						<a>
-							<Box ref={ref} sx={{ display: "flex", alignItems: "center" }}>
-								{isLoading && <CircularProgress sx={{ mr: 2 }} />}
-								{!isLoading && (
-									<Avatar
-										sx={{ mr: 2 }}
-										alt={video.author.name}
-										src={authorThumbnail}
-									/>
-								)}
-								<Typography
-									color={theme.palette.text.secondary}
-									variant="subtitle1"
-								>
-									{video.author.name}
-								</Typography>
+			<Link href={{ pathname: "/watch", query: { v: video.id } }}>
+				<a>
+					<CardActionArea>
+						<Box sx={{ position: "relative" }}>
+							<CardMedia
+								height="270"
+								component="img"
+								image={video.thumbnail}
+								alt="video thumbnail"
+							/>
+							<Box
+								sx={{
+									p: 0.5,
+									borderRadius: "3px",
+									backgroundColor: "#000",
+									position: "absolute",
+									bottom: 10,
+									right: 10
+								}}
+							>
+								{formatTime(video.length)}
 							</Box>
-						</a>
-					</Link>
-					<Typography
-						sx={{ mt: 2 }}
-						color={theme.palette.text.secondary}
-						variant="body2"
-					>
-						{!(video.live || video.upcoming) && (
-							<>
-								{abbreviateNumber(video.views)} Views • Published{" "}
-								{video.published.text}
-							</>
-						)}
-					</Typography>
-				</CardContent>
-			</CardActionArea>
+						</Box>
+						<CardContent>
+							<Tooltip title={video.title}>
+								<Typography noWrap gutterBottom variant="h6" component="div">
+									{video.title}
+								</Typography>
+							</Tooltip>
+							<Link passHref href={`/channel/${video.author.id}`}>
+								<a>
+									<Box ref={ref} sx={{ display: "flex", alignItems: "center" }}>
+										{isLoading && <CircularProgress sx={{ mr: 2 }} />}
+										{!isLoading && (
+											<Avatar
+												sx={{ mr: 2 }}
+												alt={video.author.name}
+												src={authorThumbnail}
+											/>
+										)}
+										<Typography
+											color={theme.palette.text.secondary}
+											variant="subtitle1"
+										>
+											{video.author.name}
+										</Typography>
+									</Box>
+								</a>
+							</Link>
+							<Typography
+								sx={{ mt: 2 }}
+								color={theme.palette.text.secondary}
+								variant="body2"
+							>
+								{!(video.live || video.upcoming) && (
+									<>
+										{abbreviateNumber(video.views)} Views • Published{" "}
+										{video.published.text}
+									</>
+								)}
+							</Typography>
+						</CardContent>
+					</CardActionArea>
+				</a>
+			</Link>
 		</Card>
 	);
 };

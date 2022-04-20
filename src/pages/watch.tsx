@@ -4,20 +4,22 @@ import { NextPage } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 
-import { useEffect } from "react";
-
 import { useQuery } from "react-query";
 
 import axios, { AxiosError } from "axios";
+
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 
 import { Error } from "@interfaces/api";
 import VideoAPI from "@interfaces/api/video";
 
 import { videoToVideo } from "@utils/conversions";
-import { useSettings } from "@utils/hooks";
+import useSettings from "@utils/hooks/useSettings";
 
 import Layout from "@components/Layout";
 import Loading from "@components/Loading";
+import Player from "@components/Player";
 
 const Watch: NextPage = () => {
 	const { query, isReady } = useRouter();
@@ -58,7 +60,23 @@ const Watch: NextPage = () => {
 		<>
 			<NextSeo title={data ? data.title : "Not Found"} />
 
-			<Layout>{}</Layout>
+			<Layout>
+				{data && (
+					<>
+						<Player
+							streams={data.formatStreams}
+							formats={data.adaptiveFormats}
+							captions={data.captions}
+							length={data.lengthSeconds}
+							videoId={data.videoId}
+							sx={{ height: "75vh", margin: "auto", mt: 2 }}
+						/>
+						<Container sx={{ pt: 2 }}>
+							<Typography variant="h4">{data.title}</Typography>
+						</Container>
+					</>
+				)}
+			</Layout>
 		</>
 	);
 };
