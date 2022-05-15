@@ -60,7 +60,12 @@ const Video: FC<{ video: VideoModel }> = ({ video }) => {
 				</Grid>
 
 				<Grid item md={8} sx={{ padding: 3, width: "100%" }}>
-					<Link href={{ pathname: "/watch", query: { v: video.id } }}>
+					<Link
+						href={{
+							pathname: "/watch",
+							query: { v: video.id }
+						}}
+					>
 						<a>
 							<Tooltip title={video.title}>
 								<Typography gutterBottom noWrap variant="h5">
@@ -99,16 +104,29 @@ const Video: FC<{ video: VideoModel }> = ({ video }) => {
 					</Typography>
 					<Link
 						passHref
-						href={{ pathname: "/channel", query: { c: video.author.id } }}
+						href={{
+							pathname: "/channel",
+							query: {
+								c: video.author.id
+							}
+						}}
 					>
 						<a>
-							<Box ref={ref} sx={{ display: "flex", alignItems: "center" }}>
+							<Box
+								ref={ref}
+								sx={{
+									display: "flex",
+									alignItems: "center"
+								}}
+							>
 								{isLoading && <CircularProgress />}
 								{!isLoading && (
 									<Avatar src={authorThumbnail} alt={video.author.name} />
 								)}
 								<Typography
-									sx={{ ml: 2 }}
+									sx={{
+										ml: 2
+									}}
 									variant="subtitle1"
 									color={theme.palette.text.secondary}
 								>

@@ -18,7 +18,7 @@ const Player: FC<{
 	captions: Caption[];
 	length: number;
 	videoId: string;
-	sx: SxProps;
+	sx?: SxProps;
 }> = ({ formats, length: duration, sx }) => {
 	const [settings] = useSettings();
 
@@ -40,7 +40,9 @@ const Player: FC<{
 	const pausedBy = useVideoState((state) => state.pausedBy);
 
 	const videoStream = formats.find(
-		(format) => format.qualityLabel == "2160p" || format.qualityLabel == "1080p"
+		(format) =>
+			format.qualityLabel == "2160p" ||
+			format.qualityLabel == "1080p"
 	)?.url;
 
 	const audioStream = formats.find((format) =>
@@ -78,7 +80,8 @@ const Player: FC<{
 		const handleFinishedWaiting = (e: Event) => {
 			setWaiting(false);
 
-			if (pausedBy == PausedBy.Player) setPlaying(VideoStatus.Playing);
+			if (pausedBy == PausedBy.Player)
+				setPlaying(VideoStatus.Playing);
 		};
 
 		const onTimeUpdate = () => {
@@ -105,13 +108,19 @@ const Player: FC<{
 			audio.srcObject = null;
 
 			video.removeEventListener("waiting", handleWaiting);
-			video.removeEventListener("canplaythrough", handleFinishedWaiting);
+			video.removeEventListener(
+				"canplaythrough",
+				handleFinishedWaiting
+			);
 			video.removeEventListener("error", handleError);
 			video.removeEventListener("pause", handlePause);
 			video.removeEventListener("timeupdate", onTimeUpdate);
 
 			audio.removeEventListener("waiting", handleWaiting);
-			audio.removeEventListener("canplaythrough", handleFinishedWaiting);
+			audio.removeEventListener(
+				"canplaythrough",
+				handleFinishedWaiting
+			);
 			audio.removeEventListener("pause", handlePause);
 		};
 
@@ -119,18 +128,22 @@ const Player: FC<{
 	}, []);
 
 	useEffect(() => {
-		setPlaying(settings.autoPlay ? VideoStatus.Playing : VideoStatus.Paused);
+		setPlaying(
+			settings.autoPlay
+				? VideoStatus.Playing
+				: VideoStatus.Paused
+		);
 	}, [setPlaying, settings.autoPlay]);
 
 	useEffect(() => {
 		if (!videoRef.current || !audioRef.current) return;
 
-		if (playing == VideoStatus.Paused) {
-			videoRef.current.pause();
-			audioRef.current.pause();
-		} else {
+		if (playing == VideoStatus.Playing && !error && !waiting) {
 			videoRef.current.play();
 			audioRef.current.play();
+		} else {
+			videoRef.current.pause();
+			audioRef.current.pause();
 		}
 	}, [error, playing, waiting]);
 
@@ -172,7 +185,8 @@ const Player: FC<{
 				src={videoStream}
 				ref={videoRef}
 				style={{
-					height: "100%"
+					height: "100%",
+					width: "100%"
 				}}
 				autoPlay={playing == VideoStatus.Playing}
 			>

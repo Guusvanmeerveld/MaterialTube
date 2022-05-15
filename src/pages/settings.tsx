@@ -61,18 +61,35 @@ const InfoModal: FC<{
 				<Typography id="modal-modal-title" variant="h4">
 					Stats for {settings.invidiousServer}
 				</Typography>
-				<Typography id="modal-modal-description" sx={{ mt: 2 }}>
+				<Typography
+					id="modal-modal-description"
+					sx={{ mt: 2 }}
+				>
 					Version: {data.version} <br /> <br />
-					Software name: {data.software.name} <br />
-					Software version: {data.software.version} <br />
-					Software branch: {data.software.branch} <br /> <br />
-					Is accepting registrations: {data.openRegistrations ? "Yes" : "No"}
-					<br /> <br />
-					Total users: {data.usage.users.total} <br />
-					Active in the past half year: {data.usage.users.activeHalfyear}
+					Software name: {data.software.name}{" "}
 					<br />
-					Active in the past month: {data.usage.users.activeMonth} <br /> <br />
-					Stats updated at: {lastUpdated.toLocaleDateString()} -{" "}
+					Software version:{" "}
+					{data.software.version} <br />
+					Software branch: {
+						data.software.branch
+					}{" "}
+					<br /> <br />
+					Is accepting registrations:{" "}
+					{data.openRegistrations ? "Yes" : "No"}
+					<br /> <br />
+					Total users: {
+						data.usage.users.total
+					}{" "}
+					<br />
+					Active in the past half year:{" "}
+					{data.usage.users.activeHalfyear}
+					<br />
+					Active in the past month:{" "}
+					{
+						data.usage.users.activeMonth
+					} <br /> <br />
+					Stats updated at:{" "}
+					{lastUpdated.toLocaleDateString()} -{" "}
 					{lastUpdated.toLocaleTimeString()}
 				</Typography>
 			</ModalBox>
@@ -92,7 +109,13 @@ const Setting: FC<{ title: string; description?: string }> = ({
 			<Box sx={{ flexGrow: 1 }}>
 				<Typography variant="h5">{title}</Typography>
 				{description && (
-					<Typography variant="subtitle1" color={theme.palette.text.secondary}>
+					<Typography
+						variant="subtitle1"
+						color={
+							theme.palette.text
+								.secondary
+						}
+					>
 						{description}
 					</Typography>
 				)}
@@ -127,10 +150,13 @@ const Settings: NextPage = () => {
 	const invidiousServerResponse = useMutation<Stats, unknown, string>(
 		"invidiousInstance",
 		(server) =>
-			axios.get(`https://${server}/api/v1/stats`).then((res) => res.data)
+			axios
+				.get(`https://${server}/api/v1/stats`)
+				.then((res) => res.data)
 	);
 
-	const allowsRegistrations = invidiousServerResponse.data?.openRegistrations;
+	const allowsRegistrations =
+		invidiousServerResponse.data?.openRegistrations;
 
 	return (
 		<>
@@ -146,7 +172,9 @@ const Settings: NextPage = () => {
 
 					<Divider sx={{ mb: 4 }} />
 
-					<Typography variant="h4">Theme</Typography>
+					<Typography variant="h4">
+						Theme
+					</Typography>
 
 					<Setting
 						title="General Theme"
@@ -157,58 +185,129 @@ const Settings: NextPage = () => {
 							color="primary"
 							aria-label="outlined default button group"
 						>
-							<Button onClick={() => setSetting("theme", "light")}>
+							<Button
+								onClick={() =>
+									setSetting(
+										"theme",
+										"light"
+									)
+								}
+							>
 								Light
 							</Button>
-							<Button onClick={() => setSetting("theme")}>System</Button>
-							<Button onClick={() => setSetting("theme", "dark")}>Dark</Button>
+							<Button
+								onClick={() =>
+									setSetting(
+										"theme"
+									)
+								}
+							>
+								System
+							</Button>
+							<Button
+								onClick={() =>
+									setSetting(
+										"theme",
+										"dark"
+									)
+								}
+							>
+								Dark
+							</Button>
 						</ButtonGroup>
 					</Setting>
 
 					<Setting title="Primary Color">
-						<ColorBox marginRight={1} color={settings.primaryColor} />
+						<ColorBox
+							marginRight={1}
+							color={
+								settings.primaryColor
+							}
+						/>
 						<Button
-							onClick={() => setPrimaryColorModal(true)}
+							onClick={() =>
+								setPrimaryColorModal(
+									true
+								)
+							}
 							variant="contained"
 						>
 							Pick Color
 						</Button>
 						<MaterialColorPicker
-							setState={setPrimaryColorModal}
-							isOpen={primaryColorModalIsOpen}
-							setColor={(color) => setSetting("primaryColor", color)}
-							selectedColor={settings.primaryColor}
+							setState={
+								setPrimaryColorModal
+							}
+							isOpen={
+								primaryColorModalIsOpen
+							}
+							setColor={(color) =>
+								setSetting(
+									"primaryColor",
+									color
+								)
+							}
+							selectedColor={
+								settings.primaryColor
+							}
 						/>
 					</Setting>
 
 					<Setting title="Accent Color">
-						<ColorBox marginRight={1} color={settings.accentColor} />
+						<ColorBox
+							marginRight={1}
+							color={
+								settings.accentColor
+							}
+						/>
 						<Button
-							onClick={() => setAccentColorModal(true)}
+							onClick={() =>
+								setAccentColorModal(
+									true
+								)
+							}
 							variant="contained"
 						>
 							Pick Color
 						</Button>
 						<MaterialColorPicker
-							setState={setAccentColorModal}
-							isOpen={accentColorModalIsOpen}
-							setColor={(color) => setSetting("accentColor", color)}
-							selectedColor={settings.accentColor}
+							setState={
+								setAccentColorModal
+							}
+							isOpen={
+								accentColorModalIsOpen
+							}
+							setColor={(color) =>
+								setSetting(
+									"accentColor",
+									color
+								)
+							}
+							selectedColor={
+								settings.accentColor
+							}
 						/>
 					</Setting>
 
 					<Divider sx={{ my: 4 }} />
 
-					<Typography variant="h4">Player</Typography>
+					<Typography variant="h4">
+						Player
+					</Typography>
 
 					<Divider sx={{ my: 4 }} />
 
-					<Typography variant="h4">Data</Typography>
+					<Typography variant="h4">
+						Data
+					</Typography>
 
 					<Setting
 						title="Invidious Server"
 						description={`Where to fetch data from ${
-							settings.storageType == "invidious" ? "and login into" : ""
+							settings.storageType ==
+							"invidious"
+								? "and login into"
+								: ""
 						}`}
 					>
 						<Box sx={{ mr: 2 }}>
@@ -218,10 +317,15 @@ const Settings: NextPage = () => {
 									<Refresh
 										sx={{
 											cursor: "pointer",
-											color: theme.palette.text.secondary
+											color: theme
+												.palette
+												.text
+												.secondary
 										}}
 										onClick={() =>
-											invidiousServerResponse.mutate(settings.invidiousServer)
+											invidiousServerResponse.mutate(
+												settings.invidiousServer
+											)
 										}
 									/>
 								)}
@@ -229,50 +333,111 @@ const Settings: NextPage = () => {
 								!invidiousServerResponse.isLoading && (
 									<>
 										<Done
-											onClick={() => setModalState(true)}
-											sx={{ color: green[800], cursor: "pointer" }}
+											onClick={() =>
+												setModalState(
+													true
+												)
+											}
+											sx={{
+												color: green[800],
+												cursor: "pointer"
+											}}
 										/>
 										<InfoModal
-											modalIsOpen={modalIsOpen}
-											setModalState={setModalState}
-											data={invidiousServerResponse.data!}
+											modalIsOpen={
+												modalIsOpen
+											}
+											setModalState={
+												setModalState
+											}
+											data={
+												invidiousServerResponse.data!
+											}
 										/>
 									</>
 								)}
 
 							{invidiousServerResponse.error && (
-								<Error sx={{ color: red[800] }} />
+								<Error
+									sx={{
+										color: red[800]
+									}}
+								/>
 							)}
-							{invidiousServerResponse.isLoading && <CircularProgress />}
+							{invidiousServerResponse.isLoading && (
+								<CircularProgress />
+							)}
 						</Box>
-						<FormControl sx={{ minWidth: 200 }}>
-							<InputLabel id="server-select-label">Server</InputLabel>
+						<FormControl
+							sx={{ minWidth: 200 }}
+						>
+							<InputLabel id="server-select-label">
+								Server
+							</InputLabel>
 							<Select
 								labelId="server-select-label"
 								id="server-select"
-								value={settings.invidiousServer}
+								value={
+									settings.invidiousServer
+								}
 								label="Server"
-								onChange={(e) => {
-									const server = e.target.value;
+								onChange={(
+									e
+								) => {
+									const server =
+										e
+											.target
+											.value;
 
-									invidiousServerResponse.mutate(server);
+									invidiousServerResponse.mutate(
+										server
+									);
 
-									setSetting("invidiousServer", server);
+									setSetting(
+										"invidiousServer",
+										server
+									);
 								}}
-								MenuProps={{ sx: { maxHeight: 300 } }}
+								MenuProps={{
+									sx: {
+										maxHeight: 300
+									}
+								}}
 							>
 								{instances.data &&
 									instances.data
 										.filter(
-											([, server]) =>
-												server.type != ServerInstanceType.Onion &&
-												server.api == true
+											([
+												,
+												server
+											]) =>
+												server.type !=
+													ServerInstanceType.Onion &&
+												server.api ==
+													true
 										)
-										.map(([uri, server]) => (
-											<MenuItem key={uri} value={uri}>
-												{server.flag} {uri}
-											</MenuItem>
-										))}
+										.map(
+											([
+												uri,
+												server
+											]) => (
+												<MenuItem
+													key={
+														uri
+													}
+													value={
+														uri
+													}
+												>
+													{
+														server.flag
+													}{" "}
+													{
+														uri
+													}
+												</MenuItem>
+											)
+										)}
 							</Select>
 						</FormControl>
 					</Setting>
@@ -281,22 +446,43 @@ const Settings: NextPage = () => {
 						title="Data Storage Location"
 						description="Where your personal data will be stored"
 					>
-						<FormControl sx={{ minWidth: 200 }}>
-							<InputLabel id="location-select-label">Location</InputLabel>
+						<FormControl
+							sx={{ minWidth: 200 }}
+						>
+							<InputLabel id="location-select-label">
+								Location
+							</InputLabel>
 							<Select
 								labelId="location-select-label"
 								id="location-select"
-								value={settings.storageType}
+								value={
+									settings.storageType
+								}
 								label="Location"
-								onChange={(e) => {
-									const location = e.target.value;
+								onChange={(
+									e
+								) => {
+									const location =
+										e
+											.target
+											.value;
 
-									setSetting("storageType", location);
+									setSetting(
+										"storageType",
+										location
+									);
 								}}
-								MenuProps={{ sx: { maxHeight: 300 } }}
+								MenuProps={{
+									sx: {
+										maxHeight: 300
+									}
+								}}
 							>
 								{[
-									{ name: "Locally", value: StorageType.Local },
+									{
+										name: "Locally",
+										value: StorageType.Local
+									},
 									{
 										name: "Invidious server using auth",
 										value: StorageType.Invidious
@@ -305,43 +491,69 @@ const Settings: NextPage = () => {
 										name: `A custom ${process.env.NEXT_PUBLIC_APP_NAME} auth server`,
 										value: StorageType.RemoteServer
 									}
-								].map((location, i) => (
-									<MenuItem key={i} value={location.value}>
-										{location.name}
-									</MenuItem>
-								))}
+								].map(
+									(
+										location,
+										i
+									) => (
+										<MenuItem
+											key={
+												i
+											}
+											value={
+												location.value
+											}
+										>
+											{
+												location.name
+											}
+										</MenuItem>
+									)
+								)}
 							</Select>
 						</FormControl>
 					</Setting>
 
-					{settings.storageType != StorageType.Local && (
+					{settings.storageType !=
+						StorageType.Local && (
 						<>
-							{settings.storageType == "invidious" && allowsRegistrations && (
-								<Setting
-									title="Username"
-									description="The username for your Invidious account"
-								>
-									<TextField label="Username" color="primary" />
-								</Setting>
-							)}
+							{settings.storageType ==
+								"invidious" &&
+								allowsRegistrations && (
+									<Setting
+										title="Username"
+										description="The username for your Invidious account"
+									>
+										<TextField
+											label="Username"
+											color="primary"
+										/>
+									</Setting>
+								)}
 
-							{settings.storageType == StorageType.RemoteServer && (
+							{settings.storageType ==
+								StorageType.RemoteServer && (
 								<Setting
 									title="Server address"
 									description={`The address for your ${process.env.NEXT_PUBLIC_APP_NAME} auth server`}
 								>
-									<TextField label="Server adress" color="primary" />
+									<TextField
+										label="Server adress"
+										color="primary"
+									/>
 								</Setting>
 							)}
 
 							<Setting
 								title={
-									settings.storageType == StorageType.Invidious
+									settings.storageType ==
+									StorageType.Invidious
 										? "Password"
 										: "Passphrase"
 								}
 								description={
-									settings.storageType == StorageType.Invidious
+									settings.storageType ==
+									StorageType.Invidious
 										? "The password for your invidious account"
 										: "The passphrase for your account"
 								}
@@ -349,7 +561,8 @@ const Settings: NextPage = () => {
 								<TextField
 									type="password"
 									label={
-										settings.storageType == StorageType.Invidious
+										settings.storageType ==
+										StorageType.Invidious
 											? "Password"
 											: "Passphrase"
 									}

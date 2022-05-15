@@ -16,7 +16,10 @@ const Time: FC<{
 	const progress = useVideoState((state) => state.progress);
 
 	return (
-		<Typography variant="subtitle1" color={theme.palette.text.secondary}>
+		<Typography
+			variant="subtitle1"
+			color={theme.palette.text.secondary}
+		>
 			{formatTime(Math.round(progress))}
 			<> / </>
 			{formatTime(duration)}

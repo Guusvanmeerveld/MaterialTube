@@ -15,9 +15,12 @@ const NotFound: NextPage = () => {
 			/>
 			<Layout>
 				<Box sx={{ mt: 5, textAlign: "center" }}>
-					<Typography variant="h3">Page not found</Typography>
+					<Typography variant="h3">
+						Page not found
+					</Typography>
 					<Typography variant="h4">
-						The page may have been moved or deleted.
+						The page may have been moved or
+						deleted.
 					</Typography>
 				</Box>
 			</Layout>
