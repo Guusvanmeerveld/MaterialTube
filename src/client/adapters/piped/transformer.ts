@@ -26,7 +26,7 @@ export default class Transformer {
 				views: video.views,
 				id: videoId,
 				uploaded: new Date(video.uploaded),
-				thumbnails: [{ url: video.thumbnail }],
+				thumbnail: video.thumbnail,
 				title: video.title,
 				author: { id: channelId, name: video.uploaderName }
 			};

@@ -5,21 +5,5 @@
 	"printWidth": 80,
 	"arrowParens": "always",
 	"importOrderSeparation": true,
-	"importOrder": [
-		"^next.*",
-		"^react$",
-		"^react.*",
-		"^axios.*",
-		"^@emotion/.*",
-		"^@mui/material/.*",
-		"^@mui/.*",
-		"^@src/.*",
-		"^@models/.*",
-		"^@interfaces/.*",
-		"^@utils/.*",
-		"^@components/.*",
-		".*sass$",
-		".*css$",
-		"^@svg/.*"
-	]
+	"importOrder": ["^next./", "^@nextui-org/."]
 }

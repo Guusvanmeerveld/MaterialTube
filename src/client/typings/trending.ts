@@ -1,8 +1,6 @@
-import { Thumbnail } from "./thumbnail";
-
 export interface TrendingVideo {
 	title: string;
-	thumbnails: Thumbnail[];
+	thumbnail: string;
 	id: string;
 	author: {
 		name: string;
