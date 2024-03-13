@@ -31,7 +31,7 @@ export const VideoCard: Component<{ data: TrendingVideo }> = ({
 							{video.title}
 						</p>
 						<div className="flex flex-row gap-2 justify-start overflow-scroll">
-							<p className="text-small tracking-tight text-default-400">
+							<p className="text-small font-semibold tracking-tight text-default-400">
 								{video.author.name}
 							</p>
 							<p className="text-small tracking-tight text-default-400">

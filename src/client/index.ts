@@ -3,7 +3,8 @@ import { TrendingVideo } from "./typings/trending";
 import InvidiousAdapter from "./adapters/invidious";
 import PipedAdapter from "./adapters/piped";
 
-import Adapter, { ApiType } from "./adapters";
+import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
+import { Suggestions } from "./typings/search/suggestions";
 
 export interface RemoteApi {
 	type: ApiType;
@@ -24,7 +25,7 @@ export default class Client {
 		this.apis = apis.map((api) => ({ ...api, score: 0 }));
 	}
 
-	private getAdapterForApiType(apiType: ApiType): Adapter {
+	private findAdapterForApiType(apiType: ApiType): Adapter {
 		const adapter = this.adapters.find((adapter) => adapter.apiType == apiType);
 
 		if (adapter === undefined)
@@ -39,11 +40,23 @@ export default class Client {
 		return this.apis[randomIndex];
 	}
 
-	public async getTrending(region: string): Promise<TrendingVideo[]> {
+	private getBestAdapter(): ConnectedAdapter {
 		const api = this.getBestApi();
 
-		const adapter = this.getAdapterForApiType(api.type);
+		const adapter = this.findAdapterForApiType(api.type);
 
-		return await adapter.connect(api.baseUrl).getTrending(region);
+		return adapter.connect(api.baseUrl);
+	}
+
+	public async getTrending(region: string): Promise<TrendingVideo[]> {
+		const adapter = this.getBestAdapter();
+
+		return await adapter.getTrending(region);
+	}
+
+	public async getSearchSuggestions(query: string): Promise<Suggestions> {
+		const adapter = this.getBestAdapter();
+
+		return await adapter.getSearchSuggestions(query);
 	}
 }
