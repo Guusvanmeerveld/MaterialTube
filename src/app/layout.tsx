@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Component } from "@/typings/component";
+import { Elements } from "./elements";
 
 export const metadata: Metadata = {
 	title: "MaterialTube client",
@@ -14,7 +15,9 @@ const RootLayout: Component = ({ children }) => {
 	return (
 		<html lang="en" className="dark">
 			<body>
-				<Providers>{children}</Providers>
+				<Providers>
+					<Elements>{children}</Elements>
+				</Providers>
 			</body>
 		</html>
 	);
