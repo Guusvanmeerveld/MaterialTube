@@ -1,3 +1,4 @@
+import z from "zod";
 import ky from "ky";
 
 import Adapter, { ApiType } from "@/client/adapters";
@@ -5,8 +6,9 @@ import Adapter, { ApiType } from "@/client/adapters";
 import Trending, { TrendingModel } from "./typings/trending";
 
 import Transformer from "./transformer";
+import { Suggestions } from "@/client/typings/search/suggestions";
 
-export const getTrending = async (
+const getTrending = async (
 	apiBaseUrl: string,
 	region = "US"
 ): Promise<Trending[]> => {
@@ -23,6 +25,23 @@ export const getTrending = async (
 	return data;
 };
 
+const getSearchSuggestions = async (
+	apiBaseUrl: string,
+	query: string
+): Promise<Suggestions> => {
+	const url = new URL("suggestions", apiBaseUrl);
+
+	const response = await ky.get(url, {
+		searchParams: { query: query }
+	});
+
+	const json = await response.json();
+
+	const data = z.string().array().parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Piped,
 
@@ -30,6 +49,10 @@ const adapter: Adapter = {
 		return {
 			getTrending(region) {
 				return getTrending(url, region).then(Transformer.trending);
+			},
+
+			getSearchSuggestions(query) {
+				return getSearchSuggestions(url, query);
 			}
 		};
 	}

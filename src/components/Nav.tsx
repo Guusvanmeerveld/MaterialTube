@@ -12,6 +12,7 @@ import { Button } from "@nextui-org/button";
 
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { Search } from "./Search";
 
 export const Nav: Component = () => {
 	const navItems = [

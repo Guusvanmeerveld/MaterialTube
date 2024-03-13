@@ -1,14 +1,20 @@
 import ky from "ky";
 
 import Trending, { TrendingModel } from "./typings/trending";
+import Suggestions, { SuggestionsModel } from "./typings/search/suggestions";
+
 import Adapter, { ApiType } from "@/client/adapters";
+
 import Transformer from "./transformer";
 
-const apiPath = (path: string): string => `/api/v1/${path}`;
+import path from "path";
+
+const apiPath = (...paths: string[]): string =>
+	path.join("api", "v1", ...paths);
 
 export type TrendingVideoType = "music" | "gaming" | "news" | "movies";
 
-export const getTrending = async (
+const getTrending = async (
 	baseUrl: string,
 	region?: string,
 	type?: TrendingVideoType
@@ -32,6 +38,23 @@ export const getTrending = async (
 	return data;
 };
 
+const getSearchSuggestions = async (
+	baseUrl: string,
+	query: string
+): Promise<Suggestions> => {
+	const url = new URL(apiPath("search", "suggestions"), baseUrl);
+
+	const response = await ky.get(url, {
+		searchParams: { q: query }
+	});
+
+	const json = await response.json();
+
+	const data = SuggestionsModel.parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Invidious,
 
@@ -39,6 +62,10 @@ const adapter: Adapter = {
 		return {
 			getTrending(region) {
 				return getTrending(url, region).then(Transformer.trending);
+			},
+
+			getSearchSuggestions(query) {
+				return getSearchSuggestions(url, query).then(Transformer.suggestions);
 			}
 		};
 	}

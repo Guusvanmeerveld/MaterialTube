@@ -1,6 +1,8 @@
 import { TrendingVideo } from "@/client/typings/trending";
 
 import InvidiousTrending from "./typings/trending";
+import InvidiousSuggestions from "./typings/search/suggestions";
+import { Suggestions } from "@/client/typings/search/suggestions";
 
 export default class Transformer {
 	public static trending(data: InvidiousTrending[]): TrendingVideo[] {
@@ -27,5 +29,9 @@ export default class Transformer {
 				views: video.viewCount
 			};
 		});
+	}
+
+	public static suggestions(data: InvidiousSuggestions): Suggestions {
+		return data.suggestions;
 	}
 }
