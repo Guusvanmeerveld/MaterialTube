@@ -42,7 +42,7 @@ export const Trending: Component = ({}) => {
 			{data && (
 				<div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 					{data.map((video) => (
-						<VideoCard data={video} />
+						<VideoCard key={video.id} data={video} />
 					))}
 				</div>
 			)}

@@ -10,7 +10,7 @@ export const VideoCard: Component<{ data: TrendingVideo }> = ({
 	data: video
 }) => {
 	return (
-		<Link key={video.id} href={`/watch?v=${video.id}`}>
+		<Link href={`/watch?v=${video.id}`}>
 			<Card radius="lg">
 				<CardBody>
 					<Image
