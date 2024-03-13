@@ -1,0 +1,73 @@
+kind: pipeline
+type: docker
+name: test
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: Test the newest commit
+    image: node:lts-alpine
+    volumes:
+      - name: cache
+        path: /drone/src/node_modules
+    commands:
+      - yarn install
+      - yarn lint
+      - yarn test-build
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/drone/cache/node_modules
+
+---
+kind: pipeline
+type: docker
+name: build-linux-amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: Build Dockerfile and push to Dockerhub
+    image: plugins/docker
+    settings:
+      repo: guusvanmeerveld/materialtube
+      tags:
+        - latest
+        - latest-amd64
+      platforms: linux/amd64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+depends_on:
+  - test
+
+---
+kind: pipeline
+type: docker
+name: build-linux-arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: Build Dockerfile and push to Dockerhub
+    image: plugins/docker
+    settings:
+      repo: guusvanmeerveld/materialtube
+      tags: latest-arm64
+      platforms: linux/arm64
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+
+depends_on:
+  - test
