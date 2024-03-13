@@ -4,7 +4,8 @@ import { Card, CardFooter, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import Link from "next/link";
-import formatNumber from "@/utils/formatNumbers";
+import formatViewCount from "@/utils/formatViewCount";
+import formatDuration from "@/utils/formatDuration";
 
 export const VideoCard: Component<{ data: TrendingVideo }> = ({
 	data: video
@@ -21,7 +22,7 @@ export const VideoCard: Component<{ data: TrendingVideo }> = ({
 						width={600}
 					/>
 					<p className="text-small rounded-md z-10 absolute bottom-5 right-5 bg-content2 p-1">
-						{video.duration}
+						{formatDuration(video.duration)}
 					</p>
 				</CardBody>
 				<Divider />
@@ -39,7 +40,7 @@ export const VideoCard: Component<{ data: TrendingVideo }> = ({
 							</p>
 
 							<p className="text-small tracking-tight text-default-400">
-								Views: {formatNumber(video.views)}
+								Views: {formatViewCount(video.views)}
 							</p>
 						</div>
 					</div>

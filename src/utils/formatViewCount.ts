@@ -1,4 +1,4 @@
-const formatNumber = (num: number): string => {
+const formatViewCount = (num: number): string => {
 	// Nine Zeroes for Billions
 	return Math.abs(num) >= 1.0e9
 		? (Math.abs(num) / 1.0e9).toPrecision(3) + "B"
@@ -11,4 +11,4 @@ const formatNumber = (num: number): string => {
 		: Math.abs(num).toString();
 };
 
-export default formatNumber;
+export default formatViewCount;
