@@ -2931,6 +2931,30 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tanstack/query-core@5.27.5":
+  version "5.27.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.27.5.tgz#de4ede2094d490d0147e943212fcda51f09c0f69"
+  integrity sha512-HuYOo46NhzNX1SwXCmLf/Skr8B7T56cDHUN+iOhnu7+GOkUMThda64GwZpAqQzBT8TOTBQo6RQaNe0gi3Gi2fw==
+
+"@tanstack/query-devtools@5.27.8":
+  version "5.27.8"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.27.8.tgz#fa886ae72d0fe9fe5932af12ba0ba3ff484a1224"
+  integrity sha512-K94gnqvEe6TsDvi8eZYP2JrnQJOIymhVXRR+Xa0xcsryNqG+PeMIDmQQqjwIqbDq36qyUlPAyT6LxXVvVv1Nyw==
+
+"@tanstack/react-query-devtools@^5.27.8":
+  version "5.27.8"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.27.8.tgz#eac277afb80e077566ffba85278b8ce4632bac10"
+  integrity sha512-nWttSF5qhRxyIYh0D9ybZHgAWCOdsBNZf2s0EskYpAxDDrF3lgf/xTzPPzxoX7Z14bxKruVUEpwjQWZg3f/Z7g==
+  dependencies:
+    "@tanstack/query-devtools" "5.27.8"
+
+"@tanstack/react-query@^5.27.5":
+  version "5.27.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.27.5.tgz#2a431c28931bd821d9d96eaf7c6e59b4257ce023"
+  integrity sha512-VcuQo4CYRGsPsD8/rj9e4WnXN6eU4GKmAs0Yd9a1hLSx6DxAzRaBdrwu6P9lfjpz8bxaYkZRyb5NI+YtLipoYA==
+  dependencies:
+    "@tanstack/query-core" "5.27.5"
+
 "@types/estree@0.0.39":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
@@ -5536,6 +5560,11 @@ react-dom@^18:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-icons@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-5.0.1.tgz#1694e11bfa2a2888cab47dcc30154ce90485feee"
+  integrity sha512-WqLZJ4bLzlhmsvme6iFdgO8gfZP17rfjYEJ2m9RsZjZ+cc4k1hTzknEz63YS1MeT50kVzoa1Nz36f4BEx+Wigw==
 
 react-is@^16.13.1:
   version "16.13.1"

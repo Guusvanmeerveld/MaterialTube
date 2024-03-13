@@ -1,10 +1,9 @@
-import { Button } from "@nextui-org/button";
-import { Video } from "./Video";
+import { Trending } from "./Trending";
 
-export default function Home() {
+export default function Page() {
 	return (
 		<>
-			<Video />
+			<Trending />
 		</>
 	);
 }
