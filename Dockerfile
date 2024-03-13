@@ -21,7 +21,7 @@ RUN adduser -S nextjs -u 1001
 
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/postcss.config.js ./
-COPY --from=builder /app/tailwind.config.js ./
+COPY --from=builder /app/tailwind.config.ts ./
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
@@ -31,4 +31,4 @@ USER nextjs
 
 EXPOSE 3000
 
-CMD ["yarn", "run", "start:migrate"]
+CMD ["yarn", "run", "start"]
