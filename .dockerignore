@@ -2,7 +2,7 @@
 
 !.env
 !next.config.mjs
-!tailwind.config.js
+!tailwind.config.ts
 !postcss.config.js
 !tsconfig.json
 !package.json
