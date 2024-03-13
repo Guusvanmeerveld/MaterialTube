@@ -18,7 +18,7 @@ export const Nav: Component = () => {
 	const navItems = [
 		{
 			title: "Trending",
-			link: "/"
+			link: "/trending"
 		},
 		{
 			title: "Subscriptions",
