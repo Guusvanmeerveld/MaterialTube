@@ -3676,6 +3676,11 @@ core-js-compat@^3.31.0, core-js-compat@^3.34.0:
   dependencies:
     browserslist "^4.22.3"
 
+country-region-data@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/country-region-data/-/country-region-data-3.0.0.tgz#9251cff57c22e450cbe96a7e50a3a23362d4304a"
+  integrity sha512-jpZwc6coXayi3aAv2HHTC9vhwRJB2zdur+coBlIZo1IVMonzylRR4Asf5j7evtUzdZPODdHrJ8CzEFK6MGUAgg==
+
 cross-spawn@^7.0.0, cross-spawn@^7.0.2:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"

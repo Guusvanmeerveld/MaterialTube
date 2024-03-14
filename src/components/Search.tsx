@@ -12,7 +12,7 @@ export const Search: Component<{ initialQueryValue?: string }> = ({
 }) => {
 	const client = useClient();
 
-	const [searchQuery, setSearchQuery] = useState(initialQueryValue ?? "");
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const [searchQueryDebounced] = useDebounce(searchQuery, 500);
 
@@ -23,8 +23,6 @@ export const Search: Component<{ initialQueryValue?: string }> = ({
 	});
 
 	const handleSubmit: FormEventHandler = (e) => {
-		// e.preventDefault();
-
 		console.log(searchQuery);
 	};
 
