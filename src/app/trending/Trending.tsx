@@ -7,13 +7,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@nextui-org/button";
 
 import { Spacer } from "@nextui-org/spacer";
-import { VideoCard } from "./VideoCard";
+
 import { LoadingPage } from "@/components/LoadingPage";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import getRegionCodes from "@/utils/getRegionCodes";
 import { RegionSwitcher } from "./RegionSwitcher";
 import { defaultRegion } from "@/constants";
+import { Video } from "@/components/Video";
 
 export const Trending: Component = ({}) => {
 	const client = useClient();
@@ -88,7 +89,7 @@ export const Trending: Component = ({}) => {
 					{data && error === null && (
 						<div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 							{data.map((video) => (
-								<VideoCard key={video.id} data={video} />
+								<Video key={video.id} data={video} />
 							))}
 						</div>
 					)}

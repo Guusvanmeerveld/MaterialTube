@@ -1,8 +1,8 @@
 import { Suggestions } from "@/client/typings/search/suggestions";
-import { TrendingVideo } from "@/client/typings/trending";
+import { VideoPreview } from "@/client/typings/trending";
 
 export interface ConnectedAdapter {
-	getTrending(region: string): Promise<TrendingVideo[]>;
+	getTrending(region: string): Promise<VideoPreview[]>;
 
 	getSearchSuggestions(query: string): Promise<Suggestions>;
 }

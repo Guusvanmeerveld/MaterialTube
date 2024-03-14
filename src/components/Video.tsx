@@ -1,4 +1,4 @@
-import { TrendingVideo } from "@/client/typings/trending";
+import { VideoPreview } from "@/client/typings/videoPreview";
 import { Component } from "@/typings/component";
 import { Card, CardFooter, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
@@ -7,9 +7,7 @@ import Link from "next/link";
 import formatViewCount from "@/utils/formatViewCount";
 import formatDuration from "@/utils/formatDuration";
 
-export const VideoCard: Component<{ data: TrendingVideo }> = ({
-	data: video
-}) => {
+export const Video: Component<{ data: VideoPreview }> = ({ data: video }) => {
 	const handleContextMenu = () => {};
 
 	return (

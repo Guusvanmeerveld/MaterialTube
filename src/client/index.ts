@@ -1,4 +1,4 @@
-import { TrendingVideo } from "./typings/trending";
+import { VideoPreview } from "./typings/videoPreview";
 
 import InvidiousAdapter from "./adapters/invidious";
 import PipedAdapter from "./adapters/piped";
@@ -48,7 +48,7 @@ export default class Client {
 		return adapter.connect(api.baseUrl);
 	}
 
-	public async getTrending(region: string): Promise<TrendingVideo[]> {
+	public async getTrending(region: string): Promise<VideoPreview[]> {
 		const adapter = this.getBestAdapter();
 
 		return await adapter.getTrending(region);
