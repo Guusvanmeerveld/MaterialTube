@@ -10,9 +10,17 @@ import formatDuration from "@/utils/formatDuration";
 export const VideoCard: Component<{ data: TrendingVideo }> = ({
 	data: video
 }) => {
+	const handleContextMenu = () => {};
+
 	return (
 		<Link href={`/watch?v=${video.id}`}>
-			<Card radius="lg">
+			<Card
+				radius="lg"
+				onContextMenu={(e) => {
+					e.preventDefault();
+					handleContextMenu();
+				}}
+			>
 				<CardBody>
 					<Image
 						alt={video.title}

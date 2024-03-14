@@ -11,7 +11,9 @@ export const SearchPage: Component = () => {
 
 	return (
 		<>
-			<Search initialQueryValue={query || undefined} />
+			<div className="container mx-auto py-4">
+				<Search initialQueryValue={query || undefined} />
+			</div>
 		</>
 	);
 };
