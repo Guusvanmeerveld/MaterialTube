@@ -1,4 +1,4 @@
-export interface TrendingVideo {
+export interface VideoPreview {
 	title: string;
 	thumbnail: string;
 	id: string;

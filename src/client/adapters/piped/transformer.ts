@@ -1,4 +1,4 @@
-import { TrendingVideo } from "@/client/typings/trending";
+import { VideoPreview } from "@/client/typings/trending";
 
 import PipedTrending from "./typings/trending";
 
@@ -6,7 +6,7 @@ const videoIdRegex = /\/watch\?v=(.+)/;
 const channelIdRegex = /\/channel\/(.+)/;
 
 export default class Transformer {
-	public static trending(data: PipedTrending[]): TrendingVideo[] {
+	public static trending(data: PipedTrending[]): VideoPreview[] {
 		return data.map((video) => {
 			const videoIdMatch = video.url.match(videoIdRegex);
 
