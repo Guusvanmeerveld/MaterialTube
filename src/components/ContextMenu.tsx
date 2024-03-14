@@ -1,23 +1,22 @@
+import useContextMenuStore from "@/hooks/useContextMenuStore";
 import { Component } from "@/typings/component";
-import { Listbox, ListboxItem } from "@nextui-org/listbox";
-
-export interface ContextMenuItem {
-	title: string;
-	key: string;
-	href?: string;
-	onClick?: () => any;
-}
+import { ContextMenuItem } from "@/typings/contextMenu";
 
 export const ContextMenu: Component<{ menu: ContextMenuItem[] }> = ({
-	menu
+	menu,
+	children
 }) => {
+	const showContextMenu = useContextMenuStore((state) => state.showContextMenu);
+
 	return (
-		<Listbox aria-label="Context Menu">
-			{menu.map((item) => (
-				<ListboxItem onClick={item.onClick} key={item.key} href={item.href}>
-					{item.title}
-				</ListboxItem>
-			))}
-		</Listbox>
+		<div
+			onContextMenu={(e) => {
+				e.preventDefault();
+
+				showContextMenu(e.pageX, e.pageY, menu);
+			}}
+		>
+			{children}
+		</div>
 	);
 };
