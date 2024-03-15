@@ -3,15 +3,16 @@ import ky from "ky";
 
 import Adapter, { ApiType } from "@/client/adapters";
 
-import Trending, { TrendingModel } from "./typings/trending";
+import Video, { VideoModel } from "./typings/video";
 
 import Transformer from "./transformer";
 import { Suggestions } from "@/client/typings/search/suggestions";
+import Search, { SearchModel } from "./typings/search";
 
 const getTrending = async (
 	apiBaseUrl: string,
 	region = "US"
-): Promise<Trending[]> => {
+): Promise<Video[]> => {
 	const url = new URL("/trending", apiBaseUrl);
 
 	const response = await ky.get(url, {
@@ -20,7 +21,7 @@ const getTrending = async (
 
 	const json = await response.json();
 
-	const data = TrendingModel.array().parse(json);
+	const data = VideoModel.array().parse(json);
 
 	return data;
 };
@@ -42,17 +43,37 @@ const getSearchSuggestions = async (
 	return data;
 };
 
+const getSearch = async (
+	apiBaseUrl: string,
+	query: string
+): Promise<Search> => {
+	const url = new URL("search", apiBaseUrl);
+
+	const response = await ky.get(url, {
+		searchParams: { q: query, filter: "all" }
+	});
+
+	const json = await response.json();
+
+	const data = SearchModel.parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Piped,
 
 	connect(url) {
 		return {
 			getTrending(region) {
-				return getTrending(url, region).then(Transformer.trending);
+				return getTrending(url, region).then(Transformer.videos);
 			},
 
 			getSearchSuggestions(query) {
 				return getSearchSuggestions(url, query);
+			},
+			getSearch(query) {
+				return getSearch(url, query).then(Transformer.search);
 			}
 		};
 	}

@@ -1,4 +1,4 @@
-import { VideoPreview } from "@/client/typings/videoPreview";
+import { Video as VideoProps } from "@/client/typings/video";
 import { Component } from "@/typings/component";
 import { Card, CardFooter, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
@@ -11,7 +11,7 @@ import formatUploadedTime from "@/utils/formatUploadedTime";
 import { Tooltip } from "@nextui-org/tooltip";
 import { ContextMenuItem } from "@/typings/contextMenu";
 
-export const Video: Component<{ data: VideoPreview }> = ({ data: video }) => {
+export const Video: Component<{ data: VideoProps }> = ({ data: video }) => {
 	const url = `/watch?v=${video.id}`;
 	const channelUrl = `/channel/${video.author.id}`;
 

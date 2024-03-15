@@ -1,10 +1,11 @@
-import { VideoPreview } from "./typings/videoPreview";
+import { Video } from "./typings/video";
 
 import InvidiousAdapter from "./adapters/invidious";
 import PipedAdapter from "./adapters/piped";
 
 import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
 import { Suggestions } from "./typings/search/suggestions";
+import { SearchResults } from "./typings/search";
 
 export interface RemoteApi {
 	type: ApiType;
@@ -48,7 +49,7 @@ export default class Client {
 		return adapter.connect(api.baseUrl);
 	}
 
-	public async getTrending(region: string): Promise<VideoPreview[]> {
+	public async getTrending(region: string): Promise<Video[]> {
 		const adapter = this.getBestAdapter();
 
 		return await adapter.getTrending(region);
@@ -58,5 +59,11 @@ export default class Client {
 		const adapter = this.getBestAdapter();
 
 		return await adapter.getSearchSuggestions(query);
+	}
+
+	public async getSearch(query: string): Promise<SearchResults> {
+		const adapter = this.getBestAdapter();
+
+		return await adapter.getSearch(query);
 	}
 }

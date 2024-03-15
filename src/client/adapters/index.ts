@@ -1,10 +1,12 @@
 import { Suggestions } from "@/client/typings/search/suggestions";
-import { VideoPreview } from "@/client/typings/trending";
+import { Video } from "@/client/typings/video";
+import { SearchResults } from "../typings/search";
 
 export interface ConnectedAdapter {
-	getTrending(region: string): Promise<VideoPreview[]>;
+	getTrending(region: string): Promise<Video[]>;
 
 	getSearchSuggestions(query: string): Promise<Suggestions>;
+	getSearch(query: string): Promise<SearchResults>;
 }
 
 export default interface Adapter {

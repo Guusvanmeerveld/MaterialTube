@@ -1,7 +1,7 @@
 import z from "zod";
 import { ThumbnailModel } from "./thumbnail";
 
-export const TrendingModel = z.object({
+export const VideoModel = z.object({
 	title: z.string(),
 	videoId: z.string(),
 	videoThumbnails: ThumbnailModel.array(),
@@ -23,6 +23,6 @@ export const TrendingModel = z.object({
 	premium: z.boolean()
 });
 
-type Trending = z.infer<typeof TrendingModel>;
+type Video = z.infer<typeof VideoModel>;
 
-export default Trending;
+export default Video;
