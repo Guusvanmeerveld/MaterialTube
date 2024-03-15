@@ -1,35 +1,91 @@
-import { VideoPreview } from "@/client/typings/trending";
+import { Video } from "@/client/typings/video";
+import {
+	ChannelResult,
+	PlaylistResult,
+	SearchResults,
+	VideoResult
+} from "@/client/typings/search";
 
-import PipedTrending from "./typings/trending";
-
-const videoIdRegex = /\/watch\?v=(.+)/;
-const channelIdRegex = /\/channel\/(.+)/;
+import PipedVideo from "./typings/video";
+import PipedSearch from "./typings/search";
+import {
+	parseChannelIdFromUrl,
+	parseVideoIdFromUrl
+} from "@/utils/parseIdFromUrl";
 
 export default class Transformer {
-	public static trending(data: PipedTrending[]): VideoPreview[] {
-		return data.map((video) => {
-			const videoIdMatch = video.url.match(videoIdRegex);
+	public static video(data: PipedVideo): Video {
+		const videoId = parseVideoIdFromUrl(data.url);
 
-			const videoId = videoIdMatch !== null ? videoIdMatch[1] : null;
+		if (videoId === null) throw new Error("Piped: Missing video id");
 
-			if (videoId === null) throw new Error("Piped: Missing trending video id");
+		const channelId = parseChannelIdFromUrl(data.uploaderUrl);
 
-			const channelIdMatch = video.uploaderUrl.match(channelIdRegex);
+		if (channelId === null) throw new Error("Piped: Missing video channelId");
 
-			const channelId = channelIdMatch !== null ? channelIdMatch[1] : null;
+		return {
+			duration: data.duration * 1000,
+			views: data.views,
+			id: videoId,
+			uploaded: new Date(data.uploaded),
+			thumbnail: data.thumbnail,
+			title: data.title,
+			description: "",
+			live: false,
+			author: { id: channelId, name: data.uploaderName }
+		};
+	}
 
-			if (channelId === null)
-				throw new Error("Piped: Missing trending channelId");
+	public static videos(data: PipedVideo[]): Video[] {
+		return data.map(Transformer.video);
+	}
 
-			return {
-				duration: video.duration * 1000,
-				views: video.views,
-				id: videoId,
-				uploaded: new Date(video.uploaded),
-				thumbnail: video.thumbnail,
-				title: video.title,
-				author: { id: channelId, name: video.uploaderName }
-			};
+	public static search(data: PipedSearch): SearchResults {
+		return data.items.map((result) => {
+			switch (result.type) {
+				case "stream":
+					const video: VideoResult = {
+						...Transformer.video(result),
+						type: "video"
+					};
+
+					return video;
+
+				case "channel":
+					const id = parseChannelIdFromUrl(result.url);
+
+					if (id === null) throw new Error("Piped: Missing channelId");
+
+					const channel: ChannelResult = {
+						type: "channel",
+						name: result.name,
+						id: id,
+						thumbnail: result.thumbnail,
+						subscribers: result.subscribers,
+						videos: result.videos,
+						description: result.description
+					};
+
+					return channel;
+
+				case "playlist":
+					const channelId = parseChannelIdFromUrl(result.uploaderUrl);
+
+					if (channelId === null) throw new Error("Piped: Missing channelId");
+
+					const playlist: PlaylistResult = {
+						type: "playlist",
+						title: result.name,
+						author: {
+							name: result.uploaderName,
+							id: channelId
+						},
+						id: result.url,
+						numberOfVideos: result.videos
+					};
+
+					return playlist;
+			}
 		});
 	}
 }

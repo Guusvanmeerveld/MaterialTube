@@ -1,37 +1,98 @@
-import { VideoPreview } from "@/client/typings/trending";
-
-import InvidiousTrending from "./typings/trending";
-import InvidiousSuggestions from "./typings/search/suggestions";
+import { Video } from "@/client/typings/video";
 import { Suggestions } from "@/client/typings/search/suggestions";
+import {
+	ChannelResult,
+	PlaylistResult,
+	SearchResults,
+	VideoResult
+} from "@/client/typings/search";
+
+import InvidiousVideo from "./typings/video";
+import InvidiousSuggestions from "./typings/search/suggestions";
+import InvidiousSearch from "./typings/search";
+import InvidiousThumbnail from "./typings/thumbnail";
 
 export default class Transformer {
-	public static trending(data: InvidiousTrending[]): VideoPreview[] {
-		return data.map((video) => {
-			const thumbnail = video.videoThumbnails.find(
-				(thumbnail) =>
-					thumbnail.quality == "default" ||
-					thumbnail.quality == "medium" ||
-					thumbnail.quality == "middle"
+	private static findBestThumbnail(
+		thumbnails: InvidiousThumbnail[]
+	): string | null {
+		const thumbnail = thumbnails.find(
+			(thumbnail) =>
+				thumbnail.quality == "default" ||
+				thumbnail.quality == "medium" ||
+				thumbnail.quality == "middle"
+		);
+
+		return thumbnail?.url ?? null;
+	}
+
+	public static video(data: InvidiousVideo): Video {
+		const thumbnail = Transformer.findBestThumbnail(data.videoThumbnails);
+
+		if (thumbnail === null)
+			throw new Error(
+				`Invidious: Missing thumbnail for video with id ${data.videoId}`
 			);
 
-			if (thumbnail === undefined)
-				throw new Error(
-					`Invidious: Missing thumbnail for video with id ${video.videoId}`
-				);
+		return {
+			author: { id: data.authorId, name: data.author },
+			duration: data.lengthSeconds * 1000,
+			description: data.description,
+			live: data.liveNow,
+			id: data.videoId,
+			title: data.title,
+			thumbnail: thumbnail,
+			uploaded: new Date(data.published * 1000 ?? 0),
+			views: data.viewCount
+		};
+	}
 
-			return {
-				author: { id: video.authorId, name: video.author },
-				duration: video.lengthSeconds * 1000,
-				id: video.videoId,
-				title: video.title,
-				thumbnail: thumbnail.url,
-				uploaded: new Date(video.published * 1000 ?? 0),
-				views: video.viewCount
-			};
-		});
+	public static videos(data: InvidiousVideo[]): Video[] {
+		return data.map(Transformer.video);
 	}
 
 	public static suggestions(data: InvidiousSuggestions): Suggestions {
 		return data.suggestions;
+	}
+
+	public static search(data: InvidiousSearch): SearchResults {
+		return data.map((result) => {
+			switch (result.type) {
+				case "video":
+					const video: VideoResult = {
+						...Transformer.video(result),
+						type: "video"
+					};
+
+					return video;
+
+				case "channel":
+					const channel: ChannelResult = {
+						type: "channel",
+						name: result.author,
+						id: result.authorId,
+						thumbnail: result.authorThumbnails[0].url,
+						subscribers: result.subCount,
+						videos: result.videoCount,
+						description: result.description
+					};
+
+					return channel;
+
+				case "playlist":
+					const playlist: PlaylistResult = {
+						type: "playlist",
+						title: result.title,
+						author: {
+							name: result.author,
+							id: result.authorId
+						},
+						id: result.playlistId,
+						numberOfVideos: result.videoCount
+					};
+
+					return playlist;
+			}
+		});
 	}
 }

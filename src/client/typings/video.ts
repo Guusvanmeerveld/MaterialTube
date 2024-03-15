@@ -1,15 +1,17 @@
-export interface VideoPreview {
+export interface Video {
 	title: string;
-	thumbnail: string;
 	id: string;
 	author: {
 		name: string;
 		id: string;
 	};
+	thumbnail: string;
+	description: string;
 	/*
 		Duration in milliseconds.
 	*/
 	duration: number;
 	views: number;
 	uploaded: Date;
+	live: boolean;
 }
