@@ -4,17 +4,22 @@ import { useClient } from "@/hooks/useClient";
 import { Component } from "@/typings/component";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
+
+import { FiSearch as SearchIcon } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 
 export const Search: Component<{ initialQueryValue?: string }> = ({
 	initialQueryValue
 }) => {
 	const client = useClient();
 
-	const [searchQuery, setSearchQuery] = useState("");
+	const [searchQuery, setSearchQuery] = useState(initialQueryValue ?? "");
 
-	const [searchQueryDebounced] = useDebounce(searchQuery, 500);
+	const router = useRouter();
+
+	const [searchQueryDebounced] = useDebounce(searchQuery, 250);
 
 	const { isLoading, error, data } = useQuery({
 		queryKey: ["search", "suggestions", searchQueryDebounced],
@@ -22,29 +27,50 @@ export const Search: Component<{ initialQueryValue?: string }> = ({
 		enabled: searchQueryDebounced.length !== 0
 	});
 
-	const handleSubmit: FormEventHandler = (e) => {
-		console.log(searchQuery);
-	};
+	const handleSubmit = useCallback(() => {
+		router.push(`/results?search_query=${searchQuery}`);
+	}, [searchQuery]);
 
-	const suggestions = data ?? [];
+	const suggestions = useMemo(
+		() =>
+			data?.map((suggestion) => ({
+				label: suggestion,
+				value: suggestion
+			})) ?? [],
+		[data]
+	);
 
 	return (
-		<Autocomplete
-			isClearable
-			value={searchQuery}
-			isLoading={isLoading}
-			defaultInputValue={initialQueryValue}
-			onSubmit={handleSubmit}
-			onValueChange={setSearchQuery}
-			label="Search"
-			variant="flat"
-			placeholder="Search for videos"
-		>
-			{suggestions.map((suggestion) => (
-				<AutocompleteItem key={suggestion.toLowerCase()}>
-					{suggestion}
-				</AutocompleteItem>
-			))}
-		</Autocomplete>
+		<form onSubmit={handleSubmit}>
+			<Autocomplete
+				isClearable
+				name="search-bar"
+				value={searchQuery}
+				isLoading={isLoading}
+				defaultInputValue={initialQueryValue}
+				onValueChange={setSearchQuery}
+				startContent={<SearchIcon className="text-xl" />}
+				defaultItems={suggestions}
+				onSelectionChange={(key) => {
+					if (key === null) return;
+
+					setSearchQuery(key.toString());
+					handleSubmit();
+				}}
+				errorMessage={error !== null ? error.toString() : ""}
+				isInvalid={error !== null}
+				required
+				type="text"
+				label="Search"
+				variant="bordered"
+				placeholder="Search for videos"
+			>
+				{(suggestion) => (
+					<AutocompleteItem key={suggestion.value}>
+						{suggestion.label}
+					</AutocompleteItem>
+				)}
+			</Autocomplete>
+		</form>
 	);
 };

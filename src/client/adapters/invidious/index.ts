@@ -56,11 +56,24 @@ const getSearchSuggestions = async (
 	return data;
 };
 
-const getSearch = async (baseUrl: string, query: string): Promise<Search> => {
+export interface SearchOptions {
+	page?: number;
+	sort_by?: "relevance" | "rating" | "upload_date" | "view_count";
+	date?: "hour" | "today" | "week" | "month" | "year";
+	duration?: "short" | "long" | "medium";
+	type?: "video" | "playlist" | "channel" | "movie" | "show" | "all";
+	region?: string;
+}
+
+const getSearch = async (
+	baseUrl: string,
+	query: string,
+	options?: SearchOptions
+): Promise<Search> => {
 	const url = new URL(apiPath("search"), baseUrl);
 
 	const response = await ky.get(url, {
-		searchParams: { q: query }
+		searchParams: { ...options, q: query }
 	});
 
 	const json = await response.json();
@@ -75,15 +88,18 @@ const adapter: Adapter = {
 
 	connect(url) {
 		return {
-			getTrending(region) {
+			async getTrending(region) {
 				return getTrending(url, region).then(Transformer.videos);
 			},
 
-			getSearchSuggestions(query) {
+			async getSearchSuggestions(query) {
 				return getSearchSuggestions(url, query).then(Transformer.suggestions);
 			},
-			getSearch(query) {
-				return getSearch(url, query).then(Transformer.search);
+			async getSearch(query, options) {
+				return getSearch(url, query, {
+					page: options?.page,
+					type: options?.type
+				}).then(Transformer.search);
 			}
 		};
 	}

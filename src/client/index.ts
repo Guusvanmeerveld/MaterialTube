@@ -6,6 +6,7 @@ import PipedAdapter from "./adapters/piped";
 import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
 import { Suggestions } from "./typings/search/suggestions";
 import { SearchResults } from "./typings/search";
+import { SearchOptions } from "./typings/search/options";
 
 export interface RemoteApi {
 	type: ApiType;
@@ -61,9 +62,15 @@ export default class Client {
 		return await adapter.getSearchSuggestions(query);
 	}
 
-	public async getSearch(query: string): Promise<SearchResults> {
+	public async getSearch(
+		query: string,
+		options?: SearchOptions
+	): Promise<SearchResults> {
 		const adapter = this.getBestAdapter();
 
-		return await adapter.getSearch(query);
+		return await adapter.getSearch(query, {
+			page: options?.page ?? 1,
+			type: options?.type ?? "all"
+		});
 	}
 }

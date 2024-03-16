@@ -11,9 +11,19 @@ import formatUploadedTime from "@/utils/formatUploadedTime";
 import { Tooltip } from "@nextui-org/tooltip";
 import { ContextMenuItem } from "@/typings/contextMenu";
 
-export const Video: Component<{ data: VideoProps }> = ({ data: video }) => {
-	const url = `/watch?v=${video.id}`;
-	const channelUrl = `/channel/${video.author.id}`;
+import NextImage from "next/image";
+import { useMemo } from "react";
+
+export const Video: Component<{ data: VideoProps }> = ({ data }) => {
+	const url = `/watch?v=${data.id}`;
+	const channelUrl = `/channel/${data.author.id}`;
+
+	const videoSize = 400;
+	const aspectRatio = 16 / 9;
+
+	const [width, height] = useMemo(() => {
+		return [videoSize * aspectRatio, videoSize];
+	}, [videoSize]);
 
 	const menuItems: ContextMenuItem[] = [
 		{ title: "Go to video", key: "gotoVideo", href: url },
@@ -21,20 +31,20 @@ export const Video: Component<{ data: VideoProps }> = ({ data: video }) => {
 			title: "Copy video id",
 			key: "videoId",
 			onClick: () => {
-				navigator.clipboard.writeText(video.id);
+				navigator.clipboard.writeText(data.id);
 			},
 			showDivider: true
 		},
 		{
 			title: "Open thumbnail",
 			key: "thumbnail",
-			href: video.thumbnail
+			href: data.thumbnail
 		},
 		{
 			title: "Copy thumnail url",
 			key: "thumbnailUrl",
 			onClick: () => {
-				navigator.clipboard.writeText(video.thumbnail);
+				navigator.clipboard.writeText(data.thumbnail);
 			},
 			showDivider: true
 		},
@@ -43,7 +53,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data: video }) => {
 			title: "Copy channel id",
 			key: "channelId",
 			onClick: () => {
-				navigator.clipboard.writeText(video.author.id);
+				navigator.clipboard.writeText(data.author.id);
 			}
 		}
 	];
@@ -54,34 +64,37 @@ export const Video: Component<{ data: VideoProps }> = ({ data: video }) => {
 				<Card radius="lg">
 					<CardBody>
 						<Image
-							alt={video.title}
-							className="object-cover"
-							height={400}
-							src={video.thumbnail}
-							width={600}
+							as={NextImage}
+							height={height}
+							width={width}
+							unoptimized
+							alt={data.title}
+							className="object-contain aspect-video"
+							src={data.thumbnail}
 						/>
+
 						<p className="text-small rounded-md z-10 absolute bottom-5 right-5 bg-content2 p-1">
-							{formatDuration(video.duration)}
+							{formatDuration(data.duration)}
 						</p>
 					</CardBody>
 					<Divider />
 					<CardFooter>
 						<div className="max-w-full">
-							<p title={video.title} className="truncate">
-								{video.title}
+							<p title={data.title} className="truncate">
+								{data.title}
 							</p>
 							<div className="flex flex-row gap-2 justify-start overflow-scroll">
 								<p className="text-small font-semibold tracking-tight text-default-400">
-									{video.author.name}
+									{data.author.name}
 								</p>
-								<Tooltip showArrow content={video.uploaded.toLocaleString()}>
+								<Tooltip showArrow content={data.uploaded.toLocaleString()}>
 									<p className="text-small tracking-tight text-default-400">
-										{formatUploadedTime(video.uploaded)}
+										{formatUploadedTime(data.uploaded)}
 									</p>
 								</Tooltip>
 
 								<p className="text-small tracking-tight text-default-400">
-									Views: {formatViewCount(video.views)}
+									Views: {formatViewCount(data.views)}
 								</p>
 							</div>
 						</div>

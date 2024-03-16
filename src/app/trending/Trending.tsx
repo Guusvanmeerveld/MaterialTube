@@ -15,6 +15,7 @@ import getRegionCodes from "@/utils/getRegionCodes";
 import { RegionSwitcher } from "./RegionSwitcher";
 import { defaultRegion } from "@/constants";
 import { Video } from "@/components/Video";
+import { Container } from "@/components/Container";
 
 export const Trending: Component = ({}) => {
 	const client = useClient();
@@ -64,37 +65,35 @@ export const Trending: Component = ({}) => {
 
 	return (
 		<>
-			{isLoading && !data && <LoadingPage />}
-			{!isLoading && (
-				<div className="container mx-auto px-4 min-h-screen">
-					<div className="flex items-center">
-						<RegionSwitcher currentRegion={region} regions={validRegions} />
-						<Spacer x={4} />
-						<h1 className="text-xl">Trending</h1>
-					</div>
-					{error && (
-						<div className="flex items-center justify-center h-screen">
-							<div className="text-center">
-								<h1 className="text-xl">
-									An error occurred loading the trending page
-								</h1>
-								<h2 className="text-lg">{error.toString()}</h2>
-								<Spacer y={2} />
-								<Button color="primary" onClick={() => refetch()}>
-									Retry
-								</Button>
-							</div>
-						</div>
-					)}
-					{data && error === null && (
-						<div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-							{data.map((video) => (
-								<Video key={video.id} data={video} />
-							))}
-						</div>
-					)}
+			<Container>
+				<div className="flex items-center">
+					<RegionSwitcher currentRegion={region} regions={validRegions} />
+					<Spacer x={4} />
+					<h1 className="text-xl">Trending</h1>
 				</div>
-			)}
+				{isLoading && !data && <LoadingPage />}
+				{error && (
+					<div className="flex-1 flex items-center justify-center">
+						<div className="text-center">
+							<h1 className="text-xl">
+								An error occurred loading the trending page
+							</h1>
+							<h2 className="text-lg">{error.toString()}</h2>
+							<Spacer y={2} />
+							<Button color="primary" onClick={() => refetch()}>
+								Retry
+							</Button>
+						</div>
+					</div>
+				)}
+				{data && error === null && (
+					<div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+						{data.map((video) => (
+							<Video key={video.id} data={video} />
+						))}
+					</div>
+				)}
+			</Container>
 		</>
 	);
 };

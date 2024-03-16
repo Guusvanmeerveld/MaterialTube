@@ -8,6 +8,7 @@ import Video, { VideoModel } from "./typings/video";
 import Transformer from "./transformer";
 import { Suggestions } from "@/client/typings/search/suggestions";
 import Search, { SearchModel } from "./typings/search";
+import path from "path";
 
 const getTrending = async (
 	apiBaseUrl: string,
@@ -43,14 +44,35 @@ const getSearchSuggestions = async (
 	return data;
 };
 
+export type FilterType =
+	| "all"
+	| "videos"
+	| "channels"
+	| "playlists"
+	| "music_videos"
+	| "music_songs"
+	| "music_albums"
+	| "music_playlists"
+	| "music_artists";
+
+export interface SearchOptions {
+	filter?: FilterType;
+	nextpage?: string;
+}
+
 const getSearch = async (
 	apiBaseUrl: string,
-	query: string
+	query: string,
+	options?: SearchOptions
 ): Promise<Search> => {
-	const url = new URL("search", apiBaseUrl);
+	let url: URL;
+
+	if (options?.nextpage)
+		url = new URL(path.join("nextpage", "search"), apiBaseUrl);
+	else url = new URL("search", apiBaseUrl);
 
 	const response = await ky.get(url, {
-		searchParams: { q: query, filter: "all" }
+		searchParams: { ...options, q: query }
 	});
 
 	const json = await response.json();
@@ -65,15 +87,37 @@ const adapter: Adapter = {
 
 	connect(url) {
 		return {
-			getTrending(region) {
+			async getTrending(region) {
 				return getTrending(url, region).then(Transformer.videos);
 			},
 
-			getSearchSuggestions(query) {
+			async getSearchSuggestions(query) {
 				return getSearchSuggestions(url, query);
 			},
-			getSearch(query) {
-				return getSearch(url, query).then(Transformer.search);
+			async getSearch(query, options) {
+				let filter: FilterType;
+
+				switch (options?.type) {
+					default:
+						filter = "all";
+						break;
+
+					case "channel":
+						filter = "channels";
+						break;
+
+					case "playlist":
+						filter = "playlists";
+						break;
+
+					case "video":
+						filter = "videos";
+						break;
+				}
+
+				return getSearch(url, query, { filter: filter }).then(
+					Transformer.search
+				);
 			}
 		};
 	}
