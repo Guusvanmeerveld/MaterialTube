@@ -5,7 +5,7 @@ export const VideoModel = z.object({
 	thumbnail: z.string().url(), // The thumbnail of the video
 	title: z.string(), // The title of the video
 	uploaded: z.number(),
-	uploadedDate: z.string(), // The date the video was uploaded
+	uploadedDate: z.string().nullable(), // The date the video was uploaded
 	uploaderName: z.string(),
 	uploaderAvatar: z.string().url(), // The avatar of the channel of the video
 	uploaderUrl: z.string(), // The URL of the channel of the video

@@ -1,11 +1,11 @@
 import { Suspense } from "react";
-import { SearchPage } from "./SearchPage";
+import { Search } from "./Search";
 
 export default function Page() {
 	return (
 		<>
 			<Suspense>
-				<SearchPage />
+				<Search />
 			</Suspense>
 		</>
 	);

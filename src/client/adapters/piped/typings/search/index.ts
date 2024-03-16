@@ -12,7 +12,7 @@ export const ChannelResultModel = z.object({
 	url: z.string(),
 	name: z.string(),
 	thumbnail: z.string().url(),
-	description: z.string(),
+	description: z.string().nullable(),
 	subscribers: z.number(),
 	videos: z.number(),
 	verified: z.boolean()

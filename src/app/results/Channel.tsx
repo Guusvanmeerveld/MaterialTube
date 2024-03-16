@@ -1,0 +1,42 @@
+import { Component } from "@/typings/component";
+
+import { ChannelResult as ChannelProps } from "@/client/typings/search";
+import { Card, CardBody } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
+import Link from "next/link";
+import NextImage from "next/image";
+import formatViewCount from "@/utils/formatViewCount";
+
+export const Channel: Component<{ data: ChannelProps }> = ({ data }) => {
+	const url = `/channel/${data.id}`;
+
+	const imageSize = 200;
+
+	return (
+		<Link href={url}>
+			<Card>
+				<CardBody>
+					<div className="flex flex-row gap-4">
+						<Image
+							width={imageSize}
+							height={imageSize}
+							src={data.thumbnail}
+							alt={data.name}
+							as={NextImage}
+							unoptimized
+						/>
+
+						<div className="flex-1 flex flex-col">
+							<h1 className="text-lg">{data.name}</h1>
+							<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
+								<h1>Subscribers: {formatViewCount(data.subscribers)}</h1>
+								<h1>Videos: {formatViewCount(data.videos)}</h1>
+							</div>
+							<p className="text-default-600">{data.description}</p>
+						</div>
+					</div>
+				</CardBody>
+			</Card>
+		</Link>
+	);
+};

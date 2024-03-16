@@ -63,7 +63,7 @@ export default class Transformer {
 						thumbnail: result.thumbnail,
 						subscribers: result.subscribers,
 						videos: result.videos,
-						description: result.description
+						description: result.description ?? ""
 					};
 
 					return channel;
