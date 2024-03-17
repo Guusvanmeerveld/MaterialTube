@@ -23,13 +23,16 @@ export const Search: Component<{ initialQueryValue?: string }> = ({
 
 	const { isLoading, error, data } = useQuery({
 		queryKey: ["search", "suggestions", searchQueryDebounced],
-		queryFn: () => client.getSearchSuggestions(searchQueryDebounced),
-		enabled: searchQueryDebounced.length !== 0
+		queryFn: () => {
+			if (searchQueryDebounced.length === 0) return [];
+
+			return client.getSearchSuggestions(searchQueryDebounced);
+		}
 	});
 
-	const handleSubmit = useCallback(() => {
-		router.push(`/results?search_query=${searchQuery}`);
-	}, [searchQuery]);
+	const submit = useCallback((query: string) => {
+		router.push(`/results?search_query=${query}`);
+	}, []);
 
 	const suggestions = useMemo(
 		() =>
@@ -41,21 +44,26 @@ export const Search: Component<{ initialQueryValue?: string }> = ({
 	);
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={() => submit(searchQuery)}>
 			<Autocomplete
 				isClearable
-				name="search-bar"
+				name="search_query"
 				value={searchQuery}
 				isLoading={isLoading}
 				defaultInputValue={initialQueryValue}
 				onValueChange={setSearchQuery}
+				onKeyDown={(e) => {
+					if (e.key === "Enter") {
+						submit(searchQuery);
+					}
+				}}
 				startContent={<SearchIcon className="text-xl" />}
 				defaultItems={suggestions}
 				onSelectionChange={(key) => {
 					if (key === null) return;
 
 					setSearchQuery(key.toString());
-					handleSubmit();
+					submit(key.toString());
 				}}
 				errorMessage={error !== null ? error.toString() : ""}
 				isInvalid={error !== null}

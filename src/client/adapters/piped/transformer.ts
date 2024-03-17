@@ -32,7 +32,11 @@ export default class Transformer {
 			title: data.title,
 			description: "",
 			live: false,
-			author: { id: channelId, name: data.uploaderName }
+			author: {
+				id: channelId,
+				name: data.uploaderName,
+				avatar: data.uploaderAvatar
+			}
 		};
 	}
 

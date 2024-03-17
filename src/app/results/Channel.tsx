@@ -23,14 +23,17 @@ export const Channel: Component<{ data: ChannelProps }> = ({ data }) => {
 							src={data.thumbnail}
 							alt={data.name}
 							as={NextImage}
+							className="rounded-full"
 							unoptimized
 						/>
 
-						<div className="flex-1 flex flex-col">
+						<div className="flex-1 flex flex-col justify-center">
 							<h1 className="text-lg">{data.name}</h1>
 							<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
-								<h1>Subscribers: {formatViewCount(data.subscribers)}</h1>
-								<h1>Videos: {formatViewCount(data.videos)}</h1>
+								<h1>{formatViewCount(data.subscribers)} subscribers</h1>
+								{data.videos !== 0 && (
+									<h1>{formatViewCount(data.videos)} videos</h1>
+								)}
 							</div>
 							<p className="text-default-600">{data.description}</p>
 						</div>
