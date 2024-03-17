@@ -4,6 +4,7 @@ export interface Video {
 	author: {
 		name: string;
 		id: string;
+		avatar?: string;
 	};
 	thumbnail: string;
 	description: string;
