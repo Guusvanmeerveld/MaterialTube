@@ -1,3 +1,5 @@
+"use client";
+
 import { Component } from "@/typings/component";
 import { VideoResult as VideoProps } from "@/client/typings/search";
 import { Card, CardBody } from "@nextui-org/card";

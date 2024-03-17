@@ -18,6 +18,7 @@ export default class Transformer {
 	): string | null {
 		const thumbnail = thumbnails.find(
 			(thumbnail) =>
+				thumbnail.quality == "maxresdefault" ||
 				thumbnail.quality == "default" ||
 				thumbnail.quality == "medium" ||
 				thumbnail.quality == "middle"
@@ -88,7 +89,24 @@ export default class Transformer {
 							id: result.authorId
 						},
 						id: result.playlistId,
-						numberOfVideos: result.videoCount
+						numberOfVideos: result.videoCount,
+						thumbnail: result.playlistThumbnail,
+						videos: result.videos.map((video) => {
+							const thumbnail = Transformer.findBestThumbnail(
+								video.videoThumbnails
+							);
+							if (thumbnail === null)
+								throw new Error(
+									`Invidious: Missing thumbnail for video with id ${video.videoId}`
+								);
+
+							return {
+								title: video.title,
+								id: video.videoId,
+								duration: video.lengthSeconds * 1000,
+								thumbnail: thumbnail
+							};
+						})
 					};
 
 					return playlist;

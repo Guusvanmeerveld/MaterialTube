@@ -46,7 +46,7 @@ export const Search: Component<{ initialQueryValue?: string }> = ({
 	return (
 		<form onSubmit={() => submit(searchQuery)}>
 			<Autocomplete
-				isClearable
+				isClearable={false}
 				name="search_query"
 				value={searchQuery}
 				isLoading={isLoading}

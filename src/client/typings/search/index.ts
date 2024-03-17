@@ -21,6 +21,13 @@ export interface PlaylistResult {
 		id: string;
 	};
 	numberOfVideos: number;
+	thumbnail: string;
+	videos?: {
+		title: string;
+		id: string;
+		duration: number;
+		thumbnail: string;
+	}[];
 }
 
 export type SearchResults = (VideoResult | ChannelResult | PlaylistResult)[];

@@ -37,16 +37,18 @@ export const PlaylistResultModel = z.object({
 	authorUrl: z.string(),
 	authorVerified: z.boolean(),
 	videoCount: z.number(),
-	videos: z.object({
-		title: z.string(),
-		videoId: z.string(),
-		lengthSeconds: z.number(),
-		videoThumbnails: ThumbnailModel.array()
-	})
+	videos: z
+		.object({
+			title: z.string(),
+			videoId: z.string(),
+			lengthSeconds: z.number(),
+			videoThumbnails: ThumbnailModel.array()
+		})
+		.array()
 });
 
 export const SearchModel = z
-	.union([VideoResultModel, ChannelResultModel, PlaylistResultModel])
+	.union([PlaylistResultModel, VideoResultModel, ChannelResultModel])
 	.array();
 
 type Search = z.infer<typeof SearchModel>;

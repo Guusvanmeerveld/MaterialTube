@@ -84,6 +84,7 @@ export default class Transformer {
 							name: result.uploaderName,
 							id: channelId
 						},
+						thumbnail: result.thumbnail,
 						id: result.url,
 						numberOfVideos: result.videos
 					};
