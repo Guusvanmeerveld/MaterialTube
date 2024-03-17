@@ -11,6 +11,7 @@ import { Container } from "@/components/Container";
 import { LoadingPage } from "@/components/LoadingPage";
 import { Button } from "@nextui-org/button";
 import { Video } from "./Video";
+import { Playlist } from "./Playlist";
 
 export const Search: Component = () => {
 	const searchParams = useSearchParams();
@@ -60,8 +61,8 @@ export const Search: Component = () => {
 								case "video":
 									return <Video key={result.id} data={result} />;
 
-								default:
-									break;
+								case "playlist":
+									return <Playlist key={result.id} data={result} />;
 							}
 						})}
 				</div>

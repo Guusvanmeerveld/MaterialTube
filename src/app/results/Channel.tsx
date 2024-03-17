@@ -1,3 +1,5 @@
+"use client";
+
 import { Component } from "@/typings/component";
 
 import { ChannelResult as ChannelProps } from "@/client/typings/search";
