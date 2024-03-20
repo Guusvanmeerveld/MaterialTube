@@ -12,17 +12,13 @@ import formatUploadedTime from "@/utils/formatUploadedTime";
 import { Link } from "@nextui-org/link";
 import NextLink from "next/link";
 import formatDuration from "@/utils/formatDuration";
+import { videoSize } from "@/utils/videoSize";
 
 export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 	const url = `/watch?v=${data.id}`;
 	const channelUrl = `/channel/${data.author.id}`;
 
-	const videoSize = 200;
-	const aspectRatio = 16 / 9;
-
-	const [width, height] = useMemo(() => {
-		return [videoSize * aspectRatio, videoSize];
-	}, [videoSize]);
+	const [width, height] = videoSize([16, 9], 30);
 
 	return (
 		<NextLink href={url}>
@@ -65,6 +61,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 										height={64}
 										src={data.author.avatar}
 										alt={data.author.name}
+										className="rounded-full"
 										as={NextImage}
 										unoptimized
 									/>

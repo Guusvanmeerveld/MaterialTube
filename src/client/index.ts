@@ -68,8 +68,11 @@ export default class Client {
 	): Promise<SearchResults> {
 		const adapter = this.getBestAdapter();
 
+		const pageParam =
+			options?.pageParam?.length === 0 ? undefined : options?.pageParam;
+
 		return await adapter.getSearch(query, {
-			page: options?.page ?? 1,
+			pageParam: pageParam,
 			type: options?.type ?? "all"
 		});
 	}

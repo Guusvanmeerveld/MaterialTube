@@ -4,15 +4,15 @@ import { useClient } from "@/hooks/useClient";
 import { Component } from "@/typings/component";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { FormEventHandler, useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 import { FiSearch as SearchIcon } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 
-export const Search: Component<{ initialQueryValue?: string }> = ({
-	initialQueryValue
-}) => {
+export const Search: Component<{
+	initialQueryValue?: string;
+}> = ({ initialQueryValue }) => {
 	const client = useClient();
 
 	const [searchQuery, setSearchQuery] = useState(initialQueryValue ?? "");
@@ -70,7 +70,7 @@ export const Search: Component<{ initialQueryValue?: string }> = ({
 				required
 				type="text"
 				label="Search"
-				variant="bordered"
+				variant="flat"
 				placeholder="Search for videos"
 			>
 				{(suggestion) => (

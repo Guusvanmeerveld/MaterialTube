@@ -7,8 +7,8 @@ export const useClient = () => {
 	const [client] = useState(
 		() =>
 			new Client([
-				{ baseUrl: "https://invidious.drgns.space", type: ApiType.Invidious }
-				// { baseUrl: "https://pipedapi.kavin.rocks", type: ApiType.Piped }
+				// { baseUrl: "https://invidious.drgns.space", type: ApiType.Invidious }
+				{ baseUrl: "https://pipedapi.kavin.rocks", type: ApiType.Piped }
 			])
 	);
 

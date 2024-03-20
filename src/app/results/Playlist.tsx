@@ -6,19 +6,14 @@ import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import NextLink from "next/link";
 import NextImage from "next/image";
-import { useMemo } from "react";
 import { Link } from "@nextui-org/link";
+import { videoSize } from "@/utils/videoSize";
 
 export const Playlist: Component<{ data: PlaylistProps }> = ({ data }) => {
 	const url = `/playlist/${data.id}`;
 	const channelUrl = `/channel/${data.author.id}`;
 
-	const videoSize = 200;
-	const aspectRatio = 16 / 9;
-
-	const [width, height] = useMemo(() => {
-		return [videoSize * aspectRatio, videoSize];
-	}, [videoSize]);
+	const [width, height] = videoSize([16, 9], 30);
 
 	return (
 		<NextLink href={url}>

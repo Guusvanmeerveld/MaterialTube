@@ -115,9 +115,10 @@ const adapter: Adapter = {
 						break;
 				}
 
-				return getSearch(url, query, { filter: filter }).then(
-					Transformer.search
-				);
+				return getSearch(url, query, {
+					filter: filter,
+					nextpage: options?.pageParam
+				}).then(Transformer.search);
 			}
 		};
 	}

@@ -1,5 +1,5 @@
 export interface SearchOptions {
-	page?: number;
+	pageParam?: string;
 	type?: SearchType;
 }
 

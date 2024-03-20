@@ -96,10 +96,14 @@ const adapter: Adapter = {
 				return getSearchSuggestions(url, query).then(Transformer.suggestions);
 			},
 			async getSearch(query, options) {
-				return getSearch(url, query, {
-					page: options?.page,
+				const page = options?.pageParam ? parseInt(options.pageParam) : 1;
+
+				const items = await getSearch(url, query, {
+					page: page,
 					type: options?.type
 				}).then(Transformer.search);
+
+				return { items: items, nextCursor: (page + 1).toString() };
 			}
 		};
 	}

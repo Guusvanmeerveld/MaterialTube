@@ -45,7 +45,7 @@ export default class Transformer {
 	}
 
 	public static search(data: PipedSearch): SearchResults {
-		return data.items.map((result) => {
+		const items = data.items.map((result) => {
 			switch (result.type) {
 				case "stream":
 					const video: VideoResult = {
@@ -92,5 +92,7 @@ export default class Transformer {
 					return playlist;
 			}
 		});
+
+		return { items, nextCursor: data.nextpage };
 	}
 }
