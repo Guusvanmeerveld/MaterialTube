@@ -35,7 +35,7 @@ export const SearchModel = z.object({
 		.union([VideoResultModel, ChannelResultModel, PlaylistResultModel])
 		.array(),
 	nextpage: z.string(),
-	suggestion: z.string(),
+	suggestion: z.string().nullable(),
 	corrected: z.boolean()
 });
 

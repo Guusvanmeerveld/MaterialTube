@@ -12,18 +12,13 @@ import { Tooltip } from "@nextui-org/tooltip";
 import { ContextMenuItem } from "@/typings/contextMenu";
 
 import NextImage from "next/image";
-import { useMemo } from "react";
+import { videoSize } from "@/utils/videoSize";
 
 export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 	const url = `/watch?v=${data.id}`;
 	const channelUrl = `/channel/${data.author.id}`;
 
-	const videoSize = 400;
-	const aspectRatio = 16 / 9;
-
-	const [width, height] = useMemo(() => {
-		return [videoSize * aspectRatio, videoSize];
-	}, [videoSize]);
+	const [width, height] = videoSize([16, 9], 40);
 
 	const menuItems: ContextMenuItem[] = [
 		{ title: "Go to video", key: "gotoVideo", href: url },
@@ -69,7 +64,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 							width={width}
 							unoptimized
 							alt={data.title}
-							className="object-contain aspect-video"
+							className="object-contain aspect"
 							src={data.thumbnail}
 						/>
 

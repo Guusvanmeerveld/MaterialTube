@@ -30,4 +30,9 @@ export interface PlaylistResult {
 	}[];
 }
 
-export type SearchResults = (VideoResult | ChannelResult | PlaylistResult)[];
+export type SearchItems = (VideoResult | ChannelResult | PlaylistResult)[];
+
+export interface SearchResults {
+	items: SearchItems;
+	nextCursor: string;
+}

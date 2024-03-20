@@ -3,7 +3,7 @@ import { Suggestions } from "@/client/typings/search/suggestions";
 import {
 	ChannelResult,
 	PlaylistResult,
-	SearchResults,
+	SearchItems,
 	VideoResult
 } from "@/client/typings/search";
 
@@ -56,7 +56,7 @@ export default class Transformer {
 		return data.suggestions;
 	}
 
-	public static search(data: InvidiousSearch): SearchResults {
+	public static search(data: InvidiousSearch): SearchItems {
 		return data.map((result) => {
 			switch (result.type) {
 				case "video":
