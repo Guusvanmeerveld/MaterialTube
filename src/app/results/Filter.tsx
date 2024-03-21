@@ -27,15 +27,21 @@ export const Filter: Component<{
 		[]
 	);
 
+	const currentMenuItem = filterMenuItems.find((item) => item.key === filter);
+
 	return (
 		<Dropdown>
 			<DropdownTrigger>
-				<Button className="h-full" variant="bordered" isIconOnly>
-					<FilterIcon className="text-xl" />
+				<Button
+					startContent={<FilterIcon className="text-xl" />}
+					className="h-full"
+					variant="bordered"
+				>
+					{currentMenuItem?.label}
 				</Button>
 			</DropdownTrigger>
 			<DropdownMenu
-				aria-label="Static Actions"
+				aria-label="Filter search results"
 				items={filterMenuItems}
 				selectionMode="single"
 				selectedKeys={[filter]}

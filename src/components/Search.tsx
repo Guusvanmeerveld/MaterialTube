@@ -30,9 +30,9 @@ export const Search: Component<{
 		}
 	});
 
-	const submit = useCallback((query: string) => {
+	const submit = (query: string) => {
 		searchFor(query);
-	}, []);
+	};
 
 	const suggestions = useMemo(
 		() =>

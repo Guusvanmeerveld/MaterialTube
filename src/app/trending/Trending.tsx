@@ -59,7 +59,7 @@ export const Trending: Component = ({}) => {
 			);
 
 		return null;
-	}, [data]);
+	}, [data, region]);
 
 	const error: Error | null = regionError ?? fetchError ?? noDataError ?? null;
 

@@ -52,9 +52,9 @@ export const Playlist: Component<{ data: PlaylistProps }> = ({ data }) => {
 
 							{data.videos && (
 								<div className="flex flex-col gap-1">
-									{data.videos.map((video) => {
-										return <h1>{video.title}</h1>;
-									})}
+									{data.videos.map((video) => (
+										<h1 key={video.id}>{video.title}</h1>
+									))}
 								</div>
 							)}
 						</div>
