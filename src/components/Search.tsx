@@ -8,7 +8,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
 import { FiSearch as SearchIcon } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+import { useSearch } from "@/hooks/useSearch";
 
 export const Search: Component<{
 	initialQueryValue?: string;
@@ -17,7 +17,7 @@ export const Search: Component<{
 
 	const [searchQuery, setSearchQuery] = useState(initialQueryValue ?? "");
 
-	const router = useRouter();
+	const searchFor = useSearch();
 
 	const [searchQueryDebounced] = useDebounce(searchQuery, 250);
 
@@ -31,7 +31,7 @@ export const Search: Component<{
 	});
 
 	const submit = useCallback((query: string) => {
-		router.push(`/results?search_query=${query}`);
+		searchFor(query);
 	}, []);
 
 	const suggestions = useMemo(

@@ -4,7 +4,7 @@ import { Card, CardFooter, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Divider } from "@nextui-org/divider";
 import Link from "next/link";
-import formatViewCount from "@/utils/formatViewCount";
+import formatBigNumber from "@/utils/formatBigNumber";
 import formatDuration from "@/utils/formatDuration";
 import { ContextMenu } from "./ContextMenu";
 import formatUploadedTime from "@/utils/formatUploadedTime";
@@ -89,7 +89,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 								</Tooltip>
 
 								<p className="text-small tracking-tight text-default-400">
-									Views: {formatViewCount(data.views)}
+									Views: {formatBigNumber(data.views)}
 								</p>
 							</div>
 						</div>
