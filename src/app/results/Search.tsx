@@ -68,14 +68,14 @@ export const Search: Component = () => {
 		(filter: SearchType) => {
 			searchFor(query, filter);
 		},
-		[query]
+		[query, searchFor]
 	);
 
 	const handleUserReachedPageEnd = useCallback(
 		(visiblity: boolean) => {
 			if (visiblity && !isFetchingNextPage) fetchNextPage();
 		},
-		[hasNextPage, isFetchingNextPage]
+		[hasNextPage, isFetchingNextPage, fetchNextPage]
 	);
 
 	return (

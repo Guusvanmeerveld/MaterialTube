@@ -20,7 +20,7 @@ const Menu: Component = () => {
 		return () => {
 			window.removeEventListener("click", handleClick);
 		};
-	}, [hide, shouldShow]);
+	}, [handleClick]);
 
 	return (
 		<div
