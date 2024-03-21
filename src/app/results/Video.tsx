@@ -7,7 +7,7 @@ import { Image } from "@nextui-org/image";
 
 import NextImage from "next/image";
 import { useMemo } from "react";
-import formatViewCount from "@/utils/formatViewCount";
+import formatBigNumber from "@/utils/formatBigNumber";
 import formatUploadedTime from "@/utils/formatUploadedTime";
 import { Link } from "@nextui-org/link";
 import NextLink from "next/link";
@@ -47,7 +47,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 						<div className="flex flex-col gap-2">
 							<h1 className="text-xl">{data.title}</h1>
 							<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
-								<h1>{formatViewCount(data.views)} views</h1>
+								<h1>{formatBigNumber(data.views)} views</h1>
 								<h1>{formatUploadedTime(data.uploaded)}</h1>
 							</div>
 							<Link
