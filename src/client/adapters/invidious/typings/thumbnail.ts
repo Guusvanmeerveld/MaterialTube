@@ -12,11 +12,17 @@ const qualityTypes = [
 	"end"
 ] as const;
 
-export const ThumbnailModel = z.object({
-	quality: z.enum(qualityTypes),
-	url: z.string().url(),
+export const AuthorThumbnailModel = z.object({
+	url: z.string(),
 	width: z.number(),
 	height: z.number()
+});
+
+export const ThumbnailModel = z.object({
+	url: z.string().url(),
+	width: z.number(),
+	height: z.number(),
+	quality: z.enum(qualityTypes)
 });
 
 type Thumbnail = z.infer<typeof ThumbnailModel>;

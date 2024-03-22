@@ -1,19 +1,71 @@
 import { Video } from "@/client/typings/video";
-import {
-	ChannelResult,
-	PlaylistResult,
-	SearchResults,
-	VideoResult
-} from "@/client/typings/search";
+import { SearchResults } from "@/client/typings/search";
+import { Stream } from "@/client/typings/stream";
 
 import PipedVideo from "./typings/video";
 import PipedSearch from "./typings/search";
+import PipedStream from "./typings/stream";
+import PipedItem from "./typings/item";
 import {
 	parseChannelIdFromUrl,
 	parseVideoIdFromUrl
 } from "@/utils/parseIdFromUrl";
+import {
+	ChannelItem,
+	Item,
+	PlaylistItem,
+	VideoItem
+} from "@/client/typings/item";
 
 export default class Transformer {
+	private static item(data: PipedItem): Item {
+		switch (data.type) {
+			case "stream":
+				const video: VideoItem = {
+					...Transformer.video(data),
+					type: "video"
+				};
+
+				return video;
+
+			case "channel":
+				const id = parseChannelIdFromUrl(data.url);
+
+				if (id === null) throw new Error("Piped: Missing channelId");
+
+				const channel: ChannelItem = {
+					type: "channel",
+					name: data.name,
+					id: id,
+					thumbnail: data.thumbnail,
+					subscribers: data.subscribers,
+					videos: data.videos,
+					description: data.description ?? ""
+				};
+
+				return channel;
+
+			case "playlist":
+				const channelId = parseChannelIdFromUrl(data.uploaderUrl);
+
+				if (channelId === null) throw new Error("Piped: Missing channelId");
+
+				const playlist: PlaylistItem = {
+					type: "playlist",
+					title: data.name,
+					author: {
+						name: data.uploaderName,
+						id: channelId
+					},
+					thumbnail: data.thumbnail,
+					id: data.url,
+					numberOfVideos: data.videos
+				};
+
+				return playlist;
+		}
+	}
+
 	public static video(data: PipedVideo): Video {
 		const videoId = parseVideoIdFromUrl(data.url);
 
@@ -45,54 +97,37 @@ export default class Transformer {
 	}
 
 	public static search(data: PipedSearch): SearchResults {
-		const items = data.items.map((result) => {
-			switch (result.type) {
-				case "stream":
-					const video: VideoResult = {
-						...Transformer.video(result),
-						type: "video"
-					};
-
-					return video;
-
-				case "channel":
-					const id = parseChannelIdFromUrl(result.url);
-
-					if (id === null) throw new Error("Piped: Missing channelId");
-
-					const channel: ChannelResult = {
-						type: "channel",
-						name: result.name,
-						id: id,
-						thumbnail: result.thumbnail,
-						subscribers: result.subscribers,
-						videos: result.videos,
-						description: result.description ?? ""
-					};
-
-					return channel;
-
-				case "playlist":
-					const channelId = parseChannelIdFromUrl(result.uploaderUrl);
-
-					if (channelId === null) throw new Error("Piped: Missing channelId");
-
-					const playlist: PlaylistResult = {
-						type: "playlist",
-						title: result.name,
-						author: {
-							name: result.uploaderName,
-							id: channelId
-						},
-						thumbnail: result.thumbnail,
-						id: result.url,
-						numberOfVideos: result.videos
-					};
-
-					return playlist;
-			}
-		});
+		const items = data.items.map(Transformer.item);
 
 		return { items, nextCursor: data.nextpage };
+	}
+
+	public static stream(data: PipedStream): Stream {
+		const channelId = parseChannelIdFromUrl(data.uploaderUrl);
+
+		if (channelId === null) throw new Error("Piped: Missing channelId");
+
+		return {
+			category: data.category,
+			keywords: data.tags,
+			dislikes: data.dislikes,
+			likes: data.likes,
+			related: data.relatedStreams.map(Transformer.item),
+			video: {
+				author: {
+					id: channelId,
+					name: data.uploader,
+					avatar: data.uploaderAvatar
+				},
+				description: data.description,
+				duration: data.duration * 1000,
+				id: "",
+				live: data.livestream,
+				thumbnail: data.thumbnailUrl,
+				title: data.title,
+				uploaded: data.uploadDate,
+				views: data.views
+			}
+		};
 	}
 }

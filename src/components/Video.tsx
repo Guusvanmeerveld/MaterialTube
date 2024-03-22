@@ -13,10 +13,10 @@ import { ContextMenuItem } from "@/typings/contextMenu";
 
 import NextImage from "next/image";
 import { videoSize } from "@/utils/videoSize";
+import { channelUrl, videoUrl } from "@/utils/urls";
 
 export const Video: Component<{ data: VideoProps }> = ({ data }) => {
-	const url = `/watch?v=${data.id}`;
-	const channelUrl = `/channel/${data.author.id}`;
+	const url = videoUrl(data.id);
 
 	const [width, height] = videoSize([16, 9], 40);
 
@@ -43,7 +43,11 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 			},
 			showDivider: true
 		},
-		{ title: "Go to channel", key: "gotoChannel", href: channelUrl },
+		{
+			title: "Go to channel",
+			key: "gotoChannel",
+			href: channelUrl(data.author.id)
+		},
 		{
 			title: "Copy channel id",
 			key: "channelId",
