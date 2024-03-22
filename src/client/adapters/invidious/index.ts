@@ -1,15 +1,14 @@
-import ky from "ky";
+import path from "path";
 
-import Video, { VideoModel } from "./typings/video";
-import Suggestions, { SuggestionsModel } from "./typings/search/suggestions";
+import ky from "ky";
 
 import Adapter, { ApiType } from "@/client/adapters";
 
 import Transformer from "./transformer";
-
-import path from "path";
 import Search, { SearchModel } from "./typings/search";
+import Suggestions, { SuggestionsModel } from "./typings/search/suggestions";
 import Stream, { StreamModel } from "./typings/stream";
+import Video, { VideoModel } from "./typings/video";
 
 const apiPath = (...paths: string[]): string =>
 	path.join("api", "v1", ...paths);

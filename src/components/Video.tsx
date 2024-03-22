@@ -1,19 +1,22 @@
-import { Video as VideoProps } from "@/client/typings/video";
-import { Component } from "@/typings/component";
-import { Card, CardFooter, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
-import { Divider } from "@nextui-org/divider";
+import NextImage from "next/image";
 import Link from "next/link";
+
+import { Card, CardBody, CardFooter } from "@nextui-org/card";
+import { Divider } from "@nextui-org/divider";
+import { Image } from "@nextui-org/image";
+import { Tooltip } from "@nextui-org/tooltip";
+
+import { Video as VideoProps } from "@/client/typings/video";
 import formatBigNumber from "@/utils/formatBigNumber";
 import formatDuration from "@/utils/formatDuration";
-import { ContextMenu } from "./ContextMenu";
 import formatUploadedTime from "@/utils/formatUploadedTime";
-import { Tooltip } from "@nextui-org/tooltip";
-import { ContextMenuItem } from "@/typings/contextMenu";
-
-import NextImage from "next/image";
-import { videoSize } from "@/utils/videoSize";
 import { channelUrl, videoUrl } from "@/utils/urls";
+import { videoSize } from "@/utils/videoSize";
+
+import { ContextMenu } from "./ContextMenu";
+
+import { Component } from "@/typings/component";
+import { ContextMenuItem } from "@/typings/contextMenu";
 
 export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 	const url = videoUrl(data.id);

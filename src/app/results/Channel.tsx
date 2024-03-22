@@ -1,13 +1,15 @@
 "use client";
 
-import { Component } from "@/typings/component";
+import NextImage from "next/image";
+import Link from "next/link";
 
-import { ChannelItem } from "@/client/typings/item";
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-import Link from "next/link";
-import NextImage from "next/image";
+
+import { ChannelItem } from "@/client/typings/item";
 import formatBigNumber from "@/utils/formatBigNumber";
+
+import { Component } from "@/typings/component";
 
 export const Channel: Component<{ data: ChannelItem }> = ({ data }) => {
 	const url = `/channel/${data.id}`;

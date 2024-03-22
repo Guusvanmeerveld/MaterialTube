@@ -1,20 +1,20 @@
-import { Video } from "@/client/typings/video";
-import { Suggestions } from "@/client/typings/search/suggestions";
-import { Stream } from "@/client/typings/stream";
-
-import InvidiousVideo from "./typings/video";
-import InvidiousSuggestions from "./typings/search/suggestions";
-import InvidiousSearch from "./typings/search";
-import InvidiousThumbnail from "./typings/thumbnail";
-import InvidiousStream, {
-	RecommendedVideo as InvidiousRecommendedVideo
-} from "./typings/stream";
 import {
 	ChannelItem,
 	Item,
 	PlaylistItem,
 	VideoItem
 } from "@/client/typings/item";
+import { Suggestions } from "@/client/typings/search/suggestions";
+import { Stream } from "@/client/typings/stream";
+import { Video } from "@/client/typings/video";
+
+import InvidiousSearch from "./typings/search";
+import InvidiousSuggestions from "./typings/search/suggestions";
+import InvidiousStream, {
+	RecommendedVideo as InvidiousRecommendedVideo
+} from "./typings/stream";
+import InvidiousThumbnail from "./typings/thumbnail";
+import InvidiousVideo from "./typings/video";
 
 export default class Transformer {
 	private static findBestThumbnail(

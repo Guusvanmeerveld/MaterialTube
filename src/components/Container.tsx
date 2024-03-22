@@ -1,5 +1,6 @@
-import { Component } from "@/typings/component";
 import { navHeight } from "./Nav";
+
+import { Component } from "@/typings/component";
 
 export const Container: Component<{ navbarOffset?: boolean }> = ({
 	children,

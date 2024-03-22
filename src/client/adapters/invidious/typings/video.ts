@@ -1,4 +1,5 @@
 import z from "zod";
+
 import { ThumbnailModel } from "./thumbnail";
 
 export const VideoModel = z.object({

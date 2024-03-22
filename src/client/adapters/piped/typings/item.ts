@@ -1,4 +1,5 @@
 import z from "zod";
+
 import { VideoModel } from "./video";
 
 export const VideoItemModel = z

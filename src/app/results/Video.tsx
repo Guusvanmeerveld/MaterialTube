@@ -1,17 +1,19 @@
 "use client";
 
-import { Component } from "@/typings/component";
-import { VideoItem } from "@/client/typings/item";
+import NextImage from "next/image";
+import NextLink from "next/link";
+
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-
-import NextImage from "next/image";
-import formatBigNumber from "@/utils/formatBigNumber";
-import formatUploadedTime from "@/utils/formatUploadedTime";
 import { Link } from "@nextui-org/link";
-import NextLink from "next/link";
+
+import { VideoItem } from "@/client/typings/item";
+import formatBigNumber from "@/utils/formatBigNumber";
 import formatDuration from "@/utils/formatDuration";
+import formatUploadedTime from "@/utils/formatUploadedTime";
 import { videoSize } from "@/utils/videoSize";
+
+import { Component } from "@/typings/component";
 
 export const Video: Component<{ data: VideoItem }> = ({ data }) => {
 	const url = `/watch?v=${data.id}`;

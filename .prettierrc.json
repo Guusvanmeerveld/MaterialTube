@@ -4,6 +4,26 @@
 	"semi": true,
 	"printWidth": 80,
 	"arrowParens": "always",
-	"importOrderSeparation": true,
-	"importOrder": ["^next./", "^@nextui-org/."]
+	"plugins": ["@ianvs/prettier-plugin-sort-imports"],
+	"importOrder": [
+		".*s?css$",
+		"",
+		"<THIRD_PARTY_MODULES>",
+		"",
+		"^(next/.*)|(react.*)",
+		"",
+		"^@(:?mui|nextui-org)/.*",
+		"",
+		"^@/hooks/.*",
+		"",
+		"^@/(client)|(utils)/.*",
+		"",
+		"^(@/|\\./)components/*",
+		"",
+		"^\\.?\\./.*",
+		"",
+		"<TYPES>",
+		"",
+		"^(@/|\\./)typings/.*"
+	]
 }

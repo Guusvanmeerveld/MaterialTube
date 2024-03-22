@@ -1,21 +1,21 @@
-import { Video } from "@/client/typings/video";
-import { SearchResults } from "@/client/typings/search";
-import { Stream } from "@/client/typings/stream";
-
-import PipedVideo from "./typings/video";
-import PipedSearch from "./typings/search";
-import PipedStream from "./typings/stream";
-import PipedItem from "./typings/item";
-import {
-	parseChannelIdFromUrl,
-	parseVideoIdFromUrl
-} from "@/utils/parseIdFromUrl";
 import {
 	ChannelItem,
 	Item,
 	PlaylistItem,
 	VideoItem
 } from "@/client/typings/item";
+import { SearchResults } from "@/client/typings/search";
+import { Stream } from "@/client/typings/stream";
+import { Video } from "@/client/typings/video";
+import {
+	parseChannelIdFromUrl,
+	parseVideoIdFromUrl
+} from "@/utils/parseIdFromUrl";
+
+import PipedItem from "./typings/item";
+import PipedSearch from "./typings/search";
+import PipedStream from "./typings/stream";
+import PipedVideo from "./typings/video";
 
 export default class Transformer {
 	private static item(data: PipedItem): Item {

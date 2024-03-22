@@ -1,10 +1,12 @@
 "use client";
 
-import { Component } from "@/typings/component";
-import { Region } from "@/utils/getRegionCodes";
+import { useRouter } from "next/navigation";
 
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
-import { useRouter } from "next/navigation";
+
+import { Region } from "@/utils/getRegionCodes";
+
+import { Component } from "@/typings/component";
 
 export const RegionSwitcher: Component<{
 	regions: Region[];

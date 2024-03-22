@@ -1,22 +1,28 @@
 "use client";
 
-import { Search as SearchInput } from "@/components/Search";
-import { useClient } from "@/hooks/useClient";
-import { Component } from "@/typings/component";
-import { Spacer } from "@nextui-org/spacer";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Channel } from "./Channel";
+import { useSearchParams } from "next/navigation";
+import { Fragment, useCallback, useMemo } from "react";
+
+import { Button } from "@nextui-org/button";
+import { Spacer } from "@nextui-org/spacer";
+
+import { useClient } from "@/hooks/useClient";
+import { useSearch } from "@/hooks/useSearch";
+
+import { SearchType, SearchTypeModel } from "@/client/typings/search/options";
+
 import { Container } from "@/components/Container";
 import { LoadingPage } from "@/components/LoadingPage";
-import { Button } from "@nextui-org/button";
-import { Video } from "./Video";
-import { Playlist } from "./Playlist";
-import { Fragment, useCallback, useMemo } from "react";
-import { Loading } from "./Loading";
+import { Search as SearchInput } from "@/components/Search";
+
+import { Channel } from "./Channel";
 import { Filter } from "./Filter";
-import { useSearchParams } from "next/navigation";
-import { SearchType, SearchTypeModel } from "@/client/typings/search/options";
-import { useSearch } from "@/hooks/useSearch";
+import { Loading } from "./Loading";
+import { Playlist } from "./Playlist";
+import { Video } from "./Video";
+
+import { Component } from "@/typings/component";
 
 export const Search: Component = () => {
 	const client = useClient();

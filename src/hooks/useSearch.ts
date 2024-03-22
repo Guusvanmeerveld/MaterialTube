@@ -1,5 +1,6 @@
-import { SearchType } from "@/client/typings/search/options";
 import { useRouter } from "next/navigation";
+
+import { SearchType } from "@/client/typings/search/options";
 
 const searchPathname = "/results";
 

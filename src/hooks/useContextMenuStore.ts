@@ -1,5 +1,6 @@
-import { ContextMenuItem } from "@/typings/contextMenu";
 import { create } from "zustand";
+
+import { ContextMenuItem } from "@/typings/contextMenu";
 
 interface Location {
 	x: number;

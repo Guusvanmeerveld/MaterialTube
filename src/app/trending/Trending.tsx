@@ -1,21 +1,25 @@
 "use client";
 
-import { Component } from "@/typings/component";
-import { useClient } from "@/hooks/useClient";
+import { defaultRegion } from "@/constants";
+
 import { useQuery } from "@tanstack/react-query";
-
-import { Button } from "@nextui-org/button";
-
-import { Spacer } from "@nextui-org/spacer";
-
-import { LoadingPage } from "@/components/LoadingPage";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
+
+import { Button } from "@nextui-org/button";
+import { Spacer } from "@nextui-org/spacer";
+
+import { useClient } from "@/hooks/useClient";
+
 import getRegionCodes from "@/utils/getRegionCodes";
-import { RegionSwitcher } from "./RegionSwitcher";
-import { defaultRegion } from "@/constants";
-import { Video } from "@/components/Video";
+
 import { Container } from "@/components/Container";
+import { LoadingPage } from "@/components/LoadingPage";
+import { Video } from "@/components/Video";
+
+import { RegionSwitcher } from "./RegionSwitcher";
+
+import { Component } from "@/typings/component";
 
 export const Trending: Component = ({}) => {
 	const client = useClient();

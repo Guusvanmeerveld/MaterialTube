@@ -1,17 +1,17 @@
-import { SearchType } from "@/client/typings/search/options";
-import { Component } from "@/typings/component";
-
+import { useMemo } from "react";
 import { FiFilter as FilterIcon } from "react-icons/fi";
 
 import { Button } from "@nextui-org/button";
-
 import {
 	Dropdown,
-	DropdownTrigger,
+	DropdownItem,
 	DropdownMenu,
-	DropdownItem
+	DropdownTrigger
 } from "@nextui-org/dropdown";
-import { useMemo } from "react";
+
+import { SearchType } from "@/client/typings/search/options";
+
+import { Component } from "@/typings/component";
 
 export const Filter: Component<{
 	filter: SearchType;

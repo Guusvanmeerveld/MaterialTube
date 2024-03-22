@@ -1,14 +1,17 @@
 "use client";
 
-import { useClient } from "@/hooks/useClient";
-import { Component } from "@/typings/component";
-import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 
+import { useQuery } from "@tanstack/react-query";
+import { useCallback, useMemo, useState } from "react";
 import { FiSearch as SearchIcon } from "react-icons/fi";
+
+import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
+
+import { useClient } from "@/hooks/useClient";
 import { useSearch } from "@/hooks/useSearch";
+
+import { Component } from "@/typings/component";
 
 export const Search: Component<{
 	initialQueryValue?: string;
