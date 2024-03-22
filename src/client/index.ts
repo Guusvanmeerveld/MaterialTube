@@ -7,6 +7,7 @@ import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
 import { Suggestions } from "./typings/search/suggestions";
 import { SearchResults } from "./typings/search";
 import { SearchOptions } from "./typings/search/options";
+import { Stream } from "./typings/stream";
 
 export interface RemoteApi {
 	type: ApiType;
@@ -75,5 +76,11 @@ export default class Client {
 			pageParam: pageParam,
 			type: options?.type ?? "all"
 		});
+	}
+
+	public async getStream(videoId: string): Promise<Stream> {
+		const adapter = this.getBestAdapter();
+
+		return await adapter.getStream(videoId);
 	}
 }

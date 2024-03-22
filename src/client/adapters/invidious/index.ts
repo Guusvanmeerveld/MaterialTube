@@ -9,6 +9,7 @@ import Transformer from "./transformer";
 
 import path from "path";
 import Search, { SearchModel } from "./typings/search";
+import Stream, { StreamModel } from "./typings/stream";
 
 const apiPath = (...paths: string[]): string =>
 	path.join("api", "v1", ...paths);
@@ -83,6 +84,18 @@ const getSearch = async (
 	return data;
 };
 
+const getVideo = async (baseUrl: string, videoId: string): Promise<Stream> => {
+	const url = new URL(apiPath("videos", videoId), baseUrl);
+
+	const response = await ky.get(url);
+
+	const json = await response.json();
+
+	const data = StreamModel.parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Invidious,
 
@@ -104,6 +117,10 @@ const adapter: Adapter = {
 				}).then(Transformer.search);
 
 				return { items: items, nextCursor: (page + 1).toString() };
+			},
+
+			async getStream(videoId) {
+				return getVideo(url, videoId).then(Transformer.stream);
 			}
 		};
 	}

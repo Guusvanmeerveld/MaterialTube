@@ -1,16 +1,20 @@
 import { Video } from "@/client/typings/video";
 import { Suggestions } from "@/client/typings/search/suggestions";
-import {
-	ChannelResult,
-	PlaylistResult,
-	SearchItems,
-	VideoResult
-} from "@/client/typings/search";
+import { Stream } from "@/client/typings/stream";
 
 import InvidiousVideo from "./typings/video";
 import InvidiousSuggestions from "./typings/search/suggestions";
 import InvidiousSearch from "./typings/search";
 import InvidiousThumbnail from "./typings/thumbnail";
+import InvidiousStream, {
+	RecommendedVideo as InvidiousRecommendedVideo
+} from "./typings/stream";
+import {
+	ChannelItem,
+	Item,
+	PlaylistItem,
+	VideoItem
+} from "@/client/typings/item";
 
 export default class Transformer {
 	private static findBestThumbnail(
@@ -25,6 +29,27 @@ export default class Transformer {
 		);
 
 		return thumbnail?.url ?? null;
+	}
+
+	private static recommendedVideo(
+		data: InvidiousRecommendedVideo
+	): RecommendedVideo {
+		const thumbnail = Transformer.findBestThumbnail(data.videoThumbnails);
+
+		if (thumbnail === null)
+			throw new Error(
+				`Invidious: Missing thumbnail for video with id ${data.videoId}`
+			);
+
+		return {
+			author: { id: data.authorId, name: data.author },
+			duration: data.lengthSeconds * 1000,
+			live: data.liveNow,
+			id: data.videoId,
+			title: data.title,
+			thumbnail: thumbnail,
+			views: data.viewCount
+		};
 	}
 
 	public static video(data: InvidiousVideo): Video {
@@ -56,11 +81,11 @@ export default class Transformer {
 		return data.suggestions;
 	}
 
-	public static search(data: InvidiousSearch): SearchItems {
+	public static search(data: InvidiousSearch): Item[] {
 		return data.map((result) => {
 			switch (result.type) {
 				case "video":
-					const video: VideoResult = {
+					const video: VideoItem = {
 						...Transformer.video(result),
 						type: "video"
 					};
@@ -68,7 +93,7 @@ export default class Transformer {
 					return video;
 
 				case "channel":
-					const channel: ChannelResult = {
+					const channel: ChannelItem = {
 						type: "channel",
 						name: result.author,
 						id: result.authorId,
@@ -81,7 +106,7 @@ export default class Transformer {
 					return channel;
 
 				case "playlist":
-					const playlist: PlaylistResult = {
+					const playlist: PlaylistItem = {
 						type: "playlist",
 						title: result.title,
 						author: {
@@ -112,5 +137,33 @@ export default class Transformer {
 					return playlist;
 			}
 		});
+	}
+
+	public static stream(stream: InvidiousStream): Stream {
+		const thumbnail = Transformer.findBestThumbnail(stream.videoThumbnails);
+
+		if (thumbnail === null)
+			throw new Error(
+				`Invidious: Missing thumbnail for video with id ${stream.videoId}`
+			);
+
+		return {
+			category: stream.genre,
+			dislikes: stream.dislikeCount,
+			likes: stream.likeCount,
+			keywords: stream.keywords,
+			related: stream.recommendedVideos.map(Transformer.recommendedVideo),
+			video: {
+				author: { id: stream.authorId, name: stream.author },
+				description: stream.description,
+				duration: stream.lengthSeconds * 1000,
+				id: stream.videoId,
+				live: stream.liveNow,
+				thumbnail: thumbnail,
+				title: stream.title,
+				uploaded: new Date(stream.published * 1000),
+				views: stream.viewCount
+			}
+		};
 	}
 }

@@ -9,6 +9,7 @@ import Transformer from "./transformer";
 import { Suggestions } from "@/client/typings/search/suggestions";
 import Search, { SearchModel } from "./typings/search";
 import path from "path";
+import Stream, { StreamModel } from "./typings/stream";
 
 const getTrending = async (
 	apiBaseUrl: string,
@@ -82,6 +83,21 @@ const getSearch = async (
 	return data;
 };
 
+const getStream = async (
+	apiBaseUrl: string,
+	videoId: string
+): Promise<Stream> => {
+	const url = new URL(path.join("streams", videoId), apiBaseUrl);
+
+	const response = await ky.get(url);
+
+	const json = await response.json();
+
+	const data = StreamModel.parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Piped,
 
@@ -119,6 +135,10 @@ const adapter: Adapter = {
 					filter: filter,
 					nextpage: options?.pageParam
 				}).then(Transformer.search);
+			},
+
+			async getStream(videoId) {
+				return getStream(url, videoId).then(Transformer.stream);
 			}
 		};
 	}

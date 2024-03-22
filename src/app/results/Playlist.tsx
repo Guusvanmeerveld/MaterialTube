@@ -1,6 +1,6 @@
 "use client";
 
-import { PlaylistResult as PlaylistProps } from "@/client/typings/search";
+import { PlaylistItem } from "@/client/typings/item";
 import { Component } from "@/typings/component";
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
@@ -9,7 +9,7 @@ import NextImage from "next/image";
 import { Link } from "@nextui-org/link";
 import { videoSize } from "@/utils/videoSize";
 
-export const Playlist: Component<{ data: PlaylistProps }> = ({ data }) => {
+export const Playlist: Component<{ data: PlaylistItem }> = ({ data }) => {
 	const url = `/playlist/${data.id}`;
 	const channelUrl = `/channel/${data.author.id}`;
 

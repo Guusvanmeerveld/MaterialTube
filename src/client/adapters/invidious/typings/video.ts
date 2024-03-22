@@ -14,13 +14,13 @@ export const VideoModel = z.object({
 	authorUrl: z.string(),
 
 	published: z.number(),
-	publishedText: z.string(),
+	publishedText: z.string().optional(),
 	description: z.string(),
 	descriptionHtml: z.string(),
 
-	liveNow: z.boolean(),
+	liveNow: z.boolean().optional().default(false),
 	paid: z.boolean().optional().default(false),
-	premium: z.boolean()
+	premium: z.boolean().optional().default(false)
 });
 
 type Video = z.infer<typeof VideoModel>;

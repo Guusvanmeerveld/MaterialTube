@@ -2,14 +2,14 @@
 
 import { Component } from "@/typings/component";
 
-import { ChannelResult as ChannelProps } from "@/client/typings/search";
+import { ChannelItem } from "@/client/typings/item";
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import Link from "next/link";
 import NextImage from "next/image";
 import formatBigNumber from "@/utils/formatBigNumber";
 
-export const Channel: Component<{ data: ChannelProps }> = ({ data }) => {
+export const Channel: Component<{ data: ChannelItem }> = ({ data }) => {
 	const url = `/channel/${data.id}`;
 
 	const imageSize = 200;
