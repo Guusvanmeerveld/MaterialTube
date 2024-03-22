@@ -3,7 +3,7 @@
 import { useDebounce } from "use-debounce";
 
 import { useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FiSearch as SearchIcon } from "react-icons/fi";
 
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
@@ -33,7 +33,7 @@ export const Search: Component<{
 		}
 	});
 
-	const submit = (query: string) => {
+	const submit = (query: string): void => {
 		searchFor(query);
 	};
 

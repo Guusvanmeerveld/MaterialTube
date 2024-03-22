@@ -1,8 +1,9 @@
+import { NextPage } from "next";
 import { Suspense } from "react";
 
 import { Watch } from "./Watch";
 
-export default function Page() {
+const Page: NextPage = () => {
 	return (
 		<>
 			<Suspense>
@@ -10,4 +11,6 @@ export default function Page() {
 			</Suspense>
 		</>
 	);
-}
+};
+
+export default Page;

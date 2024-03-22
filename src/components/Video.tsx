@@ -28,7 +28,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 		{
 			title: "Copy video id",
 			key: "videoId",
-			onClick: () => {
+			onClick: (): void => {
 				navigator.clipboard.writeText(data.id);
 			},
 			showDivider: true
@@ -41,7 +41,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 		{
 			title: "Copy thumnail url",
 			key: "thumbnailUrl",
-			onClick: () => {
+			onClick: (): void => {
 				navigator.clipboard.writeText(data.thumbnail);
 			},
 			showDivider: true
@@ -54,7 +54,7 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 		{
 			title: "Copy channel id",
 			key: "channelId",
-			onClick: () => {
+			onClick: (): void => {
 				navigator.clipboard.writeText(data.author.id);
 			}
 		}

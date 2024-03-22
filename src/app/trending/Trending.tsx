@@ -47,7 +47,7 @@ export const Trending: Component = ({}) => {
 		refetch,
 		data
 	} = useQuery({
-		queryKey: ["trending", region?.code],
+		queryKey: ["trending", region],
 		queryFn: () => {
 			if (region === null) return;
 

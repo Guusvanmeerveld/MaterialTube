@@ -49,7 +49,7 @@ export const Search: Component = () => {
 		data,
 		error: fetchError,
 		fetchNextPage,
-		hasNextPage,
+		// hasNextPage,
 		refetch,
 		isFetching,
 		isFetchingNextPage
@@ -63,7 +63,7 @@ export const Search: Component = () => {
 		},
 		enabled: !!invalidQuery || !!invalidFilter,
 		initialPageParam: "",
-		getNextPageParam: (lastPage, pages) => lastPage.nextCursor
+		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
 
 	const error = invalidQuery ?? invalidFilter ?? fetchError ?? undefined;
@@ -81,7 +81,7 @@ export const Search: Component = () => {
 		(visiblity: boolean) => {
 			if (visiblity && !isFetchingNextPage) fetchNextPage();
 		},
-		[hasNextPage, isFetchingNextPage, fetchNextPage]
+		[isFetchingNextPage, fetchNextPage]
 	);
 
 	return (

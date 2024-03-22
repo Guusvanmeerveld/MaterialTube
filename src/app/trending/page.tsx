@@ -1,10 +1,11 @@
+import { NextPage } from "next";
 import { Suspense } from "react";
 
 import { LoadingPage } from "@/components/LoadingPage";
 
 import { Trending } from "./Trending";
 
-export default function Page() {
+const Page: NextPage = () => {
 	return (
 		<>
 			<Suspense fallback={<LoadingPage />}>
@@ -12,4 +13,6 @@ export default function Page() {
 			</Suspense>
 		</>
 	);
-}
+};
+
+export default Page;

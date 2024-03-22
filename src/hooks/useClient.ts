@@ -3,7 +3,7 @@ import { useState } from "react";
 import Client from "@/client";
 import { ApiType } from "@/client/adapters";
 
-export const useClient = () => {
+export const useClient = (): Client => {
 	const [client] = useState(
 		() =>
 			new Client([
