@@ -31,9 +31,7 @@ export default class Transformer {
 		return thumbnail?.url ?? null;
 	}
 
-	private static recommendedVideo(
-		data: InvidiousRecommendedVideo
-	): RecommendedVideo {
+	private static recommendedVideo(data: InvidiousRecommendedVideo): VideoItem {
 		const thumbnail = Transformer.findBestThumbnail(data.videoThumbnails);
 
 		if (thumbnail === null)
@@ -42,6 +40,8 @@ export default class Transformer {
 			);
 
 		return {
+			type: "video",
+			uploaded: new Date(),
 			author: { id: data.authorId, name: data.author },
 			duration: data.lengthSeconds * 1000,
 			live: data.liveNow,

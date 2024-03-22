@@ -82,7 +82,6 @@ export default class Transformer {
 			uploaded: new Date(data.uploaded),
 			thumbnail: data.thumbnail,
 			title: data.title,
-			description: "",
 			live: false,
 			author: {
 				id: channelId,
