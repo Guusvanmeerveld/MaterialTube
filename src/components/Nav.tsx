@@ -1,17 +1,19 @@
 "use client";
 
-import { Component } from "@/typings/component";
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+
+import { Button } from "@nextui-org/button";
+import { Link } from "@nextui-org/link";
 import {
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem
 } from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
-import { Button } from "@nextui-org/button";
 
-import NextLink from "next/link";
-import { usePathname } from "next/navigation";
+import { Component } from "@/typings/component";
+
 // import { Search } from "./Search";
 
 export const navHeight = 64;

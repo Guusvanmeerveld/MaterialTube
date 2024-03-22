@@ -1,6 +1,8 @@
 import { Suspense } from "react";
-import { Trending } from "./Trending";
+
 import { LoadingPage } from "@/components/LoadingPage";
+
+import { Trending } from "./Trending";
 
 export default function Page() {
 	return (

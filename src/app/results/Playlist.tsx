@@ -1,13 +1,16 @@
 "use client";
 
-import { PlaylistItem } from "@/client/typings/item";
-import { Component } from "@/typings/component";
+import NextImage from "next/image";
+import NextLink from "next/link";
+
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-import NextLink from "next/link";
-import NextImage from "next/image";
 import { Link } from "@nextui-org/link";
+
+import { PlaylistItem } from "@/client/typings/item";
 import { videoSize } from "@/utils/videoSize";
+
+import { Component } from "@/typings/component";
 
 export const Playlist: Component<{ data: PlaylistItem }> = ({ data }) => {
 	const url = `/playlist/${data.id}`;

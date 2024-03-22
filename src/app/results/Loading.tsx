@@ -1,6 +1,8 @@
-import { Component } from "@/typings/component";
-import { CircularProgress } from "@nextui-org/progress";
 import { useVisibility } from "reactjs-visibility";
+
+import { CircularProgress } from "@nextui-org/progress";
+
+import { Component } from "@/typings/component";
 
 export const Loading: Component<{
 	isFetching: boolean;

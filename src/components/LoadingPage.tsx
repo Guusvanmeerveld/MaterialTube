@@ -1,7 +1,8 @@
 "use client";
 
-import { Component } from "@/typings/component";
 import { CircularProgress } from "@nextui-org/progress";
+
+import { Component } from "@/typings/component";
 
 export const LoadingPage: Component = () => {
 	return (

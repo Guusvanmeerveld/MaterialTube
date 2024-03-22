@@ -1,15 +1,15 @@
-import z from "zod";
+import path from "path";
+
 import ky from "ky";
+import z from "zod";
 
 import Adapter, { ApiType } from "@/client/adapters";
-
-import Video, { VideoModel } from "./typings/video";
+import { Suggestions } from "@/client/typings/search/suggestions";
 
 import Transformer from "./transformer";
-import { Suggestions } from "@/client/typings/search/suggestions";
 import Search, { SearchModel } from "./typings/search";
-import path from "path";
 import Stream, { StreamModel } from "./typings/stream";
+import Video, { VideoModel } from "./typings/video";
 
 const getTrending = async (
 	apiBaseUrl: string,

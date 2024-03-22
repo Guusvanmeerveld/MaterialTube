@@ -3,6 +3,7 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import { ContextMenuProvider } from "./ContextMenuProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {

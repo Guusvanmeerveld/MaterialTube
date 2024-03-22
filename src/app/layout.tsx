@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+
 import "./globals.css";
-import { Providers } from "./providers";
-import { Component } from "@/typings/component";
+
 import { Elements } from "./elements";
+import { Providers } from "./providers";
+
+import { Component } from "@/typings/component";
 
 export const metadata: Metadata = {
 	title: "MaterialTube client",

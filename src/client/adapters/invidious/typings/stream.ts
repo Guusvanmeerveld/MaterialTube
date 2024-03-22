@@ -1,6 +1,7 @@
 import z from "zod";
-import { AuthorThumbnailModel, ThumbnailModel } from "./thumbnail";
+
 import { StoryboardModel } from "./storyboard";
+import { AuthorThumbnailModel, ThumbnailModel } from "./thumbnail";
 import { VideoModel } from "./video";
 
 export const AdaptiveFormatModel = z.object({

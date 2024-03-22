@@ -1,9 +1,11 @@
 "use client";
 
-import { useClient } from "@/hooks/useClient";
-import { Component } from "@/typings/component";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
+
+import { useClient } from "@/hooks/useClient";
+
+import { Component } from "@/typings/component";
 
 export const Watch: Component = () => {
 	const client = useClient();

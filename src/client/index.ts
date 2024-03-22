@@ -1,13 +1,11 @@
-import { Video } from "./typings/video";
-
+import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
 import InvidiousAdapter from "./adapters/invidious";
 import PipedAdapter from "./adapters/piped";
-
-import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
-import { Suggestions } from "./typings/search/suggestions";
 import { SearchResults } from "./typings/search";
 import { SearchOptions } from "./typings/search/options";
+import { Suggestions } from "./typings/search/suggestions";
 import { Stream } from "./typings/stream";
+import { Video } from "./typings/video";
 
 export interface RemoteApi {
 	type: ApiType;

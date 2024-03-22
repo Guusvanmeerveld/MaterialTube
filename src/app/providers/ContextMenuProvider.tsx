@@ -1,7 +1,10 @@
-import useContextMenuStore from "@/hooks/useContextMenuStore";
-import { Component } from "@/typings/component";
-import { Listbox, ListboxItem } from "@nextui-org/listbox";
 import { useCallback, useEffect } from "react";
+
+import { Listbox, ListboxItem } from "@nextui-org/listbox";
+
+import useContextMenuStore from "@/hooks/useContextMenuStore";
+
+import { Component } from "@/typings/component";
 
 const Menu: Component = () => {
 	const shouldShow = useContextMenuStore((state) => state.show);
