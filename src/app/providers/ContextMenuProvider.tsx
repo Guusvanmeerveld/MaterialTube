@@ -32,7 +32,7 @@ const Menu: Component = () => {
 				left: location.x,
 				display: shouldShow ? "block" : "none"
 			}}
-			className="bg-background border-small max-w-xs px-1 py-2 rounded-small border-default-200 absolute z-10"
+			className="bg-background border-small max-w-xs rounded-small border-default-200 absolute z-10"
 		>
 			<Listbox aria-label="Context Menu">
 				{menu.map((item) => (
