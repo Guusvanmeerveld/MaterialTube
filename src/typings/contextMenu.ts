@@ -3,5 +3,5 @@ export interface ContextMenuItem {
 	key: string;
 	showDivider?: boolean;
 	href?: string;
-	onClick?: () => any;
+	onClick?: () => unknown;
 }

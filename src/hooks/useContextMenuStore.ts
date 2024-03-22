@@ -19,10 +19,10 @@ const useContextMenuStore = create<ContextMenuStore>((set) => ({
 	show: false,
 	location: { x: 0, y: 0 },
 	items: [],
-	showContextMenu(x, y, items) {
+	showContextMenu: (x, y, items): void => {
 		set({ show: true, location: { x, y }, items });
 	},
-	hide: () => set({ show: false })
+	hide: (): void => set({ show: false })
 }));
 
 export default useContextMenuStore;

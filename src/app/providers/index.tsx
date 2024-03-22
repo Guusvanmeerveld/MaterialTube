@@ -6,10 +6,13 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { ContextMenuProvider } from "./ContextMenuProvider";
 
-export function Providers({ children }: { children: React.ReactNode }) {
-	const queryClient = new QueryClient({
-		defaultOptions: { queries: { retry: false } }
-	});
+import { Component } from "@/typings/component";
+
+const queryClient = new QueryClient({
+	defaultOptions: { queries: { retry: false } }
+});
+
+export const Providers: Component = ({ children }) => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ReactQueryDevtools initialIsOpen={false} />
@@ -18,4 +21,4 @@ export function Providers({ children }: { children: React.ReactNode }) {
 			</NextUIProvider>
 		</QueryClientProvider>
 	);
-}
+};

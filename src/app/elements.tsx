@@ -2,11 +2,13 @@
 
 import { Nav } from "@/components/Nav";
 
-export function Elements({ children }: { children: React.ReactNode }) {
+import { Component } from "@/typings/component";
+
+export const Elements: Component = ({ children }) => {
 	return (
 		<>
 			<Nav />
 			{children}
 		</>
 	);
-}
+};

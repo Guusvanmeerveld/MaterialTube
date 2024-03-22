@@ -10,7 +10,7 @@
 		"",
 		"<THIRD_PARTY_MODULES>",
 		"",
-		"^(next/.*)|(react.*)",
+		"^(next(/.*)?)|(react.*)",
 		"",
 		"^@(:?mui|nextui-org)/.*",
 		"",
