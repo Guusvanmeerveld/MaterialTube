@@ -1,7 +1,7 @@
 import { SearchResults } from "@/client/typings/search";
 import { SearchOptions } from "@/client/typings/search/options";
-import { Stream } from "@/client/typings/search/stream";
 import { Suggestions } from "@/client/typings/search/suggestions";
+import { Stream } from "@/client/typings/stream";
 import { Video } from "@/client/typings/video";
 
 export interface ConnectedAdapter {

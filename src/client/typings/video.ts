@@ -7,7 +7,7 @@ export interface Video {
 		avatar?: string;
 	};
 	thumbnail: string;
-	description: string;
+	description?: string;
 	/*
 		Duration in milliseconds.
 	*/
