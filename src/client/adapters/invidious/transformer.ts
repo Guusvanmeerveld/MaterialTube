@@ -41,7 +41,6 @@ export default class Transformer {
 
 		return {
 			type: "video",
-			uploaded: new Date(),
 			author: { id: data.authorId, name: data.author },
 			duration: data.lengthSeconds * 1000,
 			live: data.liveNow,
@@ -154,7 +153,11 @@ export default class Transformer {
 			keywords: stream.keywords,
 			related: stream.recommendedVideos.map(Transformer.recommendedVideo),
 			video: {
-				author: { id: stream.authorId, name: stream.author },
+				author: {
+					id: stream.authorId,
+					name: stream.author,
+					avatar: stream.authorThumbnails[0].url
+				},
 				description: stream.description,
 				duration: stream.lengthSeconds * 1000,
 				id: stream.videoId,

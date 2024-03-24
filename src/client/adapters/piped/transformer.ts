@@ -46,16 +46,16 @@ export default class Transformer {
 				return channel;
 
 			case "playlist":
-				const channelId = parseChannelIdFromUrl(data.uploaderUrl);
-
-				if (channelId === null) throw new Error("Piped: Missing channelId");
+				const channelId = data.uploaderUrl
+					? parseChannelIdFromUrl(data.uploaderUrl)
+					: null;
 
 				const playlist: PlaylistItem = {
 					type: "playlist",
 					title: data.name,
 					author: {
 						name: data.uploaderName,
-						id: channelId
+						id: channelId ?? undefined
 					},
 					thumbnail: data.thumbnail,
 					id: data.url,
@@ -116,7 +116,8 @@ export default class Transformer {
 				author: {
 					id: channelId,
 					name: data.uploader,
-					avatar: data.uploaderAvatar
+					avatar: data.uploaderAvatar,
+					subscribers: data.uploaderSubscriberCount
 				},
 				description: data.description,
 				duration: data.duration * 1000,
