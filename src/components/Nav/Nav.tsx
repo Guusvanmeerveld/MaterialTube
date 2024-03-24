@@ -1,7 +1,5 @@
-"use client";
-
 import NextLink from "next/link";
-import { usePathname } from "next/navigation";
+import { FC } from "react";
 
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
@@ -12,13 +10,11 @@ import {
 	NavbarItem
 } from "@nextui-org/navbar";
 
-import { Component } from "@/typings/component";
-
 // import { Search } from "./Search";
 
 export const navHeight = 64;
 
-export const Nav: Component = () => {
+export const Nav: FC<{ pathname: string }> = ({ pathname }) => {
 	const navItems = [
 		{
 			title: "Trending",
@@ -33,8 +29,6 @@ export const Nav: Component = () => {
 			link: "/history"
 		}
 	];
-
-	const pathname = usePathname();
 
 	return (
 		<Navbar>
