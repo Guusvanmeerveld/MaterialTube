@@ -1,9 +1,9 @@
 "use client";
 
+import { Nav } from ".";
+
 import { usePathname } from "next/navigation";
 import { FC } from "react";
-
-import { Nav } from "./Nav";
 
 export const NavClient: FC = () => {
 	const pathname = usePathname();
