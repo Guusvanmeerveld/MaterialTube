@@ -25,7 +25,7 @@ export const PlaylistItemModel = z.object({
 	name: z.string(),
 	thumbnail: z.string().url(),
 	uploaderName: z.string(),
-	uploaderUrl: z.string(),
+	uploaderUrl: z.string().nullable(),
 	uploaderVerified: z.boolean(),
 	playlistType: z.string(),
 	videos: z.number()

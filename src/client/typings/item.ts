@@ -1,3 +1,4 @@
+import { Author } from "./author";
 import { Video } from "./video";
 
 export type VideoItem = Video & { type: "video" };
@@ -16,10 +17,7 @@ export interface PlaylistItem {
 	type: "playlist";
 	title: string;
 	id: string;
-	author: {
-		name: string;
-		id: string;
-	};
+	author: Author;
 	numberOfVideos: number;
 	thumbnail: string;
 	videos?: {

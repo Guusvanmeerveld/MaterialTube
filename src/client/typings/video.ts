@@ -1,11 +1,9 @@
+import { Author } from "./author";
+
 export interface Video {
 	title: string;
 	id: string;
-	author: {
-		name: string;
-		id: string;
-		avatar?: string;
-	};
+	author: Author;
 	thumbnail: string;
 	description?: string;
 	/*
@@ -13,6 +11,6 @@ export interface Video {
 	*/
 	duration: number;
 	views: number;
-	uploaded: Date;
+	uploaded?: Date;
 	live: boolean;
 }

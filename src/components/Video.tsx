@@ -1,5 +1,6 @@
 import NextImage from "next/image";
 import Link from "next/link";
+import { useMemo } from "react";
 
 import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Divider } from "@nextui-org/divider";
@@ -18,47 +19,58 @@ import { ContextMenu } from "./ContextMenu";
 import { Component } from "@/typings/component";
 import { ContextMenuItem } from "@/typings/contextMenu";
 
-export const Video: Component<{ data: VideoProps }> = ({ data }) => {
+export const Video: Component<{ data: VideoProps; size?: number }> = ({
+	data,
+	size = 40
+}) => {
 	const url = videoUrl(data.id);
 
-	const [width, height] = videoSize([16, 9], 40);
+	const [width, height] = videoSize([16, 9], size);
 
-	const menuItems: ContextMenuItem[] = [
-		{ title: "Go to video", key: "gotoVideo", href: url },
-		{
-			title: "Copy video id",
-			key: "videoId",
-			onClick: (): void => {
-				navigator.clipboard.writeText(data.id);
+	const menuItems = useMemo(() => {
+		const items: ContextMenuItem[] = [
+			{ title: "Go to video", key: "gotoVideo", href: url },
+			{
+				title: "Copy video id",
+				key: "videoId",
+				onClick: (): void => {
+					navigator.clipboard.writeText(data.id);
+				},
+				showDivider: true
 			},
-			showDivider: true
-		},
-		{
-			title: "Open thumbnail",
-			key: "thumbnail",
-			href: data.thumbnail
-		},
-		{
-			title: "Copy thumnail url",
-			key: "thumbnailUrl",
-			onClick: (): void => {
-				navigator.clipboard.writeText(data.thumbnail);
+			{
+				title: "Open thumbnail",
+				key: "thumbnail",
+				href: data.thumbnail
 			},
-			showDivider: true
-		},
-		{
-			title: "Go to channel",
-			key: "gotoChannel",
-			href: channelUrl(data.author.id)
-		},
-		{
-			title: "Copy channel id",
-			key: "channelId",
-			onClick: (): void => {
-				navigator.clipboard.writeText(data.author.id);
+			{
+				title: "Copy thumnail url",
+				key: "thumbnailUrl",
+				onClick: (): void => {
+					navigator.clipboard.writeText(data.thumbnail);
+				},
+				showDivider: true
 			}
+		];
+
+		if (data.author.id) {
+			items.push({
+				title: "Go to channel",
+				key: "gotoChannel",
+				href: channelUrl(data.author.id)
+			});
+
+			items.push({
+				title: "Copy channel id",
+				key: "channelId",
+				onClick: (): void => {
+					navigator.clipboard.writeText(data.author.id ?? "");
+				}
+			});
 		}
-	];
+
+		return items;
+	}, [data, url]);
 
 	return (
 		<Link href={url}>
@@ -81,19 +93,21 @@ export const Video: Component<{ data: VideoProps }> = ({ data }) => {
 					</CardBody>
 					<Divider />
 					<CardFooter>
-						<div className="max-w-full">
-							<p title={data.title} className="truncate">
+						<div style={{ width }} className="flex flex-col">
+							<p title={data.title} className="text-ellipsis overflow-hidden">
 								{data.title}
 							</p>
-							<div className="flex flex-row gap-2 justify-start overflow-scroll">
+							<div className="flex flex-row gap-2 justify-start text-ellipsis overflow-hidden">
 								<p className="text-small font-semibold tracking-tight text-default-400">
 									{data.author.name}
 								</p>
-								<Tooltip showArrow content={data.uploaded.toLocaleString()}>
-									<p className="text-small tracking-tight text-default-400">
-										{formatUploadedTime(data.uploaded)}
-									</p>
-								</Tooltip>
+								{data.uploaded && (
+									<Tooltip showArrow content={data.uploaded.toLocaleString()}>
+										<p className="text-small tracking-tight text-default-400">
+											{formatUploadedTime(data.uploaded)}
+										</p>
+									</Tooltip>
+								)}
 
 								<p className="text-small tracking-tight text-default-400">
 									Views: {formatBigNumber(data.views)}
