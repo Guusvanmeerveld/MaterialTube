@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { Nav } from "@/components/Nav/Nav";
+import { Nav } from "@/components/Nav";
 import { NavClient } from "@/components/Nav/NavClient";
 
 import { Component } from "@/typings/component";
