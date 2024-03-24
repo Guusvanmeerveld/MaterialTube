@@ -3,6 +3,7 @@
 import NextImage from "next/image";
 import NextLink from "next/link";
 
+import { Avatar } from "@nextui-org/avatar";
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Link } from "@nextui-org/link";
@@ -49,7 +50,7 @@ export const Video: Component<{ data: VideoItem }> = ({ data }) => {
 							<h1 className="text-xl">{data.title}</h1>
 							<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
 								<h1>{formatBigNumber(data.views)} views</h1>
-								<h1>{formatUploadedTime(data.uploaded)}</h1>
+								{data.uploaded && <h1>{formatUploadedTime(data.uploaded)}</h1>}
 							</div>
 							<Link
 								as={NextLink}
@@ -57,14 +58,12 @@ export const Video: Component<{ data: VideoItem }> = ({ data }) => {
 								className="flex flex-row gap-2 items-center"
 							>
 								{data.author.avatar && (
-									<Image
-										width={64}
-										height={64}
+									<Avatar
+										isBordered
+										name={data.author.name}
+										size="lg"
 										src={data.author.avatar}
 										alt={data.author.name}
-										className="rounded-full"
-										as={NextImage}
-										unoptimized
 									/>
 								)}
 								<h1 className="text-lg text-default-600">{data.author.name}</h1>
