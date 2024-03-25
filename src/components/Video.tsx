@@ -25,7 +25,7 @@ export const Video: Component<{ data: VideoProps; size?: number }> = ({
 }) => {
 	const url = videoUrl(data.id);
 
-	const [width, height] = videoSize([16, 9], size);
+	const [width, height] = videoSize(size);
 
 	const menuItems = useMemo(() => {
 		const items: ContextMenuItem[] = [

@@ -70,11 +70,11 @@ export const Trending: Component = ({}) => {
 	return (
 		<>
 			<Container>
-				<div className="flex items-center">
+				<div className="flex flex-row items-center gap-4">
 					<RegionSwitcher currentRegion={region} regions={validRegions} />
-					<Spacer x={4} />
 					<h1 className="text-xl">Trending</h1>
 				</div>
+
 				{isLoading && !data && <LoadingPage />}
 				{error && (
 					<div className="flex-1 flex items-center justify-center">

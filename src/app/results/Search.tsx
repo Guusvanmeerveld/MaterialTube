@@ -45,13 +45,14 @@ export const Search: Component = () => {
 			return new Error(`The provided filter \`${filter}\` is invalid`);
 	}, [filter]);
 
+	const canSearch = !(!!invalidQuery || !!invalidFilter);
+
 	const {
 		data,
 		error: fetchError,
 		fetchNextPage,
-		// hasNextPage,
 		refetch,
-		isFetching,
+		isPending,
 		isFetchingNextPage
 	} = useInfiniteQuery({
 		queryKey: ["search", query, filter],
@@ -61,12 +62,12 @@ export const Search: Component = () => {
 				type: filter
 			});
 		},
-		enabled: !!invalidQuery || !!invalidFilter,
+		enabled: canSearch,
 		initialPageParam: "",
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
 
-	const error = invalidQuery ?? invalidFilter ?? fetchError ?? undefined;
+	const error = invalidFilter ?? fetchError ?? undefined;
 
 	const searchFor = useSearch();
 
@@ -84,6 +85,13 @@ export const Search: Component = () => {
 		[isFetchingNextPage, fetchNextPage]
 	);
 
+	const hasLoadedData =
+		canSearch && data?.pages.flat().length
+			? data?.pages.flat().length !== 0
+			: false;
+
+	const isLoadingInitialData = canSearch && !isFetchingNextPage && isPending;
+
 	return (
 		<>
 			<Container>
@@ -91,12 +99,13 @@ export const Search: Component = () => {
 					<div className="flex-1">
 						<SearchInput initialQueryValue={query ?? undefined} />
 					</div>
-					<div>
-						<Filter filter={filter} setFilter={setFilter} />
-					</div>
+					{canSearch && (
+						<div>
+							<Filter filter={filter} setFilter={setFilter} />
+						</div>
+					)}
 				</div>
-				<Spacer y={4} />
-				{isFetching && !error && <LoadingPage />}
+				{isLoadingInitialData && <LoadingPage />}
 				{error && (
 					<div className="flex-1 flex items-center justify-center">
 						<div className="text-center">
@@ -111,32 +120,34 @@ export const Search: Component = () => {
 						</div>
 					</div>
 				)}
-				<div className="flex flex-col gap-4">
-					{!error &&
-						data?.pages.map((page, i) => {
-							return (
-								<Fragment key={i}>
-									{page.items.map((result) => {
-										switch (result.type) {
-											case "channel":
-												return <Channel key={result.id} data={result} />;
+				{hasLoadedData && (
+					<>
+						<div className="flex flex-col gap-4 mt-4">
+							{data?.pages.map((page, i) => {
+								return (
+									<Fragment key={i}>
+										{page.items.map((result) => {
+											switch (result.type) {
+												case "channel":
+													return <Channel key={result.id} data={result} />;
 
-											case "video":
-												return <Video key={result.id} data={result} />;
+												case "video":
+													return <Video key={result.id} data={result} />;
 
-											case "playlist":
-												return <Playlist key={result.id} data={result} />;
-										}
-									})}
-								</Fragment>
-							);
-						})}
-
-					<Loading
-						isFetching={isFetchingNextPage}
-						onVisible={handleUserReachedPageEnd}
-					/>
-				</div>
+												case "playlist":
+													return <Playlist key={result.id} data={result} />;
+											}
+										})}
+									</Fragment>
+								);
+							})}
+						</div>
+						<Loading
+							isFetching={isFetchingNextPage && !isPending}
+							onVisible={handleUserReachedPageEnd}
+						/>
+					</>
+				)}
 			</Container>
 		</>
 	);
