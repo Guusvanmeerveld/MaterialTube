@@ -19,8 +19,6 @@ const itemPatterns: ItemPattern[] = [
 		regex:
 			/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
 		convert: (match): Link => {
-			console.log(match);
-
 			return {
 				type: ItemType.Link,
 				href: match[0],

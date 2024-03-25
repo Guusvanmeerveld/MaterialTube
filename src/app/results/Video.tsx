@@ -20,14 +20,14 @@ export const Video: Component<{ data: VideoItem }> = ({ data }) => {
 	const url = `/watch?v=${data.id}`;
 	const channelUrl = `/channel/${data.author.id}`;
 
-	const [width, height] = videoSize([16, 9], 30);
+	const [width, height] = videoSize(30);
 
 	return (
-		<NextLink href={url}>
-			<Card>
-				<CardBody>
-					<div className="flex flex-row gap-4">
-						<div className="relative">
+		<Card>
+			<CardBody>
+				<div className="flex flex-row gap-4">
+					<div className="relative">
+						<NextLink href={url}>
 							<Image
 								width={width}
 								height={height}
@@ -36,43 +36,46 @@ export const Video: Component<{ data: VideoItem }> = ({ data }) => {
 								as={NextImage}
 								unoptimized
 							/>
-							<p className="text-small rounded-md z-10 absolute bottom-2 right-2 bg-content2 p-1">
-								{formatDuration(data.duration)}
-							</p>
-							{data.live && (
-								<p className="text-small rounded-md z-10 absolute bottom-2 left-2 bg-danger p-1">
-									LIVE
-								</p>
-							)}
-						</div>
+						</NextLink>
 
-						<div className="flex flex-col gap-2">
-							<h1 className="text-xl">{data.title}</h1>
-							<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
-								<h1>{formatBigNumber(data.views)} views</h1>
-								{data.uploaded && <h1>{formatUploadedTime(data.uploaded)}</h1>}
-							</div>
-							<Link
-								as={NextLink}
-								href={channelUrl}
-								className="flex flex-row gap-2 items-center"
-							>
-								{data.author.avatar && (
-									<Avatar
-										isBordered
-										name={data.author.name}
-										size="lg"
-										src={data.author.avatar}
-										alt={data.author.name}
-									/>
-								)}
-								<h1 className="text-lg text-default-600">{data.author.name}</h1>
-							</Link>
-							<p className="text-default-600">{data.description}</p>
-						</div>
+						<p className="text-small rounded-md z-10 absolute bottom-2 right-2 bg-content2 p-1">
+							{formatDuration(data.duration)}
+						</p>
+						{data.live && (
+							<p className="text-small rounded-md z-10 absolute bottom-2 left-2 bg-danger p-1">
+								LIVE
+							</p>
+						)}
 					</div>
-				</CardBody>
-			</Card>
-		</NextLink>
+
+					<div className="flex flex-col gap-2">
+						<Link as={NextLink} href={url}>
+							<h1 className="text-xl text-default-foreground">{data.title}</h1>
+						</Link>
+						<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
+							<h1>{formatBigNumber(data.views)} views</h1>
+							{data.uploaded && <h1>{formatUploadedTime(data.uploaded)}</h1>}
+						</div>
+						<Link
+							as={NextLink}
+							href={channelUrl}
+							className="flex flex-row gap-2 items-center"
+						>
+							{data.author.avatar && (
+								<Avatar
+									isBordered
+									name={data.author.name}
+									size="lg"
+									src={data.author.avatar}
+									alt={data.author.name}
+								/>
+							)}
+							<h1 className="text-lg text-default-600">{data.author.name}</h1>
+						</Link>
+						<p className="text-default-600">{data.description}</p>
+					</div>
+				</div>
+			</CardBody>
+		</Card>
 	);
 };

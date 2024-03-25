@@ -10,8 +10,6 @@ import {
 	NavbarItem
 } from "@nextui-org/navbar";
 
-// import { Search } from "./Search";
-
 export const navHeight = 64;
 
 export const Nav: FC<{ pathname: string }> = ({ pathname }) => {
@@ -19,6 +17,10 @@ export const Nav: FC<{ pathname: string }> = ({ pathname }) => {
 		{
 			title: "Trending",
 			link: "/trending"
+		},
+		{
+			title: "Search",
+			link: "/results"
 		},
 		{
 			title: "Subscriptions",

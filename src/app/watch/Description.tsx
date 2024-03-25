@@ -14,6 +14,8 @@ import { highlight, ItemType } from "@/utils/highlight";
 
 import { Component } from "@/typings/component";
 
+const shortenedDescriptionLength = 200;
+
 export const Description: Component<{ data: string }> = ({ data }) => {
 	const [expandedDescription, setExpandedDescription] = useState(false);
 
@@ -32,7 +34,7 @@ export const Description: Component<{ data: string }> = ({ data }) => {
 		() =>
 			expandedDescription
 				? sanitizedDescription
-				: sanitizedDescription?.substring(0, 200) + "...",
+				: sanitizedDescription.substring(0, shortenedDescriptionLength) + "...",
 		[sanitizedDescription, expandedDescription]
 	);
 
