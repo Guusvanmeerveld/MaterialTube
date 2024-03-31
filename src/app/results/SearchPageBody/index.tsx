@@ -49,11 +49,10 @@ export const SearchPageBody: FC<{ query: string; filter: SearchType }> = ({
 
 	return (
 		<>
-			{error !== null && <ErrorPage data={error} refetch={refetch} />}
 			{isFetchingInitialData && (
 				<LoadingPage text={`Fetching search results for query \`${query}\``} />
 			)}
-			{error === null && data && (
+			{data && (
 				<div className="flex flex-col gap-4 mt-4">
 					{data.pages.map((page, i) => {
 						return (
@@ -73,12 +72,15 @@ export const SearchPageBody: FC<{ query: string; filter: SearchType }> = ({
 							</Fragment>
 						);
 					})}
-					<LoadingNextPage
-						isFetching={isFetchingNewPage}
-						onVisible={fetchNewData}
-					/>
+					{error === null && (
+						<LoadingNextPage
+							isFetching={isFetchingNewPage}
+							onVisible={fetchNewData}
+						/>
+					)}
 				</div>
 			)}
+			{error !== null && <ErrorPage data={error} refetch={refetch} />}
 		</>
 	);
 };

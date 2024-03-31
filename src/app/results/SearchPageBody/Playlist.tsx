@@ -13,11 +13,14 @@ import { PlaylistItem } from "@/client/typings/item";
 import { videoUrl } from "@/utils/urls";
 import { videoSize } from "@/utils/videoSize";
 
+import { Author } from "@/components/Author";
+
+import { imageSize } from "./constants";
+
 export const Playlist: FC<{ data: PlaylistItem }> = ({ data }) => {
 	const url = `/playlist/${data.id}`;
-	const channelUrl = `/channel/${data.author.id}`;
 
-	const [width, height] = videoSize(30);
+	const [width, height] = videoSize(imageSize);
 
 	const [playlistItemWidth, playlistItemHeight] = videoSize(5);
 
@@ -43,25 +46,15 @@ export const Playlist: FC<{ data: PlaylistItem }> = ({ data }) => {
 					</div>
 
 					<div className="flex flex-col gap-2">
-						<div>
-							<Link as={NextLink} href={url}>
-								<h1 className="text-xl text-default-foreground">
-									{data.title}
-								</h1>
-							</Link>
+						<Link as={NextLink} href={url}>
+							<h1 className="text-xl text-default-foreground">{data.title}</h1>
+						</Link>
 
-							<Link
-								as={NextLink}
-								href={channelUrl}
-								className="flex flex-row gap-2 items-center"
-							>
-								<h1 className="text-lg text-default-600">{data.author.name}</h1>
-							</Link>
-						</div>
+						<Author data={data.author} />
 
 						{data.videos && (
 							<Listbox>
-								{data.videos.map((video) => (
+								{data.videos.slice(0, 2).map((video) => (
 									<ListboxItem
 										as={NextLink}
 										startContent={
