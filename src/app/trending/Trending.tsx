@@ -75,8 +75,13 @@ export const Trending: Component = ({}) => {
 					<h1 className="text-xl">Trending</h1>
 				</div>
 
-				{isLoading && !data && <LoadingPage />}
-				{error && (
+				{isLoading && !data && (
+					<LoadingPage
+						text={`Loading trending page for region \`${region?.name}\``}
+					/>
+				)}
+
+				{error !== null && (
 					<div className="flex-1 flex items-center justify-center">
 						<div className="text-center">
 							<h1 className="text-xl">
@@ -90,7 +95,7 @@ export const Trending: Component = ({}) => {
 						</div>
 					</div>
 				)}
-				{data && error === null && (
+				{data && data.length !== 0 && error === null && (
 					<div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 						{data.map((video) => (
 							<Video key={video.id} data={video} />

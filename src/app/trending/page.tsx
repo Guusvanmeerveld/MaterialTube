@@ -12,7 +12,7 @@ const Page: NextPage = () => {
 			<Suspense
 				fallback={
 					<Container>
-						<LoadingPage />
+						<LoadingPage text="Loading trending page" />
 					</Container>
 				}
 			>
