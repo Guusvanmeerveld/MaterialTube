@@ -68,12 +68,19 @@ const getSearch = async (
 ): Promise<Search> => {
 	let url: URL;
 
-	if (options?.nextpage)
+	const searchParams = new URLSearchParams();
+
+	searchParams.append("q", query);
+
+	if (options?.nextpage) {
 		url = new URL(path.join("nextpage", "search"), apiBaseUrl);
-	else url = new URL("search", apiBaseUrl);
+		searchParams.append("nextpage", options.nextpage);
+	} else url = new URL("search", apiBaseUrl);
+
+	if (options?.filter) searchParams.append("filter", options.filter);
 
 	const response = await ky.get(url, {
-		searchParams: { ...options, q: query }
+		searchParams
 	});
 
 	const json = await response.json();

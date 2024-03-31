@@ -1,48 +1,46 @@
 "use client";
 
-import NextImage from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
+import { Avatar } from "@nextui-org/avatar";
 import { Card, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
 
 import { ChannelItem } from "@/client/typings/item";
 import formatBigNumber from "@/utils/formatBigNumber";
+import { channelUrl } from "@/utils/urls";
 
 export const Channel: FC<{ data: ChannelItem }> = ({ data }) => {
-	const url = `/channel/${data.id}`;
-
-	const imageSize = 200;
+	const url = channelUrl(data.id);
 
 	return (
-		<Link href={url}>
-			<Card>
-				<CardBody>
-					<div className="flex flex-row gap-4">
-						<Image
-							width={imageSize}
-							height={imageSize}
+		<Card>
+			<CardBody>
+				<div className="flex flex-row gap-4">
+					<Link href={url}>
+						<Avatar
+							className="w-32 h-32 text-2xl"
 							src={data.thumbnail}
-							alt={data.name}
-							as={NextImage}
-							className="rounded-full"
-							unoptimized
+							name={data.name}
+							isBordered
 						/>
-
-						<div className="flex-1 flex flex-col justify-center">
-							<h1 className="text-lg">{data.name}</h1>
-							<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
-								<h1>{formatBigNumber(data.subscribers)} subscribers</h1>
+					</Link>
+					<div className="flex-1 gap-2 flex flex-col justify-center">
+						<div className="flex flex-col">
+							<Link href={url}>
+								<p className="text-lg">{data.name}</p>
+							</Link>
+							<div className="flex flex-row gap-4 items-center tracking-tight text-default-400">
+								<p>{formatBigNumber(data.subscribers)} subscribers</p>
 								{data.videos !== 0 && (
-									<h1>{formatBigNumber(data.videos)} videos</h1>
+									<p>{formatBigNumber(data.videos)} videos</p>
 								)}
 							</div>
-							<p className="text-default-600">{data.description}</p>
 						</div>
+						<p className="text-default-600">{data.description}</p>
 					</div>
-				</CardBody>
-			</Card>
-		</Link>
+				</div>
+			</CardBody>
+		</Card>
 	);
 };

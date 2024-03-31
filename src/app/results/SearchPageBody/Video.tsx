@@ -4,7 +4,6 @@ import NextImage from "next/image";
 import NextLink from "next/link";
 import { FC } from "react";
 
-import { Avatar } from "@nextui-org/avatar";
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Link } from "@nextui-org/link";
@@ -13,13 +12,17 @@ import { VideoItem } from "@/client/typings/item";
 import formatBigNumber from "@/utils/formatBigNumber";
 import formatDuration from "@/utils/formatDuration";
 import formatUploadedTime from "@/utils/formatUploadedTime";
+import { videoUrl } from "@/utils/urls";
 import { videoSize } from "@/utils/videoSize";
 
-export const Video: FC<{ data: VideoItem }> = ({ data }) => {
-	const url = `/watch?v=${data.id}`;
-	const channelUrl = `/channel/${data.author.id}`;
+import { Author } from "@/components/Author";
 
-	const [width, height] = videoSize(30);
+import { imageSize } from "./constants";
+
+export const Video: FC<{ data: VideoItem }> = ({ data }) => {
+	const url = videoUrl(data.id);
+
+	const [width, height] = videoSize(imageSize);
 
 	return (
 		<Card>
@@ -47,30 +50,19 @@ export const Video: FC<{ data: VideoItem }> = ({ data }) => {
 						)}
 					</div>
 
-					<div className="flex flex-col gap-2">
-						<Link as={NextLink} href={url}>
-							<h1 className="text-xl text-default-foreground">{data.title}</h1>
-						</Link>
-						<div className="flex flex-row gap-4 items-center font-semibold text-default-600">
-							<h1>{formatBigNumber(data.views)} views</h1>
-							{data.uploaded && <h1>{formatUploadedTime(data.uploaded)}</h1>}
+					<div className="flex flex-col gap-2 w-full">
+						<div>
+							<Link as={NextLink} href={url}>
+								<h1 className="text-xl text-default-foreground">
+									{data.title}
+								</h1>
+							</Link>
+							<div className="flex flex-row gap-4 items-center tracking-tight text-default-400">
+								<h1>{formatBigNumber(data.views)} views</h1>
+								{data.uploaded && <h1>{formatUploadedTime(data.uploaded)}</h1>}
+							</div>
 						</div>
-						<Link
-							as={NextLink}
-							href={channelUrl}
-							className="flex flex-row gap-2 items-center"
-						>
-							{data.author.avatar && (
-								<Avatar
-									isBordered
-									name={data.author.name}
-									size="lg"
-									src={data.author.avatar}
-									alt={data.author.name}
-								/>
-							)}
-							<h1 className="text-lg text-default-600">{data.author.name}</h1>
-						</Link>
+						<Author data={data.author} />
 						<p className="text-default-600">{data.description}</p>
 					</div>
 				</div>
