@@ -4,7 +4,7 @@ import { CircularProgress } from "@nextui-org/progress";
 
 import { Component } from "@/typings/component";
 
-export const Loading: Component<{
+export const LoadingNextPage: Component<{
 	isFetching: boolean;
 	onVisible: (visiblity: boolean) => void;
 }> = ({ onVisible, isFetching }) => {

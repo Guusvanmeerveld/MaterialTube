@@ -2,6 +2,7 @@
 
 import NextImage from "next/image";
 import NextLink from "next/link";
+import { FC } from "react";
 
 import { Avatar } from "@nextui-org/avatar";
 import { Card, CardBody } from "@nextui-org/card";
@@ -14,9 +15,7 @@ import formatDuration from "@/utils/formatDuration";
 import formatUploadedTime from "@/utils/formatUploadedTime";
 import { videoSize } from "@/utils/videoSize";
 
-import { Component } from "@/typings/component";
-
-export const Video: Component<{ data: VideoItem }> = ({ data }) => {
+export const Video: FC<{ data: VideoItem }> = ({ data }) => {
 	const url = `/watch?v=${data.id}`;
 	const channelUrl = `/channel/${data.author.id}`;
 

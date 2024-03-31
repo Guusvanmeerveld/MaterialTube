@@ -1,13 +1,22 @@
 import { NextPage } from "next";
 import { Suspense } from "react";
 
-import { Search } from "./Search";
+import { Container } from "@/components/Container";
+
+import { SearchPage } from "./SearchPage";
+import { SearchPageHeader } from "./SearchPageHeader";
 
 const Page: NextPage = () => {
 	return (
 		<>
-			<Suspense>
-				<Search />
+			<Suspense
+				fallback={
+					<Container>
+						<SearchPageHeader />
+					</Container>
+				}
+			>
+				<SearchPage />
 			</Suspense>
 		</>
 	);
