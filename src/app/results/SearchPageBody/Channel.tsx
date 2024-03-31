@@ -2,6 +2,7 @@
 
 import NextImage from "next/image";
 import Link from "next/link";
+import { FC } from "react";
 
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
@@ -9,9 +10,7 @@ import { Image } from "@nextui-org/image";
 import { ChannelItem } from "@/client/typings/item";
 import formatBigNumber from "@/utils/formatBigNumber";
 
-import { Component } from "@/typings/component";
-
-export const Channel: Component<{ data: ChannelItem }> = ({ data }) => {
+export const Channel: FC<{ data: ChannelItem }> = ({ data }) => {
 	const url = `/channel/${data.id}`;
 
 	const imageSize = 200;

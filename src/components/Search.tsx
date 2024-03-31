@@ -9,16 +9,14 @@ import { FiSearch as SearchIcon } from "react-icons/fi";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
 
 import { useClient } from "@/hooks/useClient";
-import { useSearch } from "@/hooks/useSearch";
 
 export const Search: FC<{
-	initialQueryValue?: string;
-}> = ({ initialQueryValue }) => {
+	query?: string;
+	setQuery: (query: string) => void;
+}> = ({ setQuery, query }) => {
 	const client = useClient();
 
-	const [searchQuery, setSearchQuery] = useState(initialQueryValue ?? "");
-
-	const searchFor = useSearch();
+	const [searchQuery, setSearchQuery] = useState(query ?? "");
 
 	const [searchQueryDebounced] = useDebounce(searchQuery, 250);
 
@@ -32,7 +30,7 @@ export const Search: FC<{
 	});
 
 	const submit = (query: string): void => {
-		searchFor(query);
+		setQuery(query);
 	};
 
 	const suggestions = useMemo(
@@ -51,7 +49,7 @@ export const Search: FC<{
 				name="search_query"
 				value={searchQuery}
 				isLoading={isLoading}
-				defaultInputValue={initialQueryValue}
+				defaultInputValue={query}
 				onValueChange={setSearchQuery}
 				onKeyDown={(e) => {
 					if (e.key === "Enter") {

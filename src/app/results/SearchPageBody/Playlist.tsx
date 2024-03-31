@@ -2,6 +2,7 @@
 
 import NextImage from "next/image";
 import NextLink from "next/link";
+import { FC } from "react";
 
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
@@ -12,9 +13,7 @@ import { PlaylistItem } from "@/client/typings/item";
 import { videoUrl } from "@/utils/urls";
 import { videoSize } from "@/utils/videoSize";
 
-import { Component } from "@/typings/component";
-
-export const Playlist: Component<{ data: PlaylistItem }> = ({ data }) => {
+export const Playlist: FC<{ data: PlaylistItem }> = ({ data }) => {
 	const url = `/playlist/${data.id}`;
 	const channelUrl = `/channel/${data.author.id}`;
 
