@@ -119,7 +119,7 @@ const getComments = async (
 		searchParams.append("nextpage", nextpage);
 	} else url = new URL(path.join("comments", videoId), apiBaseUrl);
 
-	const response = await ky.get(url);
+	const response = await ky.get(url, { searchParams });
 
 	const json = await response.json();
 
@@ -168,11 +168,15 @@ const adapter: Adapter = {
 			},
 
 			async getStream(videoId) {
-				return getStream(url, videoId).then(Transformer.stream);
+				return getStream(url, videoId).then((data) =>
+					Transformer.stream(data, videoId)
+				);
 			},
 
-			async getComments(videoId) {
-				return getComments(url, videoId).then(Transformer.comments);
+			async getComments(videoId, repliesToken?: string) {
+				return getComments(url, videoId, repliesToken).then(
+					Transformer.comments
+				);
 			}
 		};
 	}

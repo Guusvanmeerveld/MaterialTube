@@ -3,6 +3,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
+import {
+	FiThumbsDown as DislikeIcon,
+	FiThumbsUp as LikeIcon,
+	FiEye as ViewIcon
+} from "react-icons/fi";
 
 import { Chip } from "@nextui-org/chip";
 
@@ -64,10 +69,19 @@ export const Watch: Component = () => {
 							<div className="flex flex-col">
 								<h1 className="text-2xl">{data.video.title}</h1>
 								<div className="flex flex-row gap-4 text-lg tracking-tight text-default-500">
-									<h2>{formatBigNumber(data.video.views)} views</h2>
+									<div className="flex flex-row gap-1 items-center">
+										<ViewIcon />
+										<p>{formatBigNumber(data.video.views)} views</p>
+									</div>
 
-									<h2>{formatBigNumber(data.likes)} likes</h2>
-									<h2>{formatBigNumber(data.dislikes)} dislikes</h2>
+									<div className="flex flex-row gap-1 items-center">
+										<LikeIcon />
+										<p>{formatBigNumber(data.likes)} likes</p>
+									</div>
+									<div className="flex flex-row gap-1 items-center">
+										<DislikeIcon />
+										<p>{formatBigNumber(data.dislikes)} dislikes</p>
+									</div>
 								</div>
 							</div>
 
