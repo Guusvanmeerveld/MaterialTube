@@ -102,7 +102,7 @@ export default class Transformer {
 		return { items, nextCursor: data.nextpage };
 	}
 
-	public static stream(data: PipedStream): Stream {
+	public static stream(data: PipedStream, videoId: string): Stream {
 		const channelId = parseChannelIdFromUrl(data.uploaderUrl) ?? undefined;
 
 		return {
@@ -120,7 +120,7 @@ export default class Transformer {
 				},
 				description: data.description,
 				duration: data.duration * 1000,
-				id: "",
+				id: videoId,
 				live: data.livestream,
 				thumbnail: data.thumbnailUrl,
 				title: data.title,
