@@ -30,13 +30,16 @@ export const Description: Component<{ data: string }> = ({ data }) => {
 		[data]
 	);
 
-	const descriptionCut = useMemo(
-		() =>
-			expandedDescription
-				? sanitizedDescription
-				: sanitizedDescription.substring(0, shortenedDescriptionLength) + "...",
-		[sanitizedDescription, expandedDescription]
-	);
+	const descriptionAlreadyShort = sanitizedDescription.length <= 200;
+
+	const descriptionCut = useMemo(() => {
+		if (descriptionAlreadyShort) return sanitizedDescription;
+		else if (expandedDescription) return sanitizedDescription;
+		else
+			return (
+				sanitizedDescription.substring(0, shortenedDescriptionLength) + "..."
+			);
+	}, [sanitizedDescription, descriptionAlreadyShort, expandedDescription]);
 
 	const description = useMemo(
 		() => highlight(descriptionCut),
@@ -48,13 +51,15 @@ export const Description: Component<{ data: string }> = ({ data }) => {
 			<h2 className="text-ellipsis overflow-y-hidden">
 				<HighlightRenderer highlighted={description} />
 			</h2>
-			<Button
-				startContent={expandedDescription ? <CollapseIcon /> : <ExpandIcon />}
-				variant="light"
-				onClick={() => setExpandedDescription((state) => !state)}
-			>
-				{expandedDescription ? "Show less" : "Show more"}
-			</Button>
+			{!descriptionAlreadyShort && (
+				<Button
+					startContent={expandedDescription ? <CollapseIcon /> : <ExpandIcon />}
+					variant="light"
+					onClick={() => setExpandedDescription((state) => !state)}
+				>
+					{expandedDescription ? "Show less" : "Show more"}
+				</Button>
+			)}
 		</div>
 	);
 };
