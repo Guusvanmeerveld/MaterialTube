@@ -1,6 +1,7 @@
 import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
 import InvidiousAdapter from "./adapters/invidious";
 import PipedAdapter from "./adapters/piped";
+import { Comments } from "./typings/comment";
 import { SearchResults } from "./typings/search";
 import { SearchOptions } from "./typings/search/options";
 import { Suggestions } from "./typings/search/suggestions";
@@ -80,5 +81,14 @@ export default class Client {
 		const adapter = this.getBestAdapter();
 
 		return await adapter.getStream(videoId);
+	}
+
+	public async getComments(
+		videoId: string,
+		repliesToken?: string
+	): Promise<Comments> {
+		const adapter = this.getBestAdapter();
+
+		return await adapter.getComments(videoId, repliesToken);
 	}
 }

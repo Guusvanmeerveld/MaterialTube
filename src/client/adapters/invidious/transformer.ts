@@ -1,3 +1,4 @@
+import { Comments } from "@/client/typings/comment";
 import {
 	ChannelItem,
 	Item,
@@ -7,7 +8,9 @@ import {
 import { Suggestions } from "@/client/typings/search/suggestions";
 import { Stream } from "@/client/typings/stream";
 import { Video } from "@/client/typings/video";
+import { parseSubscriberCount } from "@/utils/parseSubscriberCount";
 
+import InvidiousComments from "./typings/comments";
 import InvidiousSearch from "./typings/search";
 import InvidiousSuggestions from "./typings/search/suggestions";
 import InvidiousStream, {
@@ -156,7 +159,8 @@ export default class Transformer {
 				author: {
 					id: stream.authorId,
 					name: stream.author,
-					avatar: stream.authorThumbnails[0].url
+					avatar: stream.authorThumbnails[0].url,
+					subscribers: parseSubscriberCount(stream.subCountText)
 				},
 				description: stream.description,
 				duration: stream.lengthSeconds * 1000,
@@ -167,6 +171,30 @@ export default class Transformer {
 				uploaded: new Date(stream.published * 1000),
 				views: stream.viewCount
 			}
+		};
+	}
+
+	public static comments(comments: InvidiousComments): Comments {
+		return {
+			enabled: true,
+			count: comments.commentCount,
+			data: comments.comments.map((comment) => ({
+				id: comment.commentId,
+				message: comment.content,
+				likes: comment.likeCount,
+				edited: comment.isEdited,
+				written: new Date(comment.published * 1000),
+				author: {
+					name: comment.author,
+					id: comment.authorId,
+					handle: comment.authorUrl,
+					avatar: comment.authorThumbnails[0].url
+				},
+				videoUploaderLiked: !!comment.creatorHeart,
+				videoUploaderReplied: false,
+				pinned: comment.isPinned,
+				repliesToken: comment.replies?.continuation
+			}))
 		};
 	}
 }

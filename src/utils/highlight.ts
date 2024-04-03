@@ -64,7 +64,7 @@ export enum ItemType {
 	Timestamp
 }
 
-type Item = Timestamp | Link | Tokens | Linebreak;
+export type Item = Timestamp | Link | Tokens | Linebreak;
 
 export interface ItemPattern {
 	regex: RegExp;

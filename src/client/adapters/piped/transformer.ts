@@ -1,3 +1,4 @@
+import { Comments } from "@/client/typings/comment";
 import {
 	ChannelItem,
 	Item,
@@ -11,7 +12,9 @@ import {
 	parseChannelIdFromUrl,
 	parseVideoIdFromUrl
 } from "@/utils/parseIdFromUrl";
+import { parseRelativeTime } from "@/utils/parseRelativeTime";
 
+import PipedComments from "./typings/comments";
 import PipedItem from "./typings/item";
 import PipedSearch from "./typings/search";
 import PipedStream from "./typings/stream";
@@ -71,9 +74,7 @@ export default class Transformer {
 
 		if (videoId === null) throw new Error("Piped: Missing video id");
 
-		const channelId = parseChannelIdFromUrl(data.uploaderUrl);
-
-		if (channelId === null) throw new Error("Piped: Missing video channelId");
+		const channelId = parseChannelIdFromUrl(data.uploaderUrl) ?? undefined;
 
 		return {
 			duration: data.duration * 1000,
@@ -102,9 +103,7 @@ export default class Transformer {
 	}
 
 	public static stream(data: PipedStream): Stream {
-		const channelId = parseChannelIdFromUrl(data.uploaderUrl);
-
-		if (channelId === null) throw new Error("Piped: Missing channelId");
+		const channelId = parseChannelIdFromUrl(data.uploaderUrl) ?? undefined;
 
 		return {
 			category: data.category,
@@ -128,6 +127,34 @@ export default class Transformer {
 				uploaded: data.uploadDate,
 				views: data.views
 			}
+		};
+	}
+
+	public static comments(data: PipedComments): Comments {
+		return {
+			enabled: !data.disabled,
+			count: data.commentCount,
+			data: data.comments.map((comment) => ({
+				id: comment.commentId,
+				message: comment.commentText,
+				likes: comment.likeCount,
+				edited: false,
+
+				written: parseRelativeTime(comment.commentedTime).toJSDate(),
+
+				author: {
+					name: comment.author,
+					id: parseChannelIdFromUrl(comment.commentorUrl) ?? undefined,
+					avatar: comment.thumbnail,
+					verified: comment.verified
+				},
+
+				pinned: comment.pinned,
+				videoUploaderLiked: comment.hearted,
+				videoUploaderReplied: comment.creatorReplied,
+
+				repliesToken: comment.repliesPage ?? undefined
+			}))
 		};
 	}
 }

@@ -5,6 +5,7 @@ import ky from "ky";
 import Adapter, { ApiType } from "@/client/adapters";
 
 import Transformer from "./transformer";
+import Comments, { CommentsModel } from "./typings/comments";
 import Search, { SearchModel } from "./typings/search";
 import Suggestions, { SuggestionsModel } from "./typings/search/suggestions";
 import Stream, { StreamModel } from "./typings/stream";
@@ -95,6 +96,30 @@ const getVideo = async (baseUrl: string, videoId: string): Promise<Stream> => {
 	return data;
 };
 
+const getComments = async (
+	baseUrl: string,
+	videoId: string,
+	continuation?: string
+): Promise<Comments> => {
+	const url = new URL(apiPath("comments", videoId), baseUrl);
+
+	const searchParams = new URLSearchParams();
+
+	searchParams.append("source", "youtube");
+
+	if (continuation) searchParams.append("continuation", continuation);
+
+	const response = await ky.get(url, {
+		searchParams
+	});
+
+	const json = await response.json();
+
+	const data = CommentsModel.parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Invidious,
 
@@ -120,6 +145,12 @@ const adapter: Adapter = {
 
 			async getStream(videoId) {
 				return getVideo(url, videoId).then(Transformer.stream);
+			},
+
+			async getComments(videoId, repliesToken) {
+				return getComments(url, videoId, repliesToken).then(
+					Transformer.comments
+				);
 			}
 		};
 	}

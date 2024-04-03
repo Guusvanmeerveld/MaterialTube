@@ -19,12 +19,13 @@ export const Author: FC<{ data: AuthorProps }> = ({ data }) => {
 				<Avatar
 					isBordered
 					name={data.name}
+					showFallback
 					size="lg"
 					src={data.avatar}
 					alt={data.name}
 				/>
 			)}
-			<div className="flex flex-col gap-2">
+			<div className="flex flex-col">
 				<p className="text-lg text-default-600">{data.name}</p>
 				{data.subscribers && (
 					<p className="text-default-400 tracking-tight">
