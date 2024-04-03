@@ -6,8 +6,9 @@ import {
 	VideoItem
 } from "@/client/typings/item";
 import { SearchResults } from "@/client/typings/search";
-import { Stream } from "@/client/typings/stream";
+import { Stream, StreamType } from "@/client/typings/stream";
 import { Video } from "@/client/typings/video";
+import { Watchable } from "@/client/typings/watchable";
 import {
 	parseChannelIdFromUrl,
 	parseVideoIdFromUrl
@@ -102,8 +103,11 @@ export default class Transformer {
 		return { items, nextCursor: data.nextpage };
 	}
 
-	public static stream(data: PipedStream, videoId: string): Stream {
-		const channelId = parseChannelIdFromUrl(data.uploaderUrl) ?? undefined;
+	public static stream(data: PipedStream, videoId: string): Watchable {
+		const streams: Stream[] = [];
+
+		if (data.dash) streams.push({ type: StreamType.Dash, url: data.dash });
+		if (data.hls) streams.push({ type: StreamType.Hls, url: data.hls });
 
 		return {
 			category: data.category,
@@ -111,9 +115,10 @@ export default class Transformer {
 			dislikes: data.dislikes,
 			likes: data.likes,
 			related: data.relatedStreams.map(Transformer.item),
+			streams,
 			video: {
 				author: {
-					id: channelId,
+					id: parseChannelIdFromUrl(data.uploaderUrl) ?? undefined,
 					name: data.uploader,
 					avatar: data.uploaderAvatar,
 					subscribers: data.uploaderSubscriberCount

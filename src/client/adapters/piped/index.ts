@@ -167,7 +167,7 @@ const adapter: Adapter = {
 				}).then(Transformer.search);
 			},
 
-			async getStream(videoId) {
+			async getWatchable(videoId) {
 				return getStream(url, videoId).then((data) =>
 					Transformer.stream(data, videoId)
 				);

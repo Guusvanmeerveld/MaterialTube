@@ -5,8 +5,8 @@ import { Comments } from "./typings/comment";
 import { SearchResults } from "./typings/search";
 import { SearchOptions } from "./typings/search/options";
 import { Suggestions } from "./typings/search/suggestions";
-import { Stream } from "./typings/stream";
 import { Video } from "./typings/video";
+import { Watchable } from "./typings/watchable";
 
 export interface RemoteApi {
 	type: ApiType;
@@ -77,10 +77,10 @@ export default class Client {
 		});
 	}
 
-	public async getStream(videoId: string): Promise<Stream> {
+	public async getWatchable(videoId: string): Promise<Watchable> {
 		const adapter = this.getBestAdapter();
 
-		return await adapter.getStream(videoId);
+		return await adapter.getWatchable(videoId);
 	}
 
 	public async getComments(

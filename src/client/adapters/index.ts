@@ -2,8 +2,8 @@ import { Comments } from "@/client/typings/comment";
 import { SearchResults } from "@/client/typings/search";
 import { SearchOptions } from "@/client/typings/search/options";
 import { Suggestions } from "@/client/typings/search/suggestions";
-import { Stream } from "@/client/typings/stream";
 import { Video } from "@/client/typings/video";
+import { Watchable } from "@/client/typings/watchable";
 
 export interface ConnectedAdapter {
 	getTrending(region: string): Promise<Video[]>;
@@ -11,7 +11,7 @@ export interface ConnectedAdapter {
 	getSearchSuggestions(query: string): Promise<Suggestions>;
 	getSearch(query: string, options?: SearchOptions): Promise<SearchResults>;
 
-	getStream(videoId: string): Promise<Stream>;
+	getWatchable(videoId: string): Promise<Watchable>;
 
 	getComments(videoId: string, repliesToken?: string): Promise<Comments>;
 }

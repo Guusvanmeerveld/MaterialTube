@@ -143,7 +143,7 @@ const adapter: Adapter = {
 				return { items: items, nextCursor: (page + 1).toString() };
 			},
 
-			async getStream(videoId) {
+			async getWatchable(videoId) {
 				return getVideo(url, videoId).then(Transformer.stream);
 			},
 

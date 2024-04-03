@@ -1,5 +1,6 @@
 import NextLink from "next/link";
 import { FC } from "react";
+import { FiCheckCircle as VerifiedIcon } from "react-icons/fi";
 
 import { Avatar } from "@nextui-org/avatar";
 import { Link } from "@nextui-org/link";
@@ -26,7 +27,10 @@ export const Author: FC<{ data: AuthorProps }> = ({ data }) => {
 				/>
 			)}
 			<div className="flex flex-col">
-				<p className="text-lg text-default-600">{data.name}</p>
+				<div className="flex flex-row gap-1 items-center">
+					<p className="text-lg text-default-600">{data.name}</p>
+					<VerifiedIcon className="text-success" />
+				</div>
 				{data.subscribers && (
 					<p className="text-default-400 tracking-tight">
 						{formatBigNumber(data.subscribers)} subscribers

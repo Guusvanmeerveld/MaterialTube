@@ -6,8 +6,9 @@ import {
 	VideoItem
 } from "@/client/typings/item";
 import { Suggestions } from "@/client/typings/search/suggestions";
-import { Stream } from "@/client/typings/stream";
+import { Stream, StreamType } from "@/client/typings/stream";
 import { Video } from "@/client/typings/video";
+import { Watchable } from "@/client/typings/watchable";
 import { parseSubscriberCount } from "@/utils/parseSubscriberCount";
 
 import InvidiousComments from "./typings/comments";
@@ -141,35 +142,40 @@ export default class Transformer {
 		});
 	}
 
-	public static stream(stream: InvidiousStream): Stream {
-		const thumbnail = Transformer.findBestThumbnail(stream.videoThumbnails);
+	public static stream(data: InvidiousStream): Watchable {
+		const thumbnail = Transformer.findBestThumbnail(data.videoThumbnails);
 
 		if (thumbnail === null)
 			throw new Error(
-				`Invidious: Missing thumbnail for video with id ${stream.videoId}`
+				`Invidious: Missing thumbnail for video with id ${data.videoId}`
 			);
 
+		const streams: Stream[] = [];
+
+		streams.push({ type: StreamType.Dash, url: data.dashUrl });
+
 		return {
-			category: stream.genre,
-			dislikes: stream.dislikeCount,
-			likes: stream.likeCount,
-			keywords: stream.keywords,
-			related: stream.recommendedVideos.map(Transformer.recommendedVideo),
+			category: data.genre,
+			dislikes: data.dislikeCount,
+			likes: data.likeCount,
+			keywords: data.keywords,
+			related: data.recommendedVideos.map(Transformer.recommendedVideo),
+			streams,
 			video: {
 				author: {
-					id: stream.authorId,
-					name: stream.author,
-					avatar: stream.authorThumbnails[0].url,
-					subscribers: parseSubscriberCount(stream.subCountText)
+					id: data.authorId,
+					name: data.author,
+					avatar: data.authorThumbnails[0].url,
+					subscribers: parseSubscriberCount(data.subCountText)
 				},
-				description: stream.description,
-				duration: stream.lengthSeconds * 1000,
-				id: stream.videoId,
-				live: stream.liveNow,
+				description: data.description,
+				duration: data.lengthSeconds * 1000,
+				id: data.videoId,
+				live: data.liveNow,
 				thumbnail: thumbnail,
-				title: stream.title,
-				uploaded: new Date(stream.published * 1000),
-				views: stream.viewCount
+				title: data.title,
+				uploaded: new Date(data.published * 1000),
+				views: data.viewCount
 			}
 		};
 	}

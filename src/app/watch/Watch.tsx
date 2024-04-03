@@ -26,6 +26,9 @@ import { Related } from "./Related";
 
 import { Component } from "@/typings/component";
 
+// TODO: Make all keywords visible in some way
+const maxKeyWords = 3;
+
 export const Watch: Component = () => {
 	const client = useClient();
 
@@ -38,7 +41,7 @@ export const Watch: Component = () => {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["watch", videoId],
 		queryFn: () => {
-			return client.getStream(videoId);
+			return client.getWatchable(videoId);
 		},
 		enabled: !videoIdIsInvalid
 	});
@@ -62,10 +65,10 @@ export const Watch: Component = () => {
 		<Container>
 			{isLoading && <LoadingPage />}
 			{data && !isLoading && (
-				<div className="flex flex-col">
-					<Player />
+				<div className="flex flex-col gap-4">
+					<Player streams={data.streams} />
 					<div className="flex flex-col xl:flex-row gap-4">
-						<div className="xl:w-2/3 flex flex-col gap-4">
+						<div className=" flex flex-col gap-4">
 							<div className="flex flex-col">
 								<h1 className="text-2xl">{data.video.title}</h1>
 								<div className="flex flex-row gap-4 text-lg tracking-tight text-default-500">
@@ -98,7 +101,7 @@ export const Watch: Component = () => {
 								<div className="flex flex-row gap-2">
 									<p>Keywords:</p>
 									<div className="flex flex-row gap-2 whitespace-nowrap overflow-x-scroll">
-										{data.keywords.map((keyword) => (
+										{data.keywords.slice(0, maxKeyWords).map((keyword) => (
 											<Chip key={keyword}>{keyword}</Chip>
 										))}
 									</div>
@@ -114,7 +117,7 @@ export const Watch: Component = () => {
 								videoUploader={data.video.author}
 							/>
 						</div>
-						<div className="xl:w-1/3 flex justify-center">
+						<div className="flex justify-center">
 							<Related data={data.related} />
 						</div>
 					</div>
