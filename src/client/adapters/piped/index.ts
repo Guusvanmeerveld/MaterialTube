@@ -7,6 +7,7 @@ import Adapter, { ApiType } from "@/client/adapters";
 import { Suggestions } from "@/client/typings/search/suggestions";
 
 import Transformer from "./transformer";
+import Comments, { CommentsModel } from "./typings/comments";
 import Search, { SearchModel } from "./typings/search";
 import Stream, { StreamModel } from "./typings/stream";
 import Video, { VideoModel } from "./typings/video";
@@ -105,6 +106,28 @@ const getStream = async (
 	return data;
 };
 
+const getComments = async (
+	apiBaseUrl: string,
+	videoId: string,
+	nextpage?: string
+): Promise<Comments> => {
+	const searchParams = new URLSearchParams();
+
+	let url;
+	if (nextpage) {
+		url = new URL(path.join("nextpage", "comments", videoId), apiBaseUrl);
+		searchParams.append("nextpage", nextpage);
+	} else url = new URL(path.join("comments", videoId), apiBaseUrl);
+
+	const response = await ky.get(url);
+
+	const json = await response.json();
+
+	const data = CommentsModel.parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Piped,
 
@@ -146,6 +169,10 @@ const adapter: Adapter = {
 
 			async getStream(videoId) {
 				return getStream(url, videoId).then(Transformer.stream);
+			},
+
+			async getComments(videoId) {
+				return getComments(url, videoId).then(Transformer.comments);
 			}
 		};
 	}

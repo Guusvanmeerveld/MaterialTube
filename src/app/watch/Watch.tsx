@@ -10,10 +10,11 @@ import { useClient } from "@/hooks/useClient";
 
 import formatBigNumber from "@/utils/formatBigNumber";
 
+import { Author } from "@/components/Author";
 import { Container } from "@/components/Container";
 import { LoadingPage } from "@/components/LoadingPage";
 
-import { Channel } from "./Channel";
+import { Comments } from "./Comments";
 import { Description } from "./Description";
 import { Player } from "./Player";
 import { Related } from "./Related";
@@ -37,6 +38,19 @@ export const Watch: Component = () => {
 		enabled: !videoIdIsInvalid
 	});
 
+	const {
+		data: comments,
+		isLoading: isLoadingComments,
+		refetch: refetchComments,
+		error: commentsError
+	} = useQuery({
+		queryKey: ["comments", videoId],
+		queryFn: () => {
+			return client.getComments(videoId);
+		},
+		enabled: !videoIdIsInvalid
+	});
+
 	if (error) console.log(error);
 
 	return (
@@ -46,7 +60,7 @@ export const Watch: Component = () => {
 				<div className="flex flex-col">
 					<Player />
 					<div className="flex flex-col xl:flex-row gap-4">
-						<div className="flex-1 flex flex-col gap-4">
+						<div className="xl:w-2/3 flex flex-col gap-4">
 							<div className="flex flex-col">
 								<h1 className="text-2xl">{data.video.title}</h1>
 								<div className="flex flex-row gap-4 text-lg tracking-tight text-default-500">
@@ -57,7 +71,7 @@ export const Watch: Component = () => {
 								</div>
 							</div>
 
-							<Channel data={data.video.author} />
+							<Author data={data.video.author} />
 
 							<Description data={data.video.description ?? ""} />
 
@@ -67,17 +81,28 @@ export const Watch: Component = () => {
 							</div>
 
 							{data.keywords.length !== 0 && (
-								<div className="flex flex-row gap-2 items-center flex-wrap">
-									<h1>Keywords:</h1>
-									{data.keywords.map((keyword) => (
-										<Chip key={keyword}>{keyword}</Chip>
-									))}
+								<div className="flex flex-row gap-2">
+									<p>Keywords:</p>
+									<div className="flex flex-row gap-2 whitespace-nowrap overflow-x-scroll">
+										{data.keywords.map((keyword) => (
+											<Chip key={keyword}>{keyword}</Chip>
+										))}
+									</div>
 								</div>
 							)}
 
-							<h1 className="text-xl">Comments</h1>
+							<Comments
+								data={comments}
+								error={commentsError}
+								refetch={refetchComments}
+								isLoading={isLoadingComments}
+								videoId={data.video.id}
+								videoUploader={data.video.author}
+							/>
 						</div>
-						<Related data={data.related} />
+						<div className="xl:w-1/3 flex justify-center">
+							<Related data={data.related} />
+						</div>
 					</div>
 				</div>
 			)}

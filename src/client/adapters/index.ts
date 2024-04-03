@@ -1,3 +1,4 @@
+import { Comments } from "@/client/typings/comment";
 import { SearchResults } from "@/client/typings/search";
 import { SearchOptions } from "@/client/typings/search/options";
 import { Suggestions } from "@/client/typings/search/suggestions";
@@ -11,6 +12,8 @@ export interface ConnectedAdapter {
 	getSearch(query: string, options?: SearchOptions): Promise<SearchResults>;
 
 	getStream(videoId: string): Promise<Stream>;
+
+	getComments(videoId: string, repliesToken?: string): Promise<Comments>;
 }
 
 export default interface Adapter {
