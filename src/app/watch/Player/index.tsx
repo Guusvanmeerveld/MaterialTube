@@ -1,5 +1,6 @@
 "use client";
 
+import screenfull from "screenfull";
 import { useDebounce } from "use-debounce";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -8,7 +9,6 @@ import {
 	FiMinimize as MinimizeIcon,
 	FiVolumeX as MutedIcon,
 	FiPause as PauseIcon,
-	FiFastForward as PlaybackRateIcon,
 	FiPlay as PlayIcon,
 	FiVolume as VolumeIcon,
 	FiVolume1 as VolumeIcon1,
@@ -33,9 +33,12 @@ import { Component } from "@/typings/component";
 export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 	const stream = streams.find((stream) => stream.type === StreamType.Hls);
 
-	const player = useRef<ReactPlayer>(null);
+	const playerRef = useRef<ReactPlayer>(null);
+
+	const videoPlayerId = "video-player";
 
 	const [progress, setProgress] = useState(0);
+	const [loaded, setLoaded] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const [maximized, setMaximized] = useState(false);
 	const [volume, setVolume] = useState(40);
@@ -44,11 +47,9 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 
 	const [userSetProgress, setUserSetProgress] = useState(0);
 
-	const [seek] = useDebounce(userSetProgress, 100);
-
 	useEffect(() => {
-		player.current?.seekTo(seek);
-	}, [seek]);
+		playerRef.current?.seekTo(userSetProgress);
+	}, [userSetProgress]);
 
 	const volumeIcons = useMemo(
 		() => [
@@ -60,43 +61,77 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 	);
 
 	const playbackRateCategories = useMemo(
-		() => [
-			{ key: 0.25, label: "0.25" },
-			{ key: 0.5, label: "0.5" },
-			{ key: 1, label: "1.0" },
-			{ key: 1.25, label: "1.25" },
-			{ key: 1.5, label: "1.5" },
-			{ key: 2, label: "2.0" }
-		],
+		() =>
+			[0.25, 0.5, 1, 1.25, 1.5, 2].map((speed) => ({
+				key: speed,
+				label: speed.toString()
+			})),
 		[]
 	);
 
-	const handleBuffering = useCallback(() => {}, []);
+	const updateMaximized = useCallback(() => {
+		setMaximized(screenfull.isFullscreen);
+	}, [setMaximized]);
+
+	useEffect(() => {
+		if (screenfull.isEnabled) {
+			screenfull.on("change", updateMaximized);
+		}
+
+		return () => screenfull.off("change", updateMaximized);
+	}, [updateMaximized]);
+
+	useEffect(() => {
+		if (screenfull.isEnabled) {
+			const playerElement = document.getElementById(videoPlayerId) ?? undefined;
+
+			if (maximized) screenfull.request(playerElement);
+			else screenfull.exit();
+		}
+	}, [maximized]);
 
 	return (
 		<>
-			{stream && (
-				<div className="relative" style={{ paddingTop: `${100 / (16 / 9)}%` }}>
-					<div
-						className="w-full absolute bottom-0 z-10 pb-2 px-4"
-						style={{
-							background:
-								"linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)"
-						}}
-					>
-						<div className="flex flex-col gap-1">
-							<Slider
-								aria-label="Video progress bar"
-								step={0.1}
-								onChange={(value) => {
-									if (typeof value === "number") {
-										setUserSetProgress(value / 100);
-										setProgress(value / 100);
-									}
-								}}
-								className="cursor-pointer"
-								value={progress * 100}
-							/>
+			<div className="relative" style={{ paddingTop: `${100 / (16 / 9)}%` }}>
+				<div id={videoPlayerId}>
+					<div className="flex flex-col w-full h-full absolute bottom-0 z-10 transition-opacity ease-in duration-[2000ms] opacity-0 hover:opacity-100">
+						<div
+							className="flex-1"
+							onClick={() => setPlaying((state) => !state)}
+						></div>
+						<div
+							className="flex flex-col gap-1 pb-2 px-4"
+							style={{
+								background:
+									"linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)"
+							}}
+						>
+							<div
+								className="relative flex items-center"
+								style={{ height: "24px" }}
+							>
+								<Slider
+									aria-label="Video progress bar"
+									className="w-full cursor-pointer absolute bottom-0 z-20"
+									step={0.1}
+									onChange={(value) => {
+										if (typeof value === "number") {
+											setProgress(value / 100);
+										}
+									}}
+									onChangeEnd={(value) => {
+										if (typeof value === "number") {
+											setUserSetProgress(value / 100);
+										}
+									}}
+									value={progress * 100}
+								/>
+								<div
+									className="h-3 bg-default-600/50 z-10 rounded-lg"
+									style={{ width: `${loaded * 100}%` }}
+								/>
+							</div>
+
 							<div className="flex flex-row items-center gap-4">
 								<div className="flex flex-1 flex-row gap-2 items-center">
 									<Button
@@ -110,17 +145,14 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 
 									<Dropdown>
 										<DropdownTrigger>
-											<Button
-												variant="light"
-												isIconOnly
-												className="text-xl"
-												onClick={() => setMaximized((state) => !state)}
-											>
-												{
+											<Button variant="light" isIconOnly className="text-xl">
+												{volume === 0 ? (
+													<MutedIcon />
+												) : (
 													volumeIcons[
 														Math.floor((volume / 100) * volumeIcons.length)
 													]
-												}
+												)}
 											</Button>
 										</DropdownTrigger>
 										<DropdownMenu aria-label="Volume menu">
@@ -181,29 +213,32 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 						</div>
 					</div>
 
-					<ReactPlayer
-						playing={playing}
-						volume={volume / 100}
-						playbackRate={playbackRate}
-						ref={player}
-						className="absolute top-0 left-0"
-						width="100%"
-						height="100%"
-						config={{ file: { forceHLS: true } }}
-						onPause={() => setPlaying(false)}
-						onPlay={() => setPlaying(true)}
-						onDuration={(duration) => setDuration(duration)}
-						onBuffer={handleBuffering}
-						onProgress={({ played }) => {
-							setProgress(played);
-						}}
-						// onPlaybackQualityChange={(e: unknown) =>
-						// console.log("onPlaybackQualityChange", e)
-						// }
-						url={(stream as HlsStream).url}
-					/>
+					{stream && (
+						<ReactPlayer
+							playing={playing}
+							volume={volume / 100}
+							muted={volume === 0}
+							playbackRate={playbackRate}
+							ref={playerRef}
+							className="absolute top-0 left-0"
+							width="100%"
+							height="100%"
+							onPause={() => setPlaying(false)}
+							onPlay={() => setPlaying(true)}
+							onDuration={(duration) => setDuration(duration)}
+							// onBuffer={({}) => {}}
+							onProgress={({ played, loaded }) => {
+								setProgress(played);
+								setLoaded(loaded);
+							}}
+							// onPlaybackQualityChange={(e: unknown) =>
+							// console.log("onPlaybackQualityChange", e)
+							// }
+							url={(stream as HlsStream).url}
+						/>
+					)}
 				</div>
-			)}
+			</div>
 		</>
 	);
 };

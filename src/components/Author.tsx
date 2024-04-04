@@ -10,33 +10,36 @@ import formatBigNumber from "@/utils/formatBigNumber";
 import { channelUrl } from "@/utils/urls";
 
 export const Author: FC<{ data: AuthorProps }> = ({ data }) => {
+	const url = data.id ? channelUrl(data.id) : "#";
+
 	return (
-		<Link
-			as={NextLink}
-			href={data.id ? channelUrl(data.id) : undefined}
-			className="flex flex-row gap-4 items-center"
-		>
+		<div className="flex flex-row gap-4 items-center">
 			{data.avatar && (
-				<Avatar
-					isBordered
-					name={data.name}
-					showFallback
-					size="lg"
-					src={data.avatar}
-					alt={data.name}
-				/>
+				<Link as={NextLink} href={url}>
+					<Avatar
+						isBordered
+						name={data.name}
+						showFallback
+						size="lg"
+						src={data.avatar}
+						alt={data.name}
+					/>
+				</Link>
 			)}
 			<div className="flex flex-col">
-				<div className="flex flex-row gap-1 items-center">
-					<p className="text-lg text-default-600">{data.name}</p>
-					<VerifiedIcon className="text-success" />
-				</div>
+				<Link as={NextLink} href={url}>
+					<div className="flex flex-row gap-1 items-center">
+						<p className="text-lg text-default-600">{data.name}</p>
+						<VerifiedIcon className="text-success" />
+					</div>
+				</Link>
+
 				{data.subscribers && (
 					<p className="text-default-400 tracking-tight">
 						{formatBigNumber(data.subscribers)} subscribers
 					</p>
 				)}
 			</div>
-		</Link>
+		</div>
 	);
 };
