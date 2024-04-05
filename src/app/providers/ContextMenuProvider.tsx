@@ -1,29 +1,58 @@
-import { useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 
-import { Listbox, ListboxItem } from "@nextui-org/listbox";
+import { Listbox, ListboxItem, ListboxSection } from "@nextui-org/listbox";
 
 import useContextMenuStore from "@/hooks/useContextMenuStore";
 
 import { Component } from "@/typings/component";
+import {
+	ContextMenuAction as ContextMenuActionProps,
+	ContextMenuItemType
+} from "@/typings/contextMenu";
 
-const Menu: Component = () => {
+const ContextMenuActionComponent: FC<{
+	item: ContextMenuActionProps;
+	hideContextMenu: () => void;
+}> = ({ item, hideContextMenu }) => {
+	return (
+		<ListboxItem
+			onClick={() => {
+				if (item.onClick) {
+					item.onClick();
+					hideContextMenu();
+				}
+			}}
+			description={item.description}
+			startContent={item.icon}
+			showDivider={item.showDivider}
+			key={item.key}
+			href={item.href}
+		>
+			{item.title}
+		</ListboxItem>
+	);
+};
+
+const Menu: FC = () => {
 	const shouldShow = useContextMenuStore((state) => state.show);
 	const menu = useContextMenuStore((state) => state.items);
 	const hide = useContextMenuStore((state) => state.hide);
 
 	const location = useContextMenuStore((state) => state.location);
 
-	const handleClick = useCallback(() => {
+	const hideIfShown = useCallback(() => {
 		if (shouldShow) hide();
 	}, [hide, shouldShow]);
 
 	useEffect(() => {
-		window.addEventListener("click", handleClick);
+		window.addEventListener("click", hideIfShown);
+		window.addEventListener("scroll", hideIfShown);
 
 		return () => {
-			window.removeEventListener("click", handleClick);
+			window.removeEventListener("click", hideIfShown);
+			window.removeEventListener("scroll", hideIfShown);
 		};
-	}, [handleClick]);
+	}, [hideIfShown]);
 
 	return (
 		<div
@@ -34,22 +63,47 @@ const Menu: Component = () => {
 			}}
 			className="bg-background border-small max-w-xs rounded-small border-default-200 absolute z-10"
 		>
-			<Listbox aria-label="Context Menu">
-				{menu.map((item) => (
-					<ListboxItem
-						onClick={() => {
-							if (item.onClick) {
-								item.onClick();
-								hide();
-							}
-						}}
-						showDivider={item.showDivider}
-						key={item.key}
-						href={item.href}
-					>
-						{item.title}
-					</ListboxItem>
-				))}
+			<Listbox aria-label="Context Menu" items={menu}>
+				{(item) => {
+					switch (item.type) {
+						case ContextMenuItemType.Action:
+							return (
+								<ContextMenuActionComponent
+									item={item}
+									hideContextMenu={hide}
+									key={item.key}
+								/>
+							);
+
+						case ContextMenuItemType.Category:
+							const category = item;
+							return (
+								<ListboxSection
+									title={category.title}
+									key={category.key}
+									showDivider={category.showDivider}
+								>
+									{category.items.map((item) => (
+										<ListboxItem
+											onClick={() => {
+												if (item.onClick) {
+													item.onClick();
+													hide();
+												}
+											}}
+											description={item.description}
+											startContent={item.icon}
+											showDivider={item.showDivider}
+											key={item.key}
+											href={item.href}
+										>
+											{item.title}
+										</ListboxItem>
+									))}
+								</ListboxSection>
+							);
+					}
+				}}
 			</Listbox>
 		</div>
 	);
