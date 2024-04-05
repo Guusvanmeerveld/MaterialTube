@@ -34,16 +34,33 @@ export const Watch: Component = () => {
 
 	const searchParams = useSearchParams();
 
-	const videoId = searchParams.get("v") as string;
+	const videoId = useMemo(() => {
+		const param = searchParams.get("v");
 
-	const videoIdIsInvalid = useMemo(() => videoId === null, [videoId]);
+		if (param === null) return;
+
+		return param;
+	}, [searchParams]);
+
+	const timestamp = useMemo(() => {
+		const param = searchParams.get("t");
+
+		if (param === null) return;
+
+		const time = parseInt(param);
+
+		if (isNaN(time)) return;
+
+		return time;
+	}, [searchParams]);
 
 	const { data, isLoading, error } = useQuery({
 		queryKey: ["watch", videoId],
 		queryFn: () => {
+			if (!videoId) return;
 			return client.getWatchable(videoId);
 		},
-		enabled: !videoIdIsInvalid
+		enabled: !!videoId
 	});
 
 	const {
@@ -54,9 +71,10 @@ export const Watch: Component = () => {
 	} = useQuery({
 		queryKey: ["comments", videoId],
 		queryFn: () => {
+			if (!videoId) return;
 			return client.getComments(videoId);
 		},
-		enabled: !videoIdIsInvalid
+		enabled: !!videoId
 	});
 
 	if (error) console.log(error);
@@ -66,7 +84,11 @@ export const Watch: Component = () => {
 			{isLoading && <LoadingPage />}
 			{data && !isLoading && (
 				<div className="flex flex-col gap-4">
-					<Player streams={data.streams} />
+					<Player
+						initialTimestamp={timestamp}
+						initialDuration={data.video.duration / 1000}
+						streams={data.streams}
+					/>
 					<div className="flex flex-col xl:flex-row gap-4">
 						<div className="flex flex-1 flex-col gap-4">
 							<div className="flex flex-col">

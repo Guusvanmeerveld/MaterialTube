@@ -30,11 +30,12 @@ export const Description: Component<{ data: string }> = ({ data }) => {
 		[data]
 	);
 
-	const descriptionAlreadyShort = sanitizedDescription.length <= 200;
+	const descriptionAlreadyShort =
+		sanitizedDescription.length <= shortenedDescriptionLength;
 
 	const descriptionCut = useMemo(() => {
-		if (descriptionAlreadyShort) return sanitizedDescription;
-		else if (expandedDescription) return sanitizedDescription;
+		if (descriptionAlreadyShort || expandedDescription)
+			return sanitizedDescription;
 		else
 			return (
 				sanitizedDescription.substring(0, shortenedDescriptionLength) + "..."
