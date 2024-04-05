@@ -2,9 +2,9 @@ import { NextPage } from "next";
 import { Suspense } from "react";
 
 import { Container } from "@/components/Container";
+import { Search } from "@/components/Search";
 
 import { SearchPage } from "./SearchPage";
-import { SearchPageHeader } from "./SearchPageHeader";
 
 const Page: NextPage = () => {
 	return (
@@ -12,7 +12,7 @@ const Page: NextPage = () => {
 			<Suspense
 				fallback={
 					<Container>
-						<SearchPageHeader />
+						<Search />
 					</Container>
 				}
 			>

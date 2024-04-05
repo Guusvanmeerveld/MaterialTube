@@ -6,9 +6,9 @@ import { FC, useMemo } from "react";
 import { SearchType, SearchTypeModel } from "@/client/typings/search/options";
 
 import { Container } from "@/components/Container";
+import { Search } from "@/components/Search";
 
 import { SearchPageBody } from "./SearchPageBody";
-import { SearchPageHeader } from "./SearchPageHeader";
 
 export const SearchPage: FC = () => {
 	const searchParams = useSearchParams();
@@ -16,7 +16,7 @@ export const SearchPage: FC = () => {
 	const query = useMemo(() => {
 		const param = searchParams.get("search_query");
 
-		if (param === null || param.length === null) return;
+		if (param === null || param.length === 0) return;
 
 		return param;
 	}, [searchParams]);
@@ -34,7 +34,7 @@ export const SearchPage: FC = () => {
 	return (
 		<>
 			<Container>
-				<SearchPageHeader query={query} filter={filter} />
+				<Search query={query} filter={filter} />
 				{query && <SearchPageBody query={query} filter={filter} />}
 			</Container>
 		</>
