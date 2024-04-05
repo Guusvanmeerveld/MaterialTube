@@ -263,11 +263,7 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 								<div className="flex flex-row gap-2 items-center">
 									<Dropdown>
 										<DropdownTrigger>
-											<Button
-												className="text-xl"
-												// startContent={<PlaybackRateIcon />}
-												variant="light"
-											>
+											<Button className="text-xl" variant="light">
 												{playbackRate}x
 											</Button>
 										</DropdownTrigger>

@@ -68,7 +68,7 @@ export const Watch: Component = () => {
 				<div className="flex flex-col gap-4">
 					<Player streams={data.streams} />
 					<div className="flex flex-col xl:flex-row gap-4">
-						<div className=" flex flex-col gap-4">
+						<div className="flex flex-1 flex-col gap-4">
 							<div className="flex flex-col">
 								<h1 className="text-2xl">{data.video.title}</h1>
 								<div className="flex flex-row gap-4 text-lg tracking-tight text-default-500">
