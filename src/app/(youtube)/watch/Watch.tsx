@@ -86,7 +86,7 @@ export const Watch: Component = () => {
 				<div className="flex flex-col gap-4">
 					<Player
 						initialTimestamp={timestamp}
-						initialDuration={data.video.duration / 1000}
+						video={data.video}
 						streams={data.streams}
 					/>
 					<div className="flex flex-col xl:flex-row gap-4">
