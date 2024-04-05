@@ -30,7 +30,11 @@ import formatDuration from "@/utils/formatDuration";
 
 import { Component } from "@/typings/component";
 
-export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
+export const Player: Component<{
+	streams: Stream[];
+	initialDuration: number;
+	initialTimestamp?: number;
+}> = ({ streams, initialTimestamp, initialDuration }) => {
 	const stream = streams.find((stream) => stream.type === StreamType.Hls);
 
 	const playerRef = useRef<ReactPlayer>(null);
@@ -61,9 +65,9 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 		];
 	}, []);
 
+	const [duration, setDuration] = useState(initialDuration);
 	const [progress, setProgress] = useState(0);
 	const [loaded, setLoaded] = useState(0);
-	const [duration, setDuration] = useState(0);
 	const [maximized, setMaximized] = useState(false);
 	const [volume, setVolume] = useState(40);
 	const [muted, setMuted] = useState(false);
@@ -153,6 +157,11 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 	useEffect(() => {
 		playerRef.current?.seekTo(userSetProgress);
 	}, [userSetProgress]);
+
+	useEffect(() => {
+		if (initialTimestamp && initialTimestamp <= duration)
+			setUserSetProgress(initialTimestamp / duration);
+	}, [initialTimestamp, duration]);
 
 	const updateMaximized = useCallback(() => {
 		setMaximized(screenfull.isFullscreen);
