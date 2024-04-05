@@ -1,6 +1,7 @@
 "use client";
 
 import screenfull from "screenfull";
+import { useDebounce } from "use-debounce";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -10,6 +11,7 @@ import {
 	FiVolumeX as MutedIcon,
 	FiPause as PauseIcon,
 	FiPlay as PlayIcon,
+	FiSettings as SettingsIcon,
 	FiVolume as VolumeIcon,
 	FiVolume1 as VolumeIcon1,
 	FiVolume2 as VolumeIcon2
@@ -26,15 +28,16 @@ import {
 import { Slider } from "@nextui-org/slider";
 
 import { HlsStream, Stream, StreamType } from "@/client/typings/stream";
+import { Video } from "@/client/typings/video";
 import formatDuration from "@/utils/formatDuration";
 
 import { Component } from "@/typings/component";
 
 export const Player: Component<{
 	streams: Stream[];
-	initialDuration: number;
+	video: Video;
 	initialTimestamp?: number;
-}> = ({ streams, initialTimestamp, initialDuration }) => {
+}> = ({ streams, initialTimestamp, video }) => {
 	const stream = streams.find((stream) => stream.type === StreamType.Hls);
 
 	const playerRef = useRef<ReactPlayer>(null);
@@ -65,7 +68,20 @@ export const Player: Component<{
 		];
 	}, []);
 
-	const [duration, setDuration] = useState(initialDuration);
+	const [showOverlay, setShowOverlay] = useState(false);
+	const [mouseOnOverlay, setMouseOnOverlay] = useState([0, 0]);
+
+	useEffect(() => {
+		setShowOverlay(true);
+	}, [mouseOnOverlay]);
+
+	const [mouseLastMoved] = useDebounce(mouseOnOverlay, 2000);
+
+	useEffect(() => {
+		setShowOverlay(false);
+	}, [mouseLastMoved]);
+
+	const [duration, setDuration] = useState(video.duration / 1000);
 	const [progress, setProgress] = useState(0);
 	const [loaded, setLoaded] = useState(0);
 	const [maximized, setMaximized] = useState(false);
@@ -79,7 +95,11 @@ export const Player: Component<{
 	const seekForward = useCallback(
 		(seconds: number) => {
 			if (duration >= seconds) {
-				const newProgress = progress + seconds / duration;
+				let newProgress = progress + seconds / duration;
+
+				if (newProgress <= 0) newProgress = 0;
+
+				if (newProgress >= duration) newProgress = duration;
 
 				setUserSetProgress(newProgress);
 				setProgress(newProgress);
@@ -188,11 +208,28 @@ export const Player: Component<{
 		<>
 			<div className="relative" style={{ paddingTop: `${100 / (16 / 9)}%` }}>
 				<div id={videoPlayerId}>
-					<div className="flex flex-col w-full h-full absolute bottom-0 z-10 transition-opacity ease-in duration-[2000ms] opacity-0 hover:opacity-100">
+					<div
+						className="flex flex-col w-full h-full absolute bottom-0 z-10 transition-opacity ease-in duration-[2000ms]"
+						style={{
+							opacity: showOverlay ? 100 : 0,
+							cursor: showOverlay ? "initial" : "none"
+						}}
+						onMouseMove={(e) => setMouseOnOverlay([e.movementX, e.movementY])}
+					>
+						<div
+							style={{
+								display: maximized ? "flex" : "none",
+								background:
+									"linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)"
+							}}
+							className="flex-row gap-2 p-4"
+						>
+							<p className="text-3xl">{video.title}</p>
+						</div>
 						<div
 							className="flex-1"
 							onClick={() => setPlaying((state) => !state)}
-						></div>
+						/>
 						<div
 							className="flex flex-col gap-1 pb-2 px-4"
 							style={{
@@ -270,6 +307,27 @@ export const Player: Component<{
 									</p>
 								</div>
 								<div className="flex flex-row gap-2 items-center">
+									<Dropdown>
+										<DropdownTrigger>
+											<Button className="text-xl" isIconOnly variant="light">
+												<SettingsIcon />
+											</Button>
+										</DropdownTrigger>
+										<DropdownMenu
+											aria-label="Playback rate menu"
+											onAction={(key) => {
+												setPlaybackRate(parseFloat(key as string));
+											}}
+											items={playbackRateMenuItems}
+										>
+											{(item) => (
+												<DropdownItem key={item.key}>
+													{item.label}x
+												</DropdownItem>
+											)}
+										</DropdownMenu>
+									</Dropdown>
+
 									<Dropdown>
 										<DropdownTrigger>
 											<Button className="text-xl" variant="light">
