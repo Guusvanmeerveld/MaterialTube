@@ -1,9 +1,9 @@
 "use client";
 
 import screenfull from "screenfull";
-import { useDebounce } from "use-debounce";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import {
 	FiMaximize as MaximizeIcon,
 	FiMinimize as MinimizeIcon,
@@ -37,19 +37,8 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 
 	const videoPlayerId = "video-player";
 
-	const [progress, setProgress] = useState(0);
-	const [loaded, setLoaded] = useState(0);
-	const [duration, setDuration] = useState(0);
-	const [maximized, setMaximized] = useState(false);
-	const [volume, setVolume] = useState(40);
-	const [playbackRate, setPlaybackRate] = useState(1.0);
-	const [playing, setPlaying] = useState(false);
-
-	const [userSetProgress, setUserSetProgress] = useState(0);
-
-	useEffect(() => {
-		playerRef.current?.seekTo(userSetProgress);
-	}, [userSetProgress]);
+	// TODO: Make framerate based on video, not a set number
+	const framerate = 60;
 
 	const volumeIcons = useMemo(
 		() => [
@@ -60,14 +49,110 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 		[]
 	);
 
-	const playbackRateCategories = useMemo(
-		() =>
-			[0.25, 0.5, 1, 1.25, 1.5, 2].map((speed) => ({
+	const [playbackRateMenuItems, playbackRateCategories] = useMemo(() => {
+		const categories = [0.25, 0.5, 1, 1.25, 1.5, 2];
+
+		return [
+			categories.map((speed) => ({
 				key: speed,
 				label: speed.toString()
 			})),
-		[]
+			categories
+		];
+	}, []);
+
+	const [progress, setProgress] = useState(0);
+	const [loaded, setLoaded] = useState(0);
+	const [duration, setDuration] = useState(0);
+	const [maximized, setMaximized] = useState(false);
+	const [volume, setVolume] = useState(40);
+	const [muted, setMuted] = useState(false);
+	const [playbackRate, setPlaybackRate] = useState(1.0);
+	const [playing, setPlaying] = useState(false);
+
+	const [userSetProgress, setUserSetProgress] = useState(0);
+
+	const seekForward = useCallback(
+		(seconds: number) => {
+			if (duration >= seconds) {
+				const newProgress = progress + seconds / duration;
+
+				setUserSetProgress(newProgress);
+				setProgress(newProgress);
+			}
+		},
+		[progress, duration]
 	);
+
+	const increaseVolume = useCallback((amount: number) => {
+		setVolume((state) => {
+			const newVolume = state + amount;
+
+			if (newVolume >= 0 && newVolume <= 100) return newVolume;
+			else return state;
+		});
+	}, []);
+
+	const increasePlaybackRate = useCallback(
+		(amount: number) => {
+			const indexOfCurrentRate = playbackRateCategories.indexOf(playbackRate);
+
+			if (indexOfCurrentRate < 0) return;
+
+			const newRateIndex = indexOfCurrentRate + amount;
+
+			if (newRateIndex < 0 || newRateIndex > playbackRateCategories.length - 1)
+				return;
+
+			setPlaybackRate(playbackRateCategories[newRateIndex]);
+		},
+		[playbackRate, playbackRateCategories]
+	);
+
+	useHotkeys(["k", "space"], () => setPlaying((state) => !state), {
+		preventDefault: true
+	});
+
+	useHotkeys(["f"], () => setMaximized((state) => !state));
+
+	useHotkeys(["m"], () => setMuted((state) => !state));
+
+	useHotkeys(["arrowup"], () => increaseVolume(5), { preventDefault: true });
+	useHotkeys(["arrowdown"], () => increaseVolume(-5), { preventDefault: true });
+
+	useHotkeys(["arrowright"], () => seekForward(5));
+	useHotkeys(["arrowleft"], () => seekForward(-5));
+
+	useHotkeys(["shift+."], () => increasePlaybackRate(1));
+	useHotkeys(["shift+,"], () => increasePlaybackRate(-1));
+
+	useHotkeys(["l"], () => seekForward(10));
+	useHotkeys(["j"], () => seekForward(-10));
+
+	useHotkeys(
+		["."],
+		() => {
+			if (!playing) seekForward(1 / framerate);
+		},
+		[seekForward, playing, framerate]
+	);
+	useHotkeys(
+		[","],
+		() => {
+			if (!playing) seekForward(-(1 / framerate));
+		},
+		[seekForward, playing, framerate]
+	);
+
+	// Mute if volume is 0
+	useEffect(() => {
+		if (volume === 0) setMuted(true);
+		else setMuted(false);
+	}, [volume]);
+
+	useEffect(() => {
+		playerRef.current?.seekTo(userSetProgress);
+	}, [userSetProgress]);
 
 	const updateMaximized = useCallback(() => {
 		setMaximized(screenfull.isFullscreen);
@@ -146,7 +231,7 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 									<Dropdown>
 										<DropdownTrigger>
 											<Button variant="light" isIconOnly className="text-xl">
-												{volume === 0 ? (
+												{muted ? (
 													<MutedIcon />
 												) : (
 													volumeIcons[
@@ -158,6 +243,7 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 										<DropdownMenu aria-label="Volume menu">
 											<DropdownItem>
 												<Slider
+													aria-label="Volume slider"
 													className="h-48"
 													value={volume}
 													onChange={(value) => {
@@ -190,7 +276,7 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 											onAction={(key) => {
 												setPlaybackRate(parseFloat(key as string));
 											}}
-											items={playbackRateCategories}
+											items={playbackRateMenuItems}
 										>
 											{(item) => (
 												<DropdownItem key={item.key}>
@@ -217,7 +303,7 @@ export const Player: Component<{ streams: Stream[] }> = ({ streams }) => {
 						<ReactPlayer
 							playing={playing}
 							volume={volume / 100}
-							muted={volume === 0}
+							muted={muted}
 							playbackRate={playbackRate}
 							ref={playerRef}
 							className="absolute top-0 left-0"
