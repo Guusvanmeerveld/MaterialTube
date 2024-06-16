@@ -1,6 +1,7 @@
 import Adapter, { ApiType, ConnectedAdapter } from "./adapters";
 import InvidiousAdapter from "./adapters/invidious";
 import PipedAdapter from "./adapters/piped";
+import { Channel } from "./typings/channel";
 import { Comments } from "./typings/comment";
 import { SearchResults } from "./typings/search";
 import { SearchOptions } from "./typings/search/options";
@@ -90,5 +91,11 @@ export default class Client {
 		const adapter = this.getBestAdapter();
 
 		return await adapter.getComments(videoId, repliesToken);
+	}
+
+	public async getChannel(channelId: string): Promise<Channel> {
+		const adapter = this.getBestAdapter();
+
+		return await adapter.getChannel(channelId);
 	}
 }

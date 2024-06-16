@@ -7,7 +7,7 @@ export const VideoModel = z.object({
 	uploaded: z.number(),
 	uploadedDate: z.string().nullable(), // The date the video was uploaded
 	uploaderName: z.string(),
-	uploaderAvatar: z.string().url(), // The avatar of the channel of the video
+	uploaderAvatar: z.string().url().nullable(), // The avatar of the channel of the video
 	uploaderUrl: z.string(), // The URL of the channel of the video
 	uploaderVerified: z.boolean(), // Whether or not the channel of the video is verified
 	url: z.string(), // The URL of the video

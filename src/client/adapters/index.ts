@@ -1,3 +1,4 @@
+import { Channel } from "@/client/typings/channel";
 import { Comments } from "@/client/typings/comment";
 import { SearchResults } from "@/client/typings/search";
 import { SearchOptions } from "@/client/typings/search/options";
@@ -14,6 +15,8 @@ export interface ConnectedAdapter {
 	getWatchable(videoId: string): Promise<Watchable>;
 
 	getComments(videoId: string, repliesToken?: string): Promise<Comments>;
+
+	getChannel(channelId: string): Promise<Channel>;
 }
 
 export default interface Adapter {

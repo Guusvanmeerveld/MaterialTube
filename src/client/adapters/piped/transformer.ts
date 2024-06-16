@@ -1,3 +1,4 @@
+import { Channel } from "@/client/typings/channel";
 import { Comments } from "@/client/typings/comment";
 import {
 	ChannelItem,
@@ -15,6 +16,7 @@ import {
 } from "@/utils/parseIdFromUrl";
 import { parseRelativeTime } from "@/utils/parseRelativeTime";
 
+import PipedChannel from "./typings/channel";
 import PipedComments from "./typings/comments";
 import PipedItem from "./typings/item";
 import PipedSearch from "./typings/search";
@@ -88,7 +90,7 @@ export default class Transformer {
 			author: {
 				id: channelId,
 				name: data.uploaderName,
-				avatar: data.uploaderAvatar
+				avatar: data.uploaderAvatar ?? undefined
 			}
 		};
 	}
@@ -160,6 +162,18 @@ export default class Transformer {
 
 				repliesToken: comment.repliesPage ?? undefined
 			}))
+		};
+	}
+
+	public static channel(data: PipedChannel): Channel {
+		return {
+			name: data.name,
+			id: data.id,
+			description: data.description,
+			avatar: data.avatarUrl,
+			subscribers: data.subscriberCount,
+			banner: data.bannerUrl,
+			verified: data.verified
 		};
 	}
 }

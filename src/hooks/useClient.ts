@@ -8,7 +8,7 @@ export const useClient = (): Client => {
 		() =>
 			new Client([
 				// { baseUrl: "https://invidious.fdn.fr/", type: ApiType.Invidious }
-				{ baseUrl: "https://pipedapi.kavin.rocks", type: ApiType.Piped }
+				{ baseUrl: "https://pipedapi.drgns.space/", type: ApiType.Piped }
 			])
 	);
 
