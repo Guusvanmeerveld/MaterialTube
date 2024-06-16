@@ -7,6 +7,7 @@ import Adapter, { ApiType } from "@/client/adapters";
 import { Suggestions } from "@/client/typings/search/suggestions";
 
 import Transformer from "./transformer";
+import Channel, { ChannelModel } from "./typings/channel";
 import Comments, { CommentsModel } from "./typings/comments";
 import Search, { SearchModel } from "./typings/search";
 import Stream, { StreamModel } from "./typings/stream";
@@ -128,6 +129,28 @@ const getComments = async (
 	return data;
 };
 
+export const getChannel = async (
+	apiBaseUrl: string,
+	channelId: string,
+	nextpage?: string
+): Promise<Channel> => {
+	const searchParams = new URLSearchParams();
+
+	let url;
+	if (nextpage) {
+		url = new URL(path.join("nextpage", "channel", channelId), apiBaseUrl);
+		searchParams.append("nextpage", nextpage);
+	} else url = new URL(path.join("channel", channelId), apiBaseUrl);
+
+	const response = await ky.get(url, { searchParams });
+
+	const json = await response.json();
+
+	const data = ChannelModel.parse(json);
+
+	return data;
+};
+
 const adapter: Adapter = {
 	apiType: ApiType.Piped,
 
@@ -177,6 +200,10 @@ const adapter: Adapter = {
 				return getComments(url, videoId, repliesToken).then(
 					Transformer.comments
 				);
+			},
+
+			async getChannel(channelId) {
+				return getChannel(url, channelId, undefined).then(Transformer.channel);
 			}
 		};
 	}
