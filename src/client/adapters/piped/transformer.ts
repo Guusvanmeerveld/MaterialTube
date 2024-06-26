@@ -169,10 +169,10 @@ export default class Transformer {
 		return {
 			name: data.name,
 			id: data.id,
-			description: data.description,
-			avatar: data.avatarUrl,
+			description: data.description ?? undefined,
+			avatar: data.avatarUrl ?? undefined,
 			subscribers: data.subscriberCount,
-			banner: data.bannerUrl,
+			banner: data.bannerUrl ?? undefined,
 			verified: data.verified
 		};
 	}

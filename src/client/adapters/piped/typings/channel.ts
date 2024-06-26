@@ -14,9 +14,9 @@ export const tabType = z.enum(tabEnum);
 export const ChannelModel = z.object({
 	id: z.string(),
 	name: z.string(),
-	avatarUrl: z.string().url(),
-	bannerUrl: z.string().url(),
-	description: z.string(),
+	avatarUrl: z.string().url().nullable(),
+	bannerUrl: z.string().url().nullable(),
+	description: z.string().nullable(),
 	nextpage: z.string().nullable(),
 	subscriberCount: z.number(),
 	verified: z.boolean(),
