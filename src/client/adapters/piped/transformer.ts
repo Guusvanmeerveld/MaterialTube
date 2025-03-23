@@ -109,6 +109,7 @@ export default class Transformer {
 		const streams: Stream[] = [];
 
 		if (data.dash) streams.push({ type: StreamType.Dash, url: data.dash });
+
 		if (data.hls) streams.push({ type: StreamType.Hls, url: data.hls });
 
 		return {

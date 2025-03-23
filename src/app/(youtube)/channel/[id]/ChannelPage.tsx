@@ -7,17 +7,19 @@ import { useClient } from "@/hooks/useClient";
 
 import { Container } from "@/components/Container";
 
+import { Header } from "./Header";
+
 export const ChannelPage: FC<{ channelId: string }> = ({ channelId }) => {
 	const client = useClient();
 
-	const { error } = useQuery({
+	const { data, error: fetchError } = useQuery({
 		queryKey: ["channel", channelId],
-		queryFn: () => {
-			return client.getChannel(channelId);
-		}
+		queryFn: () => client.getChannel(channelId)
 	});
 
-	console.log(error);
+	const error: Error | null = fetchError;
 
-	return <Container>{channelId}</Container>;
+	return (
+		<Container>{data && error === null && <Header data={data} />}</Container>
+	);
 };

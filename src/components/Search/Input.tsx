@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { FC, useMemo, useState } from "react";
 import { FiSearch as SearchIcon } from "react-icons/fi";
 
-import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
+import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
 
 import { useClient } from "@/hooks/useClient";
 
@@ -40,32 +40,32 @@ export const Input: FC<{
 
 	return (
 		<Autocomplete
-			isClearable={false}
-			name="search_query"
-			value={searchQuery}
-			isLoading={isLoading}
 			defaultInputValue={query}
-			onValueChange={setSearchQuery}
+			defaultItems={suggestions}
+			errorMessage={error !== null ? error.toString() : ""}
+			isClearable={false}
+			isInvalid={error !== null}
+			isLoading={isLoading}
+			label="Search"
+			name="search_query"
 			onKeyDown={(e) => {
 				if (e.key === "Enter") {
 					setQuery(searchQuery);
 				}
 			}}
-			startContent={<SearchIcon className="text-xl" />}
-			defaultItems={suggestions}
 			onSelectionChange={(key) => {
 				if (key === null) return;
 
 				setSearchQuery(key.toString());
 				setQuery(key.toString());
 			}}
-			errorMessage={error !== null ? error.toString() : ""}
-			isInvalid={error !== null}
-			required
-			type="text"
-			label="Search"
-			variant="bordered"
+			onValueChange={setSearchQuery}
 			placeholder="Search for videos"
+			required
+			startContent={<SearchIcon className="text-xl" />}
+			type="text"
+			value={searchQuery}
+			variant="bordered"
 		>
 			{(suggestion) => (
 				<AutocompleteItem key={suggestion.value}>

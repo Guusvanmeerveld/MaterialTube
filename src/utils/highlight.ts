@@ -18,13 +18,11 @@ const itemPatterns: ItemPattern[] = [
 	{
 		regex:
 			/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
-		convert: (match): Link => {
-			return {
-				type: ItemType.Link,
-				href: match[0],
-				id: Math.random().toString()
-			};
-		}
+		convert: (match): Link => ({
+			type: ItemType.Link,
+			href: match[0],
+			id: Math.random().toString()
+		})
 	},
 	{
 		regex: /(\n)|(<br \/>)/g,

@@ -6,8 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
-import { Button } from "@nextui-org/button";
-import { Spacer } from "@nextui-org/spacer";
+import { Button } from "@heroui/button";
+import { Spacer } from "@heroui/spacer";
 
 import { useClient } from "@/hooks/useClient";
 
@@ -68,41 +68,39 @@ export const Trending: Component = ({}) => {
 	const error: Error | null = regionError ?? fetchError ?? noDataError ?? null;
 
 	return (
-		<>
-			<Container>
-				<div className="flex flex-row items-center gap-4">
-					<RegionSwitcher currentRegion={region} regions={validRegions} />
-					<h1 className="text-xl">Trending</h1>
+		<Container>
+			<div className="flex flex-row items-center gap-4">
+				<RegionSwitcher currentRegion={region} regions={validRegions} />
+				<h1 className="text-xl">Trending</h1>
+			</div>
+
+			{isLoading && !data && (
+				<LoadingPage
+					text={`Loading trending page for region \`${region?.name}\``}
+				/>
+			)}
+
+			{error !== null && (
+				<div className="flex-1 flex items-center justify-center">
+					<div className="text-center">
+						<h1 className="text-xl">
+							An error occurred loading the trending page
+						</h1>
+						<h2 className="text-lg">{error.toString()}</h2>
+						<Spacer y={2} />
+						<Button color="primary" onClick={() => refetch()}>
+							Retry
+						</Button>
+					</div>
 				</div>
-
-				{isLoading && !data && (
-					<LoadingPage
-						text={`Loading trending page for region \`${region?.name}\``}
-					/>
-				)}
-
-				{error !== null && (
-					<div className="flex-1 flex items-center justify-center">
-						<div className="text-center">
-							<h1 className="text-xl">
-								An error occurred loading the trending page
-							</h1>
-							<h2 className="text-lg">{error.toString()}</h2>
-							<Spacer y={2} />
-							<Button color="primary" onClick={() => refetch()}>
-								Retry
-							</Button>
-						</div>
-					</div>
-				)}
-				{data && data.length !== 0 && error === null && (
-					<div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-						{data.map((video) => (
-							<Video key={video.id} data={video} />
-						))}
-					</div>
-				)}
-			</Container>
-		</>
+			)}
+			{data && data.length !== 0 && error === null && (
+				<div className="grid gap-4 py-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+					{data.map((video) => (
+						<Video data={video} key={video.id} />
+					))}
+				</div>
+			)}
+		</Container>
 	);
 };

@@ -32,11 +32,9 @@ export const SearchPage: FC = () => {
 	}, [searchParams]);
 
 	return (
-		<>
-			<Container>
-				<Search query={query} filter={filter} />
-				{query && <SearchPageBody query={query} filter={filter} />}
-			</Container>
-		</>
+		<Container>
+			<Search filter={filter} query={query} />
+			{query && <SearchPageBody filter={filter} query={query} />}
+		</Container>
 	);
 };

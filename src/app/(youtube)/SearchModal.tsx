@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { FC, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
@@ -10,7 +10,7 @@ import {
 	ModalContent,
 	ModalFooter,
 	ModalHeader
-} from "@nextui-org/modal";
+} from "@heroui/modal";
 
 import { Search } from "@/components/Search";
 
@@ -41,7 +41,7 @@ export const SearchModal: FC = () => {
 							<Search onSearch={() => onClose()} />
 						</ModalBody>
 						<ModalFooter>
-							<Button color="danger" variant="light" onPress={onClose}>
+							<Button color="danger" onPress={onClose} variant="light">
 								Close
 							</Button>
 							<Button color="primary">Search</Button>

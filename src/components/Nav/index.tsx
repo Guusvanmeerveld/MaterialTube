@@ -1,14 +1,9 @@
 import NextLink from "next/link";
 import { FC } from "react";
 
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
-import {
-	Navbar,
-	NavbarBrand,
-	NavbarContent,
-	NavbarItem
-} from "@nextui-org/navbar";
+import { Button } from "@heroui/button";
+import { Link } from "@heroui/link";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 
 export const navHeight = 64;
 
@@ -43,7 +38,7 @@ export const Nav: FC<{ pathname: string }> = ({ pathname }) => {
 					const isActive: boolean = pathname === item.link;
 
 					return (
-						<NavbarItem key={item.title.toLowerCase()} isActive={isActive}>
+						<NavbarItem isActive={isActive} key={item.title.toLowerCase()}>
 							<Link
 								as={NextLink}
 								color={isActive ? "primary" : "foreground"}

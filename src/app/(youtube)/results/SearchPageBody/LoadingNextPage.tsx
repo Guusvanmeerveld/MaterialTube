@@ -1,6 +1,6 @@
 import { useVisibility } from "reactjs-visibility";
 
-import { CircularProgress } from "@nextui-org/progress";
+import { CircularProgress } from "@heroui/progress";
 
 import { Component } from "@/typings/component";
 
@@ -13,7 +13,7 @@ export const LoadingNextPage: Component<{
 	});
 
 	return (
-		<div ref={ref} className="flex items-center justify-center min-h-10">
+		<div className="flex items-center justify-center min-h-10" ref={ref}>
 			{isFetching && <CircularProgress aria-label="Loading more items..." />}
 		</div>
 	);

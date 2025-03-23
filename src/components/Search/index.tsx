@@ -18,11 +18,13 @@ export const Search: FC<{
 
 	const searchForQuery = (query: string): void => {
 		searchFor(query, filter);
+
 		if (onSearch) onSearch(query, filter);
 	};
 
 	const searchWithFilter = (filter: SearchType): void => {
 		searchFor(query, filter);
+
 		if (onSearch) onSearch(query, filter);
 	};
 

@@ -6,7 +6,7 @@ import {
 	FiChevronDown as ExpandIcon
 } from "react-icons/fi";
 
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 
 import { highlight } from "@/utils/highlight";
 
@@ -54,9 +54,9 @@ export const Description: Component<{ data: string }> = ({ data }) => {
 			</h2>
 			{!descriptionAlreadyShort && (
 				<Button
+					onClick={() => setExpandedDescription((state) => !state)}
 					startContent={expandedDescription ? <CollapseIcon /> : <ExpandIcon />}
 					variant="light"
-					onClick={() => setExpandedDescription((state) => !state)}
 				>
 					{expandedDescription ? "Show less" : "Show more"}
 				</Button>

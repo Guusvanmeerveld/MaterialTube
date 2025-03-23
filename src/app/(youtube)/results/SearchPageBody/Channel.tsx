@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { FC } from "react";
 
-import { Avatar } from "@nextui-org/avatar";
-import { Card, CardBody } from "@nextui-org/card";
+import { Avatar } from "@heroui/avatar";
+import { Card, CardBody } from "@heroui/card";
 
 import { ChannelItem } from "@/client/typings/item";
 import formatBigNumber from "@/utils/formatBigNumber";
@@ -20,9 +20,9 @@ export const Channel: FC<{ data: ChannelItem }> = ({ data }) => {
 					<Link href={url}>
 						<Avatar
 							className="w-32 h-32 text-2xl"
-							src={data.thumbnail}
-							name={data.name}
 							isBordered
+							name={data.name}
+							src={data.thumbnail}
 						/>
 					</Link>
 					<div className="flex-1 gap-2 flex flex-col justify-center">

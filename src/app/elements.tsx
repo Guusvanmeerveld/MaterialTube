@@ -5,14 +5,12 @@ import { NavClient } from "@/components/Nav/NavClient";
 
 import { Component } from "@/typings/component";
 
-export const Elements: Component = ({ children }) => {
-	return (
-		<>
-			<Suspense fallback={<Nav pathname="" />}>
-				<NavClient />
-			</Suspense>
+export const Elements: Component = ({ children }) => (
+	<>
+		<Suspense fallback={<Nav pathname="" />}>
+			<NavClient />
+		</Suspense>
 
-			{children}
-		</>
-	);
-};
+		{children}
+	</>
+);

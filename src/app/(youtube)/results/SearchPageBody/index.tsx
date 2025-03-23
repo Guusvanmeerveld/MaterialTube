@@ -28,12 +28,11 @@ export const SearchPageBody: FC<{ query: string; filter: SearchType }> = ({
 		isFetchingNextPage
 	} = useInfiniteQuery({
 		queryKey: ["search", query, filter],
-		queryFn: async ({ pageParam }) => {
-			return await client.getSearch(query, {
+		queryFn: async ({ pageParam }) =>
+			await client.getSearch(query, {
 				pageParam: pageParam,
 				type: filter
-			});
-		},
+			}),
 		initialPageParam: "",
 		getNextPageParam: (lastPage) => lastPage.nextCursor
 	});
@@ -54,24 +53,20 @@ export const SearchPageBody: FC<{ query: string; filter: SearchType }> = ({
 			)}
 			{data && (
 				<div className="flex flex-col gap-4 mt-4">
-					{data.pages.map((page, i) => {
-						return (
-							<Fragment key={i}>
-								{page.items.map((result) => {
-									switch (result.type) {
-										case "channel":
-											return <Channel key={result.id} data={result} />;
+					{data.pages.flatMap((page) =>
+						page.items.map((result) => {
+							switch (result.type) {
+								case "channel":
+									return <Channel data={result} key={result.id} />;
 
-										case "video":
-											return <Video key={result.id} data={result} />;
+								case "video":
+									return <Video data={result} key={result.id} />;
 
-										case "playlist":
-											return <Playlist key={result.id} data={result} />;
-									}
-								})}
-							</Fragment>
-						);
-					})}
+								case "playlist":
+									return <Playlist data={result} key={result.id} />;
+							}
+						})
+					)}
 					{error === null && (
 						<LoadingNextPage
 							isFetching={isFetchingNewPage}

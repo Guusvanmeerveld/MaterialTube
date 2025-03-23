@@ -3,14 +3,10 @@ import { Suspense } from "react";
 
 import { Watch } from "./Watch";
 
-const Page: NextPage = () => {
-	return (
-		<>
-			<Suspense>
-				<Watch />
-			</Suspense>
-		</>
-	);
-};
+const Page: NextPage = () => (
+	<Suspense>
+		<Watch />
+	</Suspense>
+);
 
 export default Page;

@@ -7,11 +7,11 @@ import {
 	FiYoutube as YoutubeIcon
 } from "react-icons/fi";
 
-import { Card, CardBody, CardFooter } from "@nextui-org/card";
-import { Divider } from "@nextui-org/divider";
-import { Image } from "@nextui-org/image";
-import { Link } from "@nextui-org/link";
-import { Tooltip } from "@nextui-org/tooltip";
+import { Card, CardBody, CardFooter } from "@heroui/card";
+import { Divider } from "@heroui/divider";
+import { Image } from "@heroui/image";
+import { Link } from "@heroui/link";
+import { Tooltip } from "@heroui/tooltip";
 
 import { Video as VideoProps } from "@/client/typings/video";
 import formatBigNumber from "@/utils/formatBigNumber";
@@ -154,13 +154,13 @@ export const Video: Component<{ data: VideoProps; size?: number }> = ({
 				<CardBody>
 					<NextLink href={url}>
 						<Image
-							as={NextImage}
-							height={height}
-							width={width}
-							unoptimized
 							alt={data.title}
+							as={NextImage}
 							className="object-contain"
+							height={height}
 							src={data.thumbnail}
+							unoptimized
+							width={width}
 						/>
 					</NextLink>
 
@@ -174,9 +174,9 @@ export const Video: Component<{ data: VideoProps; size?: number }> = ({
 						<div className="flex min-w-0">
 							<Link
 								as={NextLink}
+								className="text-ellipsis overflow-hidden whitespace-nowrap text-foreground"
 								href={url}
 								title={data.title}
-								className="text-ellipsis overflow-hidden whitespace-nowrap text-foreground"
 							>
 								{data.title}
 							</Link>
@@ -184,14 +184,14 @@ export const Video: Component<{ data: VideoProps; size?: number }> = ({
 						<div className="flex flex-row gap-2 min-w-0">
 							<Link
 								as={NextLink}
-								href={channel}
 								className="overflow-ellipsis overflow-hidden whitespace-nowrap text-small font-semibold tracking-tight text-default-400 shrink"
+								href={channel}
 							>
 								{data.author.name}
 							</Link>
 
 							{data.uploaded && (
-								<Tooltip showArrow content={data.uploaded.toLocaleString()}>
+								<Tooltip content={data.uploaded.toLocaleString()} showArrow>
 									<p className="text-small tracking-tight text-default-400 shrink-0">
 										{formatUploadedTime(data.uploaded)}
 									</p>
