@@ -7,7 +7,7 @@ const Page: NextPage<{ params: Promise<{ id: string }> }> = async ({
 	params
 }) => (
 	<Suspense>
-		<ChannelPage channelId={await params.id} />
+		<ChannelPage channelId={(await params).id} />
 	</Suspense>
 );
 

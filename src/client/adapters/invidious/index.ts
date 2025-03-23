@@ -152,6 +152,10 @@ const adapter: Adapter = {
 				return getComments(url, videoId, repliesToken).then(
 					Transformer.comments
 				);
+			},
+
+			async getChannel() {
+				return null;
 			}
 		};
 	}

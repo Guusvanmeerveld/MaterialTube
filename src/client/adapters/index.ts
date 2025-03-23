@@ -16,7 +16,7 @@ export interface ConnectedAdapter {
 
 	getComments(videoId: string, repliesToken?: string): Promise<Comments>;
 
-	getChannel(channelId: string): Promise<Channel>;
+	getChannel(channelId: string): Promise<Channel | null>;
 }
 
 export default interface Adapter {

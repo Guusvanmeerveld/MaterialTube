@@ -96,6 +96,6 @@ export default class Client {
 	public async getChannel(channelId: string): Promise<Channel> {
 		const adapter = this.getBestAdapter();
 
-		return await adapter.getChannel(channelId);
+		return (await adapter.getChannel(channelId)) as Channel;
 	}
 }
