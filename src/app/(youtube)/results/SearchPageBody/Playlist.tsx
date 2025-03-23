@@ -4,10 +4,10 @@ import NextImage from "next/image";
 import NextLink from "next/link";
 import { FC } from "react";
 
-import { Card, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
-import { Link } from "@nextui-org/link";
-import { Listbox, ListboxItem } from "@nextui-org/listbox";
+import { Card, CardBody } from "@heroui/card";
+import { Image } from "@heroui/image";
+import { Link } from "@heroui/link";
+import { Listbox, ListboxItem } from "@heroui/listbox";
 
 import { PlaylistItem } from "@/client/typings/item";
 import { videoUrl } from "@/utils/urls";
@@ -31,13 +31,13 @@ export const Playlist: FC<{ data: PlaylistItem }> = ({ data }) => {
 					<div className="relative">
 						<NextLink href={url}>
 							<Image
-								width={width}
-								height={height}
-								className="object-contain"
-								src={data.thumbnail}
 								alt={data.title}
 								as={NextImage}
+								className="object-contain"
+								height={height}
+								src={data.thumbnail}
 								unoptimized
+								width={width}
 							/>
 						</NextLink>
 						<p className="text-small rounded-md z-10 absolute bottom-2 right-2 bg-content2 p-1">
@@ -57,16 +57,16 @@ export const Playlist: FC<{ data: PlaylistItem }> = ({ data }) => {
 								{data.videos.slice(0, 2).map((video) => (
 									<ListboxItem
 										as={NextLink}
+										href={videoUrl(video.id)}
+										key={video.id}
 										startContent={
 											<Image
 												alt={video.title}
-												src={video.thumbnail}
 												height={playlistItemHeight}
+												src={video.thumbnail}
 												width={playlistItemWidth}
 											/>
 										}
-										key={video.id}
-										href={videoUrl(video.id)}
 									>
 										{video.title}
 									</ListboxItem>

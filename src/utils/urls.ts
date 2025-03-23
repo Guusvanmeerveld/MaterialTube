@@ -15,6 +15,5 @@ export const youtubeVideoUrl = (videoId: string): URL => {
 	return url;
 };
 
-export const youtubeChannelUrl = (channelId: string): URL => {
-	return new URL(path.join("channel", channelId), youtubeUrl);
-};
+export const youtubeChannelUrl = (channelId: string): URL =>
+	new URL(path.join("channel", channelId), youtubeUrl);

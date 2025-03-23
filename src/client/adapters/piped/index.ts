@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import path from "path";
 
 import ky from "ky";
@@ -115,6 +116,7 @@ const getComments = async (
 	const searchParams = new URLSearchParams();
 
 	let url;
+
 	if (nextpage) {
 		url = new URL(path.join("nextpage", "comments", videoId), apiBaseUrl);
 		searchParams.append("nextpage", nextpage);
@@ -137,6 +139,7 @@ export const getChannel = async (
 	const searchParams = new URLSearchParams();
 
 	let url;
+
 	if (nextpage) {
 		url = new URL(path.join("nextpage", "channel", channelId), apiBaseUrl);
 		searchParams.append("nextpage", nextpage);

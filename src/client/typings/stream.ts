@@ -20,12 +20,12 @@ export interface HlsStream extends BaseStream {
 
 export interface StandardStream extends BaseStream {
 	type: StreamType.Standard;
-	video: VideoStream[];
-	audio: AudioStream[];
+	// video: VideoStream[];
+	// audio: AudioStream[];
 }
 
-export interface VideoStream {}
+// export interface VideoStream {}
 
-export interface AudioStream {}
+// export interface AudioStream {}
 
-export type Stream = DashStream | HlsStream | StandardStream;
+export type Stream = DashStream | HlsStream;

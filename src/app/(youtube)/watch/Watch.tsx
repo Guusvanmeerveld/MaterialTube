@@ -9,7 +9,7 @@ import {
 	FiEye as ViewIcon
 } from "react-icons/fi";
 
-import { Chip } from "@nextui-org/chip";
+import { Chip } from "@heroui/chip";
 
 import { useClient } from "@/hooks/useClient";
 
@@ -58,6 +58,7 @@ export const Watch: Component = () => {
 		queryKey: ["watch", videoId],
 		queryFn: () => {
 			if (!videoId) return;
+
 			return client.getWatchable(videoId);
 		},
 		enabled: !!videoId
@@ -72,6 +73,7 @@ export const Watch: Component = () => {
 		queryKey: ["comments", videoId],
 		queryFn: () => {
 			if (!videoId) return;
+
 			return client.getComments(videoId);
 		},
 		enabled: !!videoId
@@ -86,8 +88,8 @@ export const Watch: Component = () => {
 				<div className="flex flex-col gap-4">
 					<Player
 						initialTimestamp={timestamp}
-						video={data.video}
 						streams={data.streams}
+						video={data.video}
 					/>
 					<div className="flex flex-col xl:flex-row gap-4">
 						<div className="flex flex-1 flex-col gap-4">
@@ -133,8 +135,8 @@ export const Watch: Component = () => {
 							<Comments
 								data={comments}
 								error={commentsError}
-								refetch={refetchComments}
 								isLoading={isLoadingComments}
+								refetch={refetchComments}
 								videoId={data.video.id}
 								videoUploader={data.video.author}
 							/>

@@ -1,7 +1,6 @@
 import { DateTime } from "luxon";
 
-const formatUploadedTime = (uploaded: Date): string => {
-	return DateTime.fromJSDate(uploaded).toRelative() ?? "Unknown time";
-};
+const formatUploadedTime = (uploaded: Date): string =>
+	DateTime.fromJSDate(uploaded).toRelative() ?? "Unknown time";
 
 export default formatUploadedTime;

@@ -71,7 +71,7 @@ export default class Transformer {
 			id: data.videoId,
 			title: data.title,
 			thumbnail: thumbnail,
-			uploaded: new Date(data.published * 1000 ?? 0),
+			uploaded: new Date(data.published * 1000 || 0),
 			views: data.viewCount
 		};
 	}
@@ -123,6 +123,7 @@ export default class Transformer {
 							const thumbnail = Transformer.findBestThumbnail(
 								video.videoThumbnails
 							);
+
 							if (thumbnail === null)
 								throw new Error(
 									`Invidious: Missing thumbnail for video with id ${video.videoId}`

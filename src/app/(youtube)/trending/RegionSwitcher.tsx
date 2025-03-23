@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { Autocomplete, AutocompleteItem } from "@nextui-org/autocomplete";
+import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
 
 import { Region } from "@/utils/getRegionCodes";
 
@@ -16,16 +16,16 @@ export const RegionSwitcher: Component<{
 
 	return (
 		<Autocomplete
+			className="max-w-xs"
 			defaultItems={regions}
-			label="Region"
-			placeholder="Select your region"
 			isClearable={false}
-			selectedKey={currentRegion?.code}
+			label="Region"
 			onSelectionChange={(key) => {
 				if (typeof key === "string" && key.length != 0)
 					return router.push(`/trending?region=${key}`);
 			}}
-			className="max-w-xs"
+			placeholder="Select your region"
+			selectedKey={currentRegion?.code}
 		>
 			{(item) => (
 				<AutocompleteItem key={item.code}>{item.name}</AutocompleteItem>

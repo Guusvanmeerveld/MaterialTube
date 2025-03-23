@@ -13,8 +13,8 @@ export const Container: Component<{ navbarOffset?: boolean }> = ({
 
 	return (
 		<div
-			style={{ minHeight: height }}
 			className="container mx-auto py-4 px-2 flex flex-col"
+			style={{ minHeight: height }}
 		>
 			{children}
 		</div>

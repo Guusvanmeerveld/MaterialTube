@@ -6,20 +6,16 @@ import { LoadingPage } from "@/components/LoadingPage";
 
 import { Trending } from "./Trending";
 
-const Page: NextPage = () => {
-	return (
-		<>
-			<Suspense
-				fallback={
-					<Container>
-						<LoadingPage text="Loading trending page" />
-					</Container>
-				}
-			>
-				<Trending />
-			</Suspense>
-		</>
-	);
-};
+const Page: NextPage = () => (
+	<Suspense
+		fallback={
+			<Container>
+				<LoadingPage text="Loading trending page" />
+			</Container>
+		}
+	>
+		<Trending />
+	</Suspense>
+);
 
 export default Page;

@@ -10,13 +10,13 @@ import {
 	FiCheck as UploaderIcon
 } from "react-icons/fi";
 
-import { Avatar } from "@nextui-org/avatar";
-import { Button } from "@nextui-org/button";
-import { Chip } from "@nextui-org/chip";
-import { Divider } from "@nextui-org/divider";
-import { Link } from "@nextui-org/link";
-import { CircularProgress } from "@nextui-org/progress";
-import { Tooltip } from "@nextui-org/tooltip";
+import { Avatar } from "@heroui/avatar";
+import { Button } from "@heroui/button";
+import { Chip } from "@heroui/chip";
+import { Divider } from "@heroui/divider";
+import { Link } from "@heroui/link";
+import { CircularProgress } from "@heroui/progress";
+import { Tooltip } from "@heroui/tooltip";
 
 import { useClient } from "@/hooks/useClient";
 
@@ -50,9 +50,7 @@ const Comment: FC<{
 		isLoading: isLoadingReplies
 	} = useQuery({
 		queryKey: ["replies", videoId, data.repliesToken],
-		queryFn: () => {
-			return client.getComments(videoId, data.repliesToken);
-		},
+		queryFn: () => client.getComments(videoId, data.repliesToken),
 		enabled: showReplies && !!data.repliesToken
 	});
 
@@ -64,10 +62,10 @@ const Comment: FC<{
 				<Link as={NextLink} href={userUrl}>
 					<Avatar
 						isBordered
-						size="lg"
-						showFallback
-						src={data.author.avatar}
 						name={data.author.name}
+						showFallback
+						size="lg"
+						src={data.author.avatar}
 					/>
 				</Link>
 			</div>
@@ -82,8 +80,8 @@ const Comment: FC<{
 					{data.author.id === videoUploader.id && (
 						<Chip
 							className="pl-2"
-							startContent={<UploaderIcon />}
 							color="primary"
+							startContent={<UploaderIcon />}
 						>
 							Uploader
 						</Chip>
@@ -91,8 +89,8 @@ const Comment: FC<{
 					{data.pinned && (
 						<Chip
 							className="pl-2"
-							startContent={<PinnedIcon />}
 							color="primary"
+							startContent={<PinnedIcon />}
 						>
 							Pinned
 						</Chip>
@@ -126,10 +124,10 @@ const Comment: FC<{
 					{data.videoUploaderReplied && (
 						<div>
 							<Avatar
-								size="sm"
-								src={videoUploader.avatar}
 								name={videoUploader.name}
 								showFallback
+								size="sm"
+								src={videoUploader.avatar}
 							/>
 						</div>
 					)}
@@ -140,9 +138,9 @@ const Comment: FC<{
 
 					{data.repliesToken && (
 						<Button
+							onClick={() => setShowReplies((state) => !state)}
 							startContent={<ShowRepliesIcon />}
 							variant="light"
-							onClick={() => setShowReplies((state) => !state)}
 						>
 							{showReplies ? "Hide replies" : "Show replies"}
 						</Button>
@@ -153,11 +151,11 @@ const Comment: FC<{
 					<div className="flex flex-col gap-4">
 						<Comments
 							data={replies}
-							isLoading={isLoadingReplies}
 							error={repliesError}
+							isLoading={isLoadingReplies}
 							refetch={refetchReplies}
-							videoUploader={videoUploader}
 							videoId={videoId}
+							videoUploader={videoUploader}
 						/>
 					</div>
 				)}
@@ -173,55 +171,53 @@ export const Comments: FC<{
 	refetch: () => void;
 	videoUploader: Author;
 	videoId: string;
-}> = ({ data, isLoading, error, refetch, videoUploader, videoId }) => {
-	return (
-		<>
-			{data && (
-				<>
-					<p className="text-xl">
-						{data.count && formatBigNumber(data.count)} Comments
-					</p>
+}> = ({ data, isLoading, error, refetch, videoUploader, videoId }) => (
+	<>
+		{data && (
+			<>
+				<p className="text-xl">
+					{data.count && formatBigNumber(data.count)} Comments
+				</p>
 
-					<Divider orientation="horizontal" />
+				<Divider orientation="horizontal" />
 
-					<div className="flex flex-col gap-4">
-						{data.enabled && (
-							<>
-								{data.data.map((comment) => (
-									<Comment
-										key={comment.id}
-										data={comment}
-										videoUploader={videoUploader}
-										videoId={videoId}
-									/>
-								))}
-							</>
-						)}
-						{!data.enabled && (
-							<div className="flex flex-row gap-2 items-center">
-								<SlashIcon />
-								<p>Comments on this video are disabled</p>
-							</div>
-						)}
-					</div>
-				</>
-			)}
-			{!data && isLoading && (
-				<div className="h-24 w-full justify-center items-center flex">
-					<CircularProgress aria-label="Loading comments..." />
+				<div className="flex flex-col gap-4">
+					{data.enabled && (
+						<>
+							{data.data.map((comment) => (
+								<Comment
+									data={comment}
+									key={comment.id}
+									videoId={videoId}
+									videoUploader={videoUploader}
+								/>
+							))}
+						</>
+					)}
+					{!data.enabled && (
+						<div className="flex flex-row gap-2 items-center">
+							<SlashIcon />
+							<p>Comments on this video are disabled</p>
+						</div>
+					)}
 				</div>
-			)}
-			{error && (
-				<div className="flex flex-col gap-2">
-					<p className="text-lg font-semibold">Failed to load comments:</p>
-					{error.toString()}
-					<div>
-						<Button color="primary" onClick={() => refetch()}>
-							Retry
-						</Button>
-					</div>
+			</>
+		)}
+		{!data && isLoading && (
+			<div className="h-24 w-full justify-center items-center flex">
+				<CircularProgress aria-label="Loading comments..." />
+			</div>
+		)}
+		{error && (
+			<div className="flex flex-col gap-2">
+				<p className="text-lg font-semibold">Failed to load comments:</p>
+				{error.toString()}
+				<div>
+					<Button color="primary" onClick={() => refetch()}>
+						Retry
+					</Button>
 				</div>
-			)}
-		</>
-	);
-};
+			</div>
+		)}
+	</>
+);

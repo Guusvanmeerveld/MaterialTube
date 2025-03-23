@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { FiFilter as FilterIcon } from "react-icons/fi";
 
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import {
 	Dropdown,
 	DropdownItem,
 	DropdownMenu,
 	DropdownTrigger
-} from "@nextui-org/dropdown";
+} from "@heroui/dropdown";
 
 import { SearchType } from "@/client/typings/search/options";
 
@@ -33,8 +33,8 @@ export const Filter: Component<{
 		<Dropdown>
 			<DropdownTrigger>
 				<Button
-					startContent={<FilterIcon className="text-xl" />}
 					className="h-full"
+					startContent={<FilterIcon className="text-xl" />}
 					variant="bordered"
 				>
 					{currentMenuItem?.label}
@@ -43,8 +43,6 @@ export const Filter: Component<{
 			<DropdownMenu
 				aria-label="Filter search results"
 				items={filterMenuItems}
-				selectionMode="single"
-				selectedKeys={[filter]}
 				onSelectionChange={(keys) => {
 					const selectedKeys = keys as Set<SearchType>;
 
@@ -54,6 +52,8 @@ export const Filter: Component<{
 
 					setFilter(selectedKey);
 				}}
+				selectedKeys={[filter]}
+				selectionMode="single"
 			>
 				{(item) => <DropdownItem key={item.key}>{item.label}</DropdownItem>}
 			</DropdownMenu>

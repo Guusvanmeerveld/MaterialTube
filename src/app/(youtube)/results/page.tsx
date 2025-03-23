@@ -6,20 +6,16 @@ import { Search } from "@/components/Search";
 
 import { SearchPage } from "./SearchPage";
 
-const Page: NextPage = () => {
-	return (
-		<>
-			<Suspense
-				fallback={
-					<Container>
-						<Search />
-					</Container>
-				}
-			>
-				<SearchPage />
-			</Suspense>
-		</>
-	);
-};
+const Page: NextPage = () => (
+	<Suspense
+		fallback={
+			<Container>
+				<Search />
+			</Container>
+		}
+	>
+		<SearchPage />
+	</Suspense>
+);
 
 export default Page;

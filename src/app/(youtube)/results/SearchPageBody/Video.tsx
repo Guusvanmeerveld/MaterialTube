@@ -4,9 +4,9 @@ import NextImage from "next/image";
 import NextLink from "next/link";
 import { FC } from "react";
 
-import { Card, CardBody } from "@nextui-org/card";
-import { Image } from "@nextui-org/image";
-import { Link } from "@nextui-org/link";
+import { Card, CardBody } from "@heroui/card";
+import { Image } from "@heroui/image";
+import { Link } from "@heroui/link";
 
 import { VideoItem } from "@/client/typings/item";
 import formatBigNumber from "@/utils/formatBigNumber";
@@ -31,12 +31,12 @@ export const Video: FC<{ data: VideoItem }> = ({ data }) => {
 					<div className="relative">
 						<NextLink href={url}>
 							<Image
-								width={width}
-								height={height}
-								src={data.thumbnail}
 								alt={data.title}
 								as={NextImage}
+								height={height}
+								src={data.thumbnail}
 								unoptimized
+								width={width}
 							/>
 						</NextLink>
 
